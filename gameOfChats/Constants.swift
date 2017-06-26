@@ -7,3 +7,37 @@
 //
 
 import Foundation
+import Firebase
+
+let firebase = FIRDatabase.database().reference()
+let storage = FIRStorage.storage().reference()
+
+let kMESSAGES = "messages"
+let kUSERS = "users"
+let kNAME = "name"
+let kEMAIL = "email"
+let kPROFILEIMAGEURL = "profileImageUrl"
+let kPROFILEIMAGES = "profileImages"
+let kMESSAGEIMAGES = "messageImages"
+let kIMAGEWIDTH = "messageImageWidth"
+let kIMAGEHEIGHT = "messageImageHeight"
+let kIMAGEURL = "imageURL"
+let kTEXT = "text"
+let kTOUSERID = "toUserId"
+let kSENDERID = "senderId"
+let kDATE = "date"
+let kUSERMESSAGES = "user-messages"
+
+let userCellId = "UserCell"
+
+func customPlaceholder(placeholder: String) -> NSAttributedString {
+    
+    var myMutableStringTitle: NSAttributedString
+    
+    myMutableStringTitle = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName : UIColor.white.withAlphaComponent(0.7)])
+    
+    return myMutableStringTitle
+}
+
+
+
