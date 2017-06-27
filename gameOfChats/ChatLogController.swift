@@ -9,6 +9,9 @@
 import UIKit
 import Firebase
 import Kingfisher
+import MobileCoreServices
+import AVKit
+import AVFoundation
 
 class ChatLogController: UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -42,7 +45,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 let message = Message(dictionary: dictionary)
                 
                 self.messages.append(message)
-            
+                
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                     // scroll to latest image message/index
@@ -66,19 +69,17 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         super.viewDidLoad()
         
         collectionView?.contentInset = UIEdgeInsetsMake(8, 0, 8, 0) // adds top and bottom paddings
-//        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 50, 0)  adds paddings for scroll indicator
+        //        collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 50, 0)  adds paddings for scroll indicator
         collectionView?.backgroundColor = UIColor.white
         collectionView?.keyboardDismissMode = .interactive // allow keyboard drag down effect
         collectionView?.alwaysBounceVertical = true // allow for bouncy effect when dragging view up and down
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         
-
-        
         setupKeyboardObservers()
     }
     
     lazy var inputContainerView: UIView = {
-       
+        
         let containerView = UIView()
         containerView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50)
         containerView.backgroundColor = UIColor.white
@@ -140,11 +141,88 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         imagePicker.delegate = self
         imagePicker.allowsEditing = true // enables editing of photos
+        imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String] // sets available media types
         
         present(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        if let videoUrl = info[UIImagePickerControllerMediaURL] as? URL {   // selected a video
+            
+            handleVideoSelectedForUrl(videoFileURL: videoUrl)
+            
+        } else {
+            
+            handleImageSelectedWithInfo(info: info) // selected an image
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    private func handleVideoSelectedForUrl(videoFileURL: URL) {
+        
+        let videoName = NSUUID().uuidString
+        let videoFileName = videoName + ".mov"
+        let uploadTask = storage.child(kMESSAGEVIDEOS).child(videoFileName).putFile(videoFileURL, metadata: nil, completion: { (metadata, error) in
+            
+            if error != nil {
+                print("Failed to upload video to firebase: \(error!.localizedDescription)")
+            }
+            
+            if let storageUrl = metadata?.downloadURL()?.absoluteString {
+                
+                self.sendMessageWithVideoUrl(videoUrl: storageUrl, videoFileURL: videoFileURL)
+            }
+        })
+        
+        uploadTask.observe(.progress) { (snapshot) in
+            
+            if let completedUnitCount = snapshot.progress?.completedUnitCount, let totalUnitCount = snapshot.progress?.totalUnitCount {
+                
+                let completedPercentage: Float64 = Float64(completedUnitCount)*100 / Float64(totalUnitCount)
+                self.navigationItem.title = String(format: "%.0f", completedPercentage) + "%"
+            }
+        }
+        
+        uploadTask.observe(.success) { (snapshot) in
+            
+            self.navigationItem.title = self.user!.name!
+        }
+    }
+    
+    func sendMessageWithVideoUrl(videoUrl: String, videoFileURL: URL) {
+        
+        if let thumbnailImage = thumbnailImageForFileUrl(videoFileURL: videoFileURL) {
+            
+            uploadImageToFirebase(image: thumbnailImage, completion: { imageUrl in
+                
+                let properties = [kVIDEOURL: videoUrl, kIMAGEURL: imageUrl, kIMAGEWIDTH : thumbnailImage.size.width, kIMAGEHEIGHT : thumbnailImage.size.height] as [String : Any]
+                
+                self.sendMessageWithProperties(properties: properties)
+            })
+        }
+    }
+    
+    private func thumbnailImageForFileUrl(videoFileURL: URL) -> UIImage? {
+        
+        let asset = AVAsset(url: videoFileURL)
+        let assetGenerator = AVAssetImageGenerator(asset: asset)
+        
+        do {
+            let thumbnailCGImage = try assetGenerator.copyCGImage(at: CMTime(value: 1, timescale: 60), actualTime: nil) // tries to obtain image of first frame of video
+            
+            return UIImage(cgImage: thumbnailCGImage)
+            
+        } catch let err {
+            
+            print(err)
+        }
+        
+        return nil
+    }
+    
+    private func handleImageSelectedWithInfo(info: [String: Any]) {
         
         var selectedImageFromPicker: UIImage?
         
@@ -159,13 +237,16 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         if let selectedImage = selectedImageFromPicker {
             
-            uploadImageToFirebase(image: selectedImage)
+            uploadImageToFirebase(image: selectedImage, completion: { imageUrl in
+                
+                self.sendMessageWithImageUrl(imageUrl: imageUrl, image: selectedImage)
+            })
         }
         
         dismiss(animated: true, completion: nil)
     }
     
-    func uploadImageToFirebase(image: UIImage) {
+    func uploadImageToFirebase(image: UIImage, completion: @escaping (_ imageUrl: String) -> ()) {
         
         let imageName = NSUUID().uuidString
         let storageRef = storage.child(kMESSAGEIMAGES).child(imageName)
@@ -179,17 +260,16 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 if error != nil {
                     
                     print("failed to upload message image: \(error!.localizedDescription)")
+                    return
                 }
                 
                 if let imageUrl = metadata?.downloadURL()?.absoluteString {
                     
-                    self.sendMessageWithImageUrl(imageUrl: imageUrl, image: image)
+                    completion(imageUrl)
                 }
             })
         }
     }
-    
-    
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
@@ -208,9 +288,9 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     func setupKeyboardObservers() {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-//        
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        //
+        //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -257,7 +337,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     
     private func sendMessageWithImageUrl(imageUrl: String, image: UIImage) {
         
-        let properties = [kIMAGEURL: imageUrl, kIMAGEWIDTH : image.size.width, kIMAGEHEIGHT : image.size.height, ] as [String : Any]
+        let properties = [kIMAGEURL: imageUrl, kIMAGEWIDTH : image.size.width, kIMAGEHEIGHT : image.size.height] as [String : Any]
         
         sendMessageWithProperties(properties: properties)
     }
@@ -304,12 +384,12 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         // get estimated height based on text
         if let text = message.text {
             
-            height = estimateFrameForText(text: text).height + 18
+            height = estimateFrameForText(text: text).height + 16
             
         } else if let imageWidth = message.messageImageWidth?.floatValue, let imageHeight = message.messageImageHeight?.floatValue {
             // set height of cell to height of image
             
-            // h1 / w1 = h2 / w2 
+            // h1 / w1 = h2 / w2
             // h1 = h2 / w2 * w1
             
             height = CGFloat((imageHeight/imageWidth) * 200)
@@ -337,20 +417,24 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         cell.chatLogController = self
         cell.textView.text = message.text
         
+        cell.message = message
+        
         setupCells(cell: cell, message: message)
         
         // modify bubble width when there is text
         if let text = message.text {
             
-            cell.bubbleWidthAnchor?.constant = estimateFrameForText(text: text).width + 26
-            cell.textView.isHidden = false
+            cell.bubbleWidthAnchor?.constant = estimateFrameForText(text: text).width + 24
+            cell.textView.isHidden = false // don't hide text view is there is text message
+            cell.playButton.isHidden = true
             
         } else if message.imageURL != nil { // if it is an image message, modify width based on image width
             
-            cell.textView.isHidden = true
+            cell.textView.isHidden = true // hide text view if mesage is an image message
             cell.bubbleWidthAnchor?.constant = 200
         }
         
+        cell.playButton.isHidden = message.videoURL == nil 
         
         return cell
     }
@@ -367,7 +451,6 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
             
             let messageResource = ImageResource(downloadURL: messageImageURL)
             
-            cell.bubbleView.backgroundColor = UIColor.clear
             cell.messageImageVew.kf.setImage(with: messageResource, placeholder: nil, options: nil, progressBlock: nil, completionHandler: nil)
             
             cell.messageImageVew.isHidden = false
@@ -424,7 +507,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         self.startingImageView = startingImageView
         self.startingImageView?.isHidden = true
-    
+        
         startingFrame = startingImageView.superview?.convert(startingImageView.frame, to: nil)
         
         guard let frame = startingFrame else { return }

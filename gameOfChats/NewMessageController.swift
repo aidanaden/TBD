@@ -46,8 +46,12 @@ class NewMessageController: UITableViewController {
                 
                 self.users.append(user)
             }
-        
-            self.tableView.reloadData()
+            
+            DispatchQueue.main.async {
+                
+                self.tableView.reloadData()
+            }
+            
             
         }, withCancel: nil)
     }

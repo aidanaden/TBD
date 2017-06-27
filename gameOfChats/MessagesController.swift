@@ -24,6 +24,7 @@ class MessagesController: UITableViewController {
         
         checkIfUserIsLoggedIn()
         
+        tableView.allowsMultipleSelectionDuringEditing = true
     }
     
     var messages = [Message]()
@@ -46,6 +47,15 @@ class MessagesController: UITableViewController {
                 
                 self.fetchMessageAndAttemptReload(messageId: messageId)
             })
+        })
+        
+        userMessagesRef.observe(.childRemoved, with: { (snapshot) in
+            
+            if snapshot.exists() {
+                
+                self.messagesDictionary.removeValue(forKey: snapshot.key)
+                self.attemptReloadTable()
+            }
         })
     }
     
@@ -186,7 +196,6 @@ class MessagesController: UITableViewController {
         
         
         self.navigationItem.titleView = titleView
-        titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatController)))
     }
     
     func showChatController(user: User) {
@@ -230,6 +239,8 @@ class MessagesController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         let message = messages[indexPath.row]
         
         guard let chatPartnerId = message.chatPartnerId() else { return }
@@ -246,6 +257,31 @@ class MessagesController: UITableViewController {
             }
         })
     }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        guard let currentId = FIRAuth.auth()?.currentUser?.uid else { return }
+        
+        let message = messages[indexPath.row]
+        
+        guard let chatPartner = message.chatPartnerId() else { return }
+        
+        firebase.child(kUSERMESSAGES).child(currentId).child(chatPartner).removeValue { (error, ref) in
+            
+            if error != nil {
+                print("AIDAN: failed to delete messages")
+                return
+            }
+            
+            self.messagesDictionary.removeValue(forKey: chatPartner)
+            self.attemptReloadTable()
+        }
+    }
+    
 }
 
 
