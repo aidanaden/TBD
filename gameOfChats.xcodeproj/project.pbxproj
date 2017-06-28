@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		300915671F03AC2600266096 /* ChatInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300915661F03AC2600266096 /* ChatInputContainerView.swift */; };
 		30B74E061EFA2B8D00232145 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B74E051EFA2B8D00232145 /* AppDelegate.swift */; };
 		30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B74E071EFA2B8D00232145 /* MessagesController.swift */; };
 		30B74E0D1EFA2B8D00232145 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30B74E0C1EFA2B8D00232145 /* Assets.xcassets */; };
@@ -26,6 +27,8 @@
 
 /* Begin PBXFileReference section */
 		159DEE14849F4C02C923049B /* Pods_gameOfChats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gameOfChats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		300915661F03AC2600266096 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
+		300915681F03BED500266096 /* gameOfChats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = gameOfChats.entitlements; sourceTree = "<group>"; };
 		309111BE508A479434D444AD /* Pods-gameOfChats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gameOfChats.release.xcconfig"; path = "Pods/Target Support Files/Pods-gameOfChats/Pods-gameOfChats.release.xcconfig"; sourceTree = "<group>"; };
 		30B74E021EFA2B8D00232145 /* gameOfChats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gameOfChats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30B74E051EFA2B8D00232145 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -96,7 +99,8 @@
 		30B74E041EFA2B8D00232145 /* gameOfChats */ = {
 			isa = PBXGroup;
 			children = (
-				30B74E241EFBB60500232145 /* Custom Cells */,
+				300915681F03BED500266096 /* gameOfChats.entitlements */,
+				30B74E241EFBB60500232145 /* Custom Cells and Views */,
 				30B74E211EFBB32F00232145 /* Model */,
 				30B74E1C1EFA84B400232145 /* Utilities */,
 				30B74E171EFA2D9A00232145 /* Controller */,
@@ -138,13 +142,14 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		30B74E241EFBB60500232145 /* Custom Cells */ = {
+		30B74E241EFBB60500232145 /* Custom Cells and Views */ = {
 			isa = PBXGroup;
 			children = (
+				300915661F03AC2600266096 /* ChatInputContainerView.swift */,
 				30B74E251EFBB61D00232145 /* UserCell.swift */,
 				30F5E3291EFD05DB00F34A3F /* ChatMessageCell.swift */,
 			);
-			name = "Custom Cells";
+			name = "Custom Cells and Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -184,6 +189,11 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = T8EK39XC68;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -272,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30B74E2A1EFBF8A100232145 /* ChatLogController.swift in Sources */,
+				300915671F03AC2600266096 /* ChatInputContainerView.swift in Sources */,
 				30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */,
 				30B74E201EFB9E3100232145 /* NewMessageController.swift in Sources */,
 				30B74E231EFBB33A00232145 /* User.swift in Sources */,
@@ -397,6 +408,7 @@
 			baseConfigurationReference = 41011FAB88846E0D3A76D9DD /* Pods-gameOfChats.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = gameOfChats/gameOfChats.entitlements;
 				DEBUG_ACTIVITY_MODE = "";
 				"DEBUG_ACTIVITY_MODE[sdk=iphonesimulator*]" = disable;
 				DEVELOPMENT_TEAM = T8EK39XC68;
@@ -413,6 +425,7 @@
 			baseConfigurationReference = 309111BE508A479434D444AD /* Pods-gameOfChats.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = gameOfChats/gameOfChats.entitlements;
 				DEBUG_ACTIVITY_MODE = "";
 				DEVELOPMENT_TEAM = T8EK39XC68;
 				INFOPLIST_FILE = gameOfChats/Info.plist;
