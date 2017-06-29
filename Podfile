@@ -10,4 +10,5 @@ target 'gameOfChats' do
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
   pod 'Kingfisher'
+  pod 'PHFComposeBarView'
 end

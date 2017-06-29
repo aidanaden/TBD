@@ -9,10 +9,11 @@
 import UIKit
 import Firebase
 
+
 class LoginVC: UIViewController {
     
     var messagesController: MessagesController?
-
+    
     let inputsContainerView: UIView = {
         
         let view = UIView()
@@ -99,7 +100,6 @@ class LoginVC: UIViewController {
         imageView.image = UIImage(named: "gameofthrones_splash")
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        
         
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped)))
         imageView.isUserInteractionEnabled = true
@@ -222,38 +222,31 @@ class LoginVC: UIViewController {
         inputsViewHeightAnchor = inputsContainerView.heightAnchor.constraint(equalToConstant: 150)
         inputsViewHeightAnchor?.isActive = true
         
-        
-        nameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        nameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
+        nameTextField.anchorWithConstantsToTop(top: inputsContainerView.topAnchor, left: inputsContainerView.leftAnchor, bottom: nil, right: nil, topConstant: 0, leftConstant: 12, bottomConstant: 0, rightConstant: 0)
         nameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         nameTextFieldHeightAnchor = nameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
         nameTextFieldHeightAnchor?.isActive = true
         
-        nameSeperatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
-        nameSeperatorView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
+        nameSeperatorView.anchorToTop(top: nameTextField.bottomAnchor, left: inputsContainerView.leftAnchor, bottom: nil, right: nil)
         nameSeperatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         nameSeperatorHeightAnchor = nameSeperatorView.heightAnchor.constraint(equalToConstant: 1)
         nameSeperatorHeightAnchor?.isActive = true
         
-        emailTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
+        emailTextField.anchorWithConstantsToTop(top: nameTextField.bottomAnchor, left: inputsContainerView.leftAnchor, bottom: nil, right: nil, topConstant: 0, leftConstant: 12, bottomConstant: 0, rightConstant: 0)
         emailTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         emailTextFieldHeightAnchor = emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
         emailTextFieldHeightAnchor?.isActive = true
         
-        emailSeperatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
-        emailSeperatorView.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
+        emailSeperatorView.anchorToTop(top: emailTextField.bottomAnchor, left: inputsContainerView.leftAnchor, bottom: nil, right: nil)
         emailSeperatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         emailSeperatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         
-        passwordTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
+        passwordTextField.anchorWithConstantsToTop(top: emailTextField.bottomAnchor, left: inputsContainerView.leftAnchor, bottom: nil, right: nil, topConstant: 0, leftConstant: 12, bottomConstant: 0, rightConstant: 0)
         passwordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
         
-        passwordSeperatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
-        passwordSeperatorView.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor).isActive = true
+        passwordSeperatorView.anchorToTop(top: passwordTextField.bottomAnchor, left: inputsContainerView.leftAnchor, bottom: nil, right: nil)
         passwordSeperatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         passwordSeperatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		300915671F03AC2600266096 /* ChatInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300915661F03AC2600266096 /* ChatInputContainerView.swift */; };
+		3009156A1F03E9E900266096 /* viewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300915691F03E9E900266096 /* viewController.swift */; };
+		304F678A1F03F08500C353F5 /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304F67891F03F08400C353F5 /* PageCell.swift */; };
+		307DE2311F04FF8800D7E4E5 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307DE2301F04FF8800D7E4E5 /* Page.swift */; };
 		30B74E061EFA2B8D00232145 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B74E051EFA2B8D00232145 /* AppDelegate.swift */; };
 		30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B74E071EFA2B8D00232145 /* MessagesController.swift */; };
 		30B74E0D1EFA2B8D00232145 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30B74E0C1EFA2B8D00232145 /* Assets.xcassets */; };
@@ -29,6 +32,9 @@
 		159DEE14849F4C02C923049B /* Pods_gameOfChats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_gameOfChats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		300915661F03AC2600266096 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
 		300915681F03BED500266096 /* gameOfChats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = gameOfChats.entitlements; sourceTree = "<group>"; };
+		300915691F03E9E900266096 /* viewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = viewController.swift; sourceTree = "<group>"; };
+		304F67891F03F08400C353F5 /* PageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageCell.swift; sourceTree = "<group>"; };
+		307DE2301F04FF8800D7E4E5 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		309111BE508A479434D444AD /* Pods-gameOfChats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gameOfChats.release.xcconfig"; path = "Pods/Target Support Files/Pods-gameOfChats/Pods-gameOfChats.release.xcconfig"; sourceTree = "<group>"; };
 		30B74E021EFA2B8D00232145 /* gameOfChats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gameOfChats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30B74E051EFA2B8D00232145 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 				30B74E271EFBBCAE00232145 /* LoginVC+handlers.swift */,
 				30B74E1F1EFB9E3100232145 /* NewMessageController.swift */,
 				30B74E291EFBF8A100232145 /* ChatLogController.swift */,
+				300915691F03E9E900266096 /* viewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -138,6 +145,7 @@
 			children = (
 				30B74E221EFBB33A00232145 /* User.swift */,
 				30F5E3271EFC18FF00F34A3F /* Message.swift */,
+				307DE2301F04FF8800D7E4E5 /* Page.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -148,6 +156,7 @@
 				300915661F03AC2600266096 /* ChatInputContainerView.swift */,
 				30B74E251EFBB61D00232145 /* UserCell.swift */,
 				30F5E3291EFD05DB00F34A3F /* ChatMessageCell.swift */,
+				304F67891F03F08400C353F5 /* PageCell.swift */,
 			);
 			name = "Custom Cells and Views";
 			sourceTree = "<group>";
@@ -287,12 +296,15 @@
 				30B74E201EFB9E3100232145 /* NewMessageController.swift in Sources */,
 				30B74E231EFBB33A00232145 /* User.swift in Sources */,
 				30B74E061EFA2B8D00232145 /* AppDelegate.swift in Sources */,
+				304F678A1F03F08500C353F5 /* PageCell.swift in Sources */,
 				30B74E191EFA2DB400232145 /* LoginVC.swift in Sources */,
 				30B74E1E1EFA84C200232145 /* Constants.swift in Sources */,
+				3009156A1F03E9E900266096 /* viewController.swift in Sources */,
 				30F5E32A1EFD05DB00F34A3F /* ChatMessageCell.swift in Sources */,
 				30F5E3281EFC18FF00F34A3F /* Message.swift in Sources */,
 				30B74E261EFBB61D00232145 /* UserCell.swift in Sources */,
 				30B74E281EFBBCAE00232145 /* LoginVC+handlers.swift in Sources */,
+				307DE2311F04FF8800D7E4E5 /* Page.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,8 +12,9 @@ import Kingfisher
 import MobileCoreServices
 import AVKit
 import AVFoundation
+import PHFComposeBarView
 
-class ChatLogController: UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ChatLogController: UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PHFComposeBarViewDelegate {
     
     let cellId = "CollectionViewCellId"
     
@@ -76,6 +77,30 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         return chatInputContainerView
     }()
+    
+    lazy var composeBar: PHFComposeBarView = {
+        
+        let viewBounds = self.view.bounds
+        let frame = CGRect(x: 0.0, y: viewBounds.size.height - PHFComposeBarViewInitialHeight, width: viewBounds.size.width, height: PHFComposeBarViewInitialHeight)
+        let composeBarView = PHFComposeBarView(frame: frame)
+        composeBarView.utilityButtonImage = UIImage(named: "upload_image_icon")
+        composeBarView.maxCharCount = 140
+        composeBarView.maxLinesCount = 5
+        composeBarView.alpha = 1.0
+        composeBarView.placeholder = "Enter message..."
+        composeBarView.delegate = self
+        
+        
+        return composeBarView
+    }()
+    
+    func composeBarViewDidPressButton(_ composeBarView: PHFComposeBarView!) {
+        handleSend()
+    }
+    
+    func composeBarViewDidPressUtilityButton(_ composeBarView: PHFComposeBarView!) {
+        handleUploadTap()
+    }
     
     func handleUploadTap() {
         
@@ -219,7 +244,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     
     override var inputAccessoryView: UIView? {
         get {
-            return self.inputContainerView
+            return composeBar
         }
     }
     
@@ -228,8 +253,10 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     func setupKeyboardObservers() {
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         //
         //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -239,47 +266,37 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         NotificationCenter.default.removeObserver(self) // remove keyboard observer in order to prevent memory leak
     }
     
-    func handleKeyboardDidShow() {
-        
-        if messages.count > 0 {
-            
-            let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
-            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
-        }
-    }
     
     func handleKeyboardWillHide(notification: Notification) {
         
-        let keyboardDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as! Double
+        let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
         
-        containerViewBottomAnchor?.constant = 0
-        UIView.animate(withDuration: keyboardDuration, animations: {    // run this to apply cool animation effect
-            self.view.layoutIfNeeded()
-        })
+        if messages.count > 0 {
+            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        }
     }
+
     
     func handleKeyboardWillShow(notification: Notification) {
         
-        let keyboardFrame: CGRect = notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as! CGRect
-        let keyboardDuration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as! Double
+        let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
         
-        containerViewBottomAnchor?.constant = -keyboardFrame.height
-        UIView.animate(withDuration: keyboardDuration, animations: {
-            self.view.layoutIfNeeded()
-        })
+        if messages.count > 0 {
+            collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        }
+        
     }
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
     func handleSend() {
         
-        if inputContainerView.inputTextField.text != nil && inputContainerView.inputTextField.text != "" {
+        if composeBar.text != nil && composeBar.text != "" {
             
-            if let text = inputContainerView.inputTextField.text {
-                
-                let properties = [kTEXT: text]
-                sendMessageWithProperties(properties: properties)
-            }
+            guard let text = composeBar.text else { return }
+            
+            let properties = [kTEXT: text]
+            sendMessageWithProperties(properties: properties)
         }
     }
     
@@ -307,7 +324,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 print("AIDAN: Failed to send message to firebase: \(String(describing: error))")
             }
             
-            self.inputContainerView.inputTextField.text = ""
+            self.composeBar.text = ""
             
             let userMessagesRef = firebase.child(kUSERMESSAGES).child(senderId).child(toId)
             let messageId = messageRef.key
@@ -321,6 +338,10 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0.5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -444,7 +465,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        collectionView?.collectionViewLayout.invalidateLayout()
+            collectionView?.collectionViewLayout.invalidateLayout()
     }
     
     var startingFrame: CGRect?

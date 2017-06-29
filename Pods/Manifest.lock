@@ -40,12 +40,16 @@ PODS:
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
   - GTMSessionFetcher/Core (1.1.9)
   - Kingfisher (3.6.2)
+  - PHFComposeBarView (2.1.0):
+    - PHFDelegateChain (~> 1.0)
+  - PHFDelegateChain (1.0.1)
 
 DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Database
   - Firebase/Storage
   - Kingfisher
+  - PHFComposeBarView
 
 SPEC CHECKSUMS:
   Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
@@ -58,7 +62,9 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
   Kingfisher: 2c94e72c6830622c71d06adf4ea024c37d316830
+  PHFComposeBarView: 6382ab846e2f4d8634273c4a78d074bc5deed07f
+  PHFDelegateChain: 491f9cd8a3fb8761f390ff05f74a0e168d48d285
 
-PODFILE CHECKSUM: f2b4acfdf758f3ba5358272bfd3c7253a00a4ff7
+PODFILE CHECKSUM: 7003f072681d227f40088017164d296406e24dae
 
 COCOAPODS: 1.0.1

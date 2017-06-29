@@ -19,6 +19,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>PHFComposeBarView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>PHFDelegateChain.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-gameOfChats.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,17 +37,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0D6A0DBD5BCD5CA32CC4E3E37D97065F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>107A9565F9DF88517DFD3E28C05B2B96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>62804FA89860F5E134356EE267491CD5</key>
+		<key>837D8A38BD0CFB4D5347E5BE0BEA1ACE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>C052BEBFBD0AB5218CC64BA3450F6547</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C4862B96577F57D0819ECCBCA837BD96</key>
 		<dict>
 			<key>primary</key>
 			<true/>
