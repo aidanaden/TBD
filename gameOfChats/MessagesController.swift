@@ -93,7 +93,7 @@ class MessagesController: UITableViewController {
         
         self.messages.sort(by: { (message1, message2) -> Bool in
             
-            if let doubledate1 = Double(message1.date!), let doubledate2 = Double(message2.date!) {
+            if let doubledate1 = message1.date, let doubledate2 = message2.date {
                 // sort messages by descending date order --> latest to earliest/ newer to older messages
                 return doubledate1 > doubledate2
             }
@@ -200,9 +200,12 @@ class MessagesController: UITableViewController {
     
     func showChatController(user: User) {
         
-        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
-        chatLogController.user = user
-        navigationController?.pushViewController(chatLogController, animated: true)
+//        let layout = UICollectionViewFlowLayout()
+        let jsqMessagesController = JSQMessagesController()
+        
+        jsqMessagesController.user = user
+        
+        navigationController?.pushViewController(jsqMessagesController, animated: true)
     }
     
     func logOut() {

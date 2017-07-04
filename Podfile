@@ -11,4 +11,6 @@ target 'gameOfChats' do
   pod 'Firebase/Storage'
   pod 'Kingfisher'
   pod 'PHFComposeBarView'
+  pod 'JSQMessagesViewController'
+  pod 'EZSwipeController'
 end

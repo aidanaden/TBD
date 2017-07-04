@@ -29,6 +29,7 @@ let kTOUSERID = "toUserId"
 let kSENDERID = "senderId"
 let kDATE = "date"
 let kUSERMESSAGES = "user-messages"
+let kSUCCESS = 2
 
 let userCellId = "UserCell"
 

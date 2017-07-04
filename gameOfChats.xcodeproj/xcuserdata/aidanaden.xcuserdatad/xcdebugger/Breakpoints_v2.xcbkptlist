@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/LoginVC.swift"
-            timestampString = "520422986.134861"
+            timestampString = "520780494.158684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "preferredStatusBarStyle"
             landmarkType = "24">
          </BreakpointContent>

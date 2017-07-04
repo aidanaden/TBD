@@ -13,6 +13,7 @@ import MobileCoreServices
 import AVKit
 import AVFoundation
 import PHFComposeBarView
+import JSQMessagesViewController
 
 class ChatLogController: UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate, PHFComposeBarViewDelegate {
     
@@ -68,6 +69,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         
         setupKeyboardObservers()
+        
+        hideKeyboard()
     }
     
     lazy var inputContainerView: ChatInputContainerView = {
@@ -171,7 +174,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
     }
     
-    private func thumbnailImageForFileUrl(videoFileURL: URL) -> UIImage? {
+    func thumbnailImageForFileUrl(videoFileURL: URL) -> UIImage? {
         
         let asset = AVAsset(url: videoFileURL)
         let assetGenerator = AVAssetImageGenerator(asset: asset)
@@ -300,6 +303,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         }
     }
     
+    
     private func sendMessageWithImageUrl(imageUrl: String, image: UIImage) {
         
         let properties = [kIMAGEURL: imageUrl, kIMAGEWIDTH : image.size.width, kIMAGEHEIGHT : image.size.height] as [String : Any]
@@ -309,8 +313,9 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     
     private func sendMessageWithProperties(properties: [String: Any]) {
         
+        
         let messageRef = firebase.child(kMESSAGES).childByAutoId()
-        let timeStamp = "\(NSDate().timeIntervalSince1970)"
+        let timeStamp = NSDate().timeIntervalSince1970
         let toId = user!.id!
         let senderId = FIRAuth.auth()!.currentUser!.uid
         var values = [kTOUSERID: toId, kSENDERID: senderId, kDATE: timeStamp] as [String : Any]
@@ -324,7 +329,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 print("AIDAN: Failed to send message to firebase: \(String(describing: error))")
             }
             
-            self.composeBar.text = ""
+//            self.composeBar.text = ""
             
             let userMessagesRef = firebase.child(kUSERMESSAGES).child(senderId).child(toId)
             let messageId = messageRef.key
@@ -475,6 +480,8 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     // custom zooming logic
     func performZoomInForImageView(startingImageView: UIImageView) {
         
+        self.view.endEditing(true)
+        
         self.startingImageView = startingImageView
         self.startingImageView?.isHidden = true
         
@@ -488,17 +495,21 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         if let keyWindow = UIApplication.shared.keyWindow {
             
+            
             blackBackgroundView = UIView(frame: keyWindow.frame)
             blackBackgroundView?.backgroundColor = UIColor.black
             blackBackgroundView?.alpha = 0
             
             keyWindow.addSubview(blackBackgroundView!)
             keyWindow.addSubview(zoomImageView)
+//            self.composeBar.endEditing(true)
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 
                 self.blackBackgroundView!.alpha = 1
                 self.inputContainerView.alpha = 0
+                self.composeBar.alpha = 0
+                
                 
                 // math of similar rectangles
                 // h2 / w2 = h1 / w1
@@ -527,18 +538,36 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
                 zoomOutImageView.frame = self.startingFrame!
                 self.blackBackgroundView?.alpha = 0
                 self.inputContainerView.alpha = 1
+                self.composeBar.alpha = 1
                 
             }, completion: { (completed: Bool) in
                 
                 zoomOutImageView.removeFromSuperview()
                 self.blackBackgroundView?.removeFromSuperview()
                 self.startingImageView?.isHidden = false
+               
             })
             
         }
     }
 }
 
+extension UICollectionViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UICollectionViewController.dismissKeyboard))
+        
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard()
+    {
+        view.endEditing(true)
+    }
+}
 
 
 

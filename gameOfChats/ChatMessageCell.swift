@@ -115,6 +115,7 @@ class ChatMessageCell: UICollectionViewCell {
         
         if let imageView = tapGesture.view as? UIImageView {
             
+            self.endEditing(true)
             self.chatLogController?.performZoomInForImageView(startingImageView: imageView)
         }
     }

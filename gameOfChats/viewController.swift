@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import Firebase
 
-
-class viewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class viewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    var loginCell: LoginCell?
+    var messagesController: MessagesController?
     
     lazy var collectionView: UICollectionView = {
         
@@ -17,10 +20,11 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = UIColor.red
+        cv.backgroundColor = UIColor.white
         cv.dataSource = self
         cv.delegate = self
         cv.isPagingEnabled = true
+        cv.showsHorizontalScrollIndicator = false
         return cv
     }()
     
@@ -33,22 +37,137 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return [firstPage, secondPage, thirdPage]
     }()
     
+    lazy var pageControl: UIPageControl = {
+        
+        let pc = UIPageControl()
+        pc.currentPageIndicatorTintColor = UIColor(red: 247/255, green: 154/255, blue: 27/255, alpha: 1)
+        pc.pageIndicatorTintColor = .lightGray
+        pc.numberOfPages = self.pages.count + 1
+        
+        return pc
+    }()
+    
+    let skipButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitleColor(UIColor(red: 247/255, green: 154/255, blue: 27/255, alpha: 1), for: .normal)
+        btn.setTitle("Skip", for: .normal)
+        return btn
+    }()
+    
+    let nextButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Next", for: .normal)
+        btn.setTitleColor(UIColor(red: 247/255, green: 154/255, blue: 27/255, alpha: 1), for: .normal)
+        return btn
+    }()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
+    
+    var pageControlBottomAnchor: NSLayoutConstraint?
+    var skipButtonTopAnchor: NSLayoutConstraint?
+    var nextButtonTopAnchor: NSLayoutConstraint?
+    
     let cellId = "CellId"
+    let loginCellId = "LoginCellId"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(collectionView)
+        observeKeyboardNotifications()
         
+        view.addSubview(collectionView)
+        view.addSubview(pageControl)
+        view.addSubview(skipButton)
+        view.addSubview(nextButton)
+        
+        _ = collectionView.anchor(view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 0)
+        
+        pageControlBottomAnchor = pageControl.anchor(nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 40)?[1] // returns second anchor which is the bottom anchor
+        
+        skipButtonTopAnchor = skipButton.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, topConstant: 15, leftConstant: 5, bottomConstant: 0, rightConstant: 0, widthConstant: 60, heightConstant: 50)?.first
+        
+        nextButtonTopAnchor = nextButton.anchor(view.topAnchor, left: nil, bottom: nil, right: view.rightAnchor, topConstant: 15, leftConstant: 0, bottomConstant: 0, rightConstant: 5, widthConstant: 60, heightConstant: 50)?.first
+        
+        registerCells()
+    }
+    
+    
+    func observeKeyboardNotifications() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow), name: .UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    func keyboardShow() {
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
+            self.view.frame = CGRect(x: 0, y: -65, width: self.view.frame.width, height: self.view.frame.height)
+            
+        }, completion: nil)
+
+    }
+    
+    func keyboardHide() {
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
+            self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+            
+        }, completion: nil)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
+    
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        let pageNumber = Int(targetContentOffset.pointee.x / self.view.frame.width)
+        
+        pageControl.currentPage = pageNumber
+        
+        if pageNumber == pages.count {
+            
+            pageControlBottomAnchor?.constant = 100
+            nextButtonTopAnchor?.constant = -100
+            skipButtonTopAnchor?.constant = -100
+            
+        } else {
+            
+            pageControlBottomAnchor?.constant = 0
+            nextButtonTopAnchor?.constant = 15
+            skipButtonTopAnchor?.constant = 15
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            
+            self.view.layoutIfNeeded() // animate constraint changes
+            
+        }, completion: nil)
+        
+    }
+    
+    fileprivate func registerCells() {
         collectionView.register(PageCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.anchorToTop(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor)
+        collectionView.register(LoginCell.self, forCellWithReuseIdentifier: loginCellId)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return pages.count
+        return pages.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.item == pages.count {
+            let loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: loginCellId, for: indexPath) as! LoginCell
+            self.loginCell = loginCell
+            loginCell.vC = self
+            return loginCell
+        }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PageCell
         let page = pages[indexPath.item]
@@ -63,39 +182,132 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return CGSize(width: view.bounds.width, height: view.bounds.height)
     }
     
+    func profileImageViewTapped() {
+        
+        let picker = UIImagePickerController()
+        
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        
+        present(picker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        var selectedImageFromPicker: UIImage?
+        
+        if let editedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
+            
+            selectedImageFromPicker = editedImage
+            
+        } else if let originalImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            selectedImageFromPicker = originalImage
+        }
+        
+        if let selectedImage = selectedImageFromPicker {
+            
+            loginCell?.profileImageView.image = selectedImage
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func handleRegister() {
+        
+        guard let email = loginCell?.emailTextField.text, let password = loginCell?.passwordTextField.text, let username = loginCell?.nameTextField.text else {
+            print("AIDAN: Form is not valid!")
+            return
+        }
+        
+        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
+            
+            if error != nil {
+                
+                print("AIDAN: error creating new firebase user: \(error!.localizedDescription)")
+                return
+                
+            } else {
+                
+                guard let uid = user?.uid else { return }
+                
+                // successfully created user, proceeding to upload selected profile picture
+                let imageName = NSUUID().uuidString
+                
+                if let profileImage = self.loginCell?.profileImageView.image, let uploadData = UIImageJPEGRepresentation(profileImage, 0.1) {
+                    
+                    storage.child(kPROFILEIMAGES).child("\(imageName).jpg").put(uploadData, metadata: nil, completion: { (metadata, error) in
+                        
+                        if error != nil {
+                            
+                            print("AIDAN: Error uploading selected profile image to firebase storage: \(error!.localizedDescription)")
+                            return
+                        }
+                        
+                        
+                        // successfully uploaded profile image
+                        if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
+                            
+                            let values = [kNAME: username, kEMAIL: email, kPROFILEIMAGEURL: profileImageUrl]
+                            
+                            // UPDATING USER DB WITH NEWLY CREATED USER
+                            self.registerUserIntoDatabaseWithUID(uid: uid, values: values)
+                        }
+                        
+                    })
+                }
+            }
+        })
+    }
+    
+    private func registerUserIntoDatabaseWithUID(uid: String, values: [String: Any]) {
+        
+        
+        firebase.child(kUSERS).child(uid).updateChildValues(values, withCompletionBlock: { (error, ref) in
+            
+            if error != nil {
+                print("error saving user details in firebase database: \(String(describing: error?.localizedDescription))")
+            }
+            
+            let user = User()
+            user.setValuesForKeys(values) // may crash if keys dont match
+            
+            self.messagesController?.setupNavBarWithUser(user: user)
+            self.dismiss(animated: true, completion: nil)
+        })
+    }
+    
+    func handleLogin() {
+        guard let email = loginCell?.emailTextField.text, let password = loginCell?.passwordTextField.text else {
+            print("AIDAN: Form is not valid!")
+            return
+        }
+        
+        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+            
+            if error != nil {
+                print("AIDAN: Unable to sign in to firebase: \(error!.localizedDescription)")
+                return
+            }
+            print("logged in")
+            self.messagesController = MessagesController()
+            self.messagesController?.fetchUserNameAndSetUpNavBarTitle()
+            self.present(UINavigationController(rootViewController: self.messagesController!), animated: true, completion: nil)
+        })
+    }
+    
+    func handleLoginOrRegister() {
+        
+        if loginCell?.loginRegisterSegmentedControls.selectedSegmentIndex == 0 {
+            handleLogin()
+        } else if loginCell?.loginRegisterSegmentedControls.selectedSegmentIndex == 1 {
+            handleRegister()
+        }
+    }
     
     
 }
 
 
 
-extension UIView {
-    
-    func anchorToTop(top: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil) {
-        
-        anchorWithConstantsToTop(top: top, left: left, bottom: bottom, right: right, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0)
-    }
-    
-    func anchorWithConstantsToTop(top: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil, topConstant: CGFloat = 0, leftConstant: CGFloat = 0, bottomConstant: CGFloat = 0, rightConstant: CGFloat = 0) {
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        if let top = top {
-            topAnchor.constraint(equalTo: top, constant: topConstant).isActive = true
-        }
-        
-        if let bottom = bottom {
-            bottomAnchor.constraint(equalTo: bottom, constant: -bottomConstant).isActive = true
-        }
-        
-        if let left = left {
-            leftAnchor.constraint(equalTo: left, constant: leftConstant).isActive = true
-        }
-        
-        if let right = right {
-            rightAnchor.constraint(equalTo: right, constant: -rightConstant).isActive = true
-        }
-        
-    }
-    
-}

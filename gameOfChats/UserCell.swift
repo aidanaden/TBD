@@ -20,8 +20,9 @@ class UserCell: UITableViewCell {
             
             self.detailTextLabel?.text = self.message?.text
             
-            if let seconds = self.message?.date, let doubleSeconds = Double(seconds) {
+            if let seconds = self.message?.date {
                 
+                let doubleSeconds = Double(seconds)
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "hh:mm:ss a"
                 let convertedTime = NSDate(timeIntervalSince1970: doubleSeconds)

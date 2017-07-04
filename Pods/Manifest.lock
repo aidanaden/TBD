@@ -1,4 +1,5 @@
 PODS:
+  - EZSwipeController (0.6.1)
   - Firebase/Auth (3.17.0):
     - Firebase/Core
     - FirebaseAuth (= 3.1.1)
@@ -39,19 +40,25 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
   - GTMSessionFetcher/Core (1.1.9)
+  - JSQMessagesViewController (7.3.4):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
   - Kingfisher (3.6.2)
   - PHFComposeBarView (2.1.0):
     - PHFDelegateChain (~> 1.0)
   - PHFDelegateChain (1.0.1)
 
 DEPENDENCIES:
+  - EZSwipeController
   - Firebase/Auth
   - Firebase/Database
   - Firebase/Storage
+  - JSQMessagesViewController
   - Kingfisher
   - PHFComposeBarView
 
 SPEC CHECKSUMS:
+  EZSwipeController: 255b0f8aed31963b0236802c926e27dd006a2532
   Firebase: 4b66b5b59c43edac745b87f0c87e42cdd0279c13
   FirebaseAnalytics: e5fe8486efc01bec33f6bf82e2fa9fce4b124052
   FirebaseAuth: cc8a1824170adbd351edb7f994490a3fb5c18be6
@@ -61,10 +68,12 @@ SPEC CHECKSUMS:
   FirebaseStorage: a5c55b23741a49a72af8f30f95b3bb5ddbeda12d
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 5c046c76a1f859bc9c187e918f18e4fc7bb57b5e
+  JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   Kingfisher: 2c94e72c6830622c71d06adf4ea024c37d316830
   PHFComposeBarView: 6382ab846e2f4d8634273c4a78d074bc5deed07f
   PHFDelegateChain: 491f9cd8a3fb8761f390ff05f74a0e168d48d285
 
-PODFILE CHECKSUM: 7003f072681d227f40088017164d296406e24dae
+PODFILE CHECKSUM: bc4e32248eed8d634a8eae0d08cac615b2bf4bdd
 
 COCOAPODS: 1.0.1

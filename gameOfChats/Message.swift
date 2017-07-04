@@ -8,13 +8,15 @@
 
 import UIKit
 import Firebase
+import JSQMessagesViewController
 
 class Message: NSObject {
     
     var toUserId: String?
     var senderId: String?
     var text: String?
-    var date: String?
+    var date: Int?
+
     
     var messageImageWidth: NSNumber?
     var messageImageHeight: NSNumber?
@@ -34,7 +36,7 @@ class Message: NSObject {
         toUserId = dictionary[kTOUSERID] as? String
         senderId = dictionary[kSENDERID] as? String
         text = dictionary[kTEXT] as? String
-        date = dictionary[kDATE] as? String
+        date = dictionary[kDATE] as? Int
         imageURL = dictionary[kIMAGEURL] as? String
         
         messageImageWidth = dictionary[kIMAGEWIDTH] as? NSNumber
@@ -42,6 +44,8 @@ class Message: NSObject {
         
         videoURL = dictionary[kVIDEOURL] as? String
     }
+    
+    
     
 }
 
