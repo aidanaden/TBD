@@ -18,8 +18,11 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     var imageView = UIImageView(image: UIImage(named: "nedstark"))
     
+    
+    
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+    
     
     var user: User? {
         didSet {
@@ -57,10 +60,34 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
         
-        let data = JSQMessages[indexPath.row] // obtains message from messages array
+        let taillessIncomingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleCompactTailless(), capInsets: .zero).incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+        let taillessOutgoingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleCompactTailless(), capInsets: .zero).outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+        
+        let data = JSQMessages[indexPath.item] // obtains message from messages array
+        var nextData: JSQMessage?
+        
         if data.senderId == FIRAuth.auth()?.currentUser?.uid as! String { // check if sender of message is current user
+            
+            if indexPath.item < JSQMessages.count - 1 {
+                
+                nextData = JSQMessages[indexPath.item + 1]
+                
+                if data.senderId == nextData?.senderId {
+                    return taillessOutgoingBubble
+                }
+            }
             return outgoingBubble
+            
         } else {
+            
+            if indexPath.item < JSQMessages.count - 1 {
+                
+                nextData = JSQMessages[indexPath.item + 1]
+                
+                if data.senderId == nextData?.senderId {
+                    return taillessIncomingBubble
+                }
+            }
             return incomingBubble
         }
     }
