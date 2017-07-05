@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class viewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class LoginController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var loginCell: LoginCell?
     var messagesController: MessagesController?
@@ -47,19 +47,48 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return pc
     }()
     
-    let skipButton: UIButton = {
+    lazy var skipButton: UIButton = {
         let btn = UIButton()
         btn.setTitleColor(UIColor(red: 247/255, green: 154/255, blue: 27/255, alpha: 1), for: .normal)
         btn.setTitle("Skip", for: .normal)
+        btn.addTarget(self, action: #selector(skipPages), for: .touchUpInside)
         return btn
     }()
     
-    let nextButton: UIButton = {
+    func skipPages() {
+        
+        pageControl.currentPage = pages.count - 1
+        nextPage()
+    }
+    
+    lazy var nextButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("Next", for: .normal)
         btn.setTitleColor(UIColor(red: 247/255, green: 154/255, blue: 27/255, alpha: 1), for: .normal)
+        btn.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
         return btn
     }()
+    
+    func nextPage() {
+        
+        if pageControl.currentPage == pages.count {
+            return
+        }
+        
+        if pageControl.currentPage == pages.count - 1{
+            moveControlsOffScreen()
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                
+                self.view.layoutIfNeeded() // animate constraint changes
+                
+            }, completion: nil)
+        }
+        
+        let indexPath = IndexPath(item: pageControl.currentPage + 1, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        pageControl.currentPage += 1
+    }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
@@ -132,9 +161,7 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         if pageNumber == pages.count {
             
-            pageControlBottomAnchor?.constant = 100
-            nextButtonTopAnchor?.constant = -100
-            skipButtonTopAnchor?.constant = -100
+            moveControlsOffScreen()
             
         } else {
             
@@ -151,6 +178,13 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
     }
     
+    func moveControlsOffScreen() {
+        
+        pageControlBottomAnchor?.constant = 100
+        nextButtonTopAnchor?.constant = -100
+        skipButtonTopAnchor?.constant = -100
+    }
+    
     fileprivate func registerCells() {
         collectionView.register(PageCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(LoginCell.self, forCellWithReuseIdentifier: loginCellId)
@@ -165,7 +199,7 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         if indexPath.item == pages.count {
             let loginCell = collectionView.dequeueReusableCell(withReuseIdentifier: loginCellId, for: indexPath) as! LoginCell
             self.loginCell = loginCell
-            loginCell.vC = self
+            loginCell.loginController = self
             return loginCell
         }
         

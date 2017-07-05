@@ -11,11 +11,11 @@ import UIKit
 
 class LoginCell: UICollectionViewCell {
     
-    var vC: viewController? {
+    var loginController: LoginController? {
         didSet {
             print("set vc!")
-            loginRegisterBtn.addTarget(vC, action: #selector(vC!.handleLoginOrRegister), for: .touchUpInside)
-            profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: vC, action: #selector(vC!.profileImageViewTapped)))
+            loginRegisterBtn.addTarget(loginController, action: #selector(loginController!.handleLoginOrRegister), for: .touchUpInside)
+            profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: loginController, action: #selector(loginController!.profileImageViewTapped)))
         }
     }
     
