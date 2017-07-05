@@ -18,6 +18,7 @@
 		3058AA461F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA451F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift */; };
 		3058AA481F0BAF9D0058D70E /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA471F0BAF9D0058D70E /* Video.swift */; };
 		3058AA4A1F0BB19D0058D70E /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA491F0BB19D0058D70E /* Download.swift */; };
+		3058AA4C1F0D08060058D70E /* CustomMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA4B1F0D08050058D70E /* CustomMediaItem.swift */; };
 		307DE2311F04FF8800D7E4E5 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307DE2301F04FF8800D7E4E5 /* Page.swift */; };
 		30B74E061EFA2B8D00232145 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B74E051EFA2B8D00232145 /* AppDelegate.swift */; };
 		30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B74E071EFA2B8D00232145 /* MessagesController.swift */; };
@@ -50,6 +51,7 @@
 		3058AA451F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSQMessagesController+JSQMessages.swift"; sourceTree = "<group>"; };
 		3058AA471F0BAF9D0058D70E /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		3058AA491F0BB19D0058D70E /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
+		3058AA4B1F0D08050058D70E /* CustomMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomMediaItem.swift; sourceTree = "<group>"; };
 		307DE2301F04FF8800D7E4E5 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		309111BE508A479434D444AD /* Pods-gameOfChats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gameOfChats.release.xcconfig"; path = "Pods/Target Support Files/Pods-gameOfChats/Pods-gameOfChats.release.xcconfig"; sourceTree = "<group>"; };
 		30B74E021EFA2B8D00232145 /* gameOfChats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gameOfChats.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 				30F5E3271EFC18FF00F34A3F /* Message.swift */,
 				307DE2301F04FF8800D7E4E5 /* Page.swift */,
 				3058AA471F0BAF9D0058D70E /* Video.swift */,
+				3058AA4B1F0D08050058D70E /* CustomMediaItem.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				3058AA391F092BB60058D70E /* Extensions.swift in Sources */,
 				30F5E3281EFC18FF00F34A3F /* Message.swift in Sources */,
 				3058AA3B1F09DB700058D70E /* LoginCell.swift in Sources */,
+				3058AA4C1F0D08060058D70E /* CustomMediaItem.swift in Sources */,
 				30B74E261EFBB61D00232145 /* UserCell.swift in Sources */,
 				30B74E281EFBBCAE00232145 /* LoginVC+handlers.swift in Sources */,
 				307DE2311F04FF8800D7E4E5 /* Page.swift in Sources */,

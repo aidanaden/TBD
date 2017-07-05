@@ -57,7 +57,8 @@ extension JSQMessagesViewController {
         let actualDate = Date(timeIntervalSince1970: date)
         let imageUrl = message.imageURL
         
-        let mediaItem = JSQPhotoMediaItem(image: nil)
+
+        let mediaItem = TaillessPhotoMediaItem(image: nil)
         mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutgoingOrIncoming(senderId: senderId!)
         
         let url = URL(string: imageUrl!)

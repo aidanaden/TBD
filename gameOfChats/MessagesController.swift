@@ -25,6 +25,10 @@ class MessagesController: UITableViewController {
         checkIfUserIsLoggedIn()
         
         tableView.allowsMultipleSelectionDuringEditing = true
+        
+        // cleans up all data
+        messages.removeAll()
+        messagesDictionary.removeAll()
     }
     
     var messages = [Message]()
@@ -145,11 +149,6 @@ class MessagesController: UITableViewController {
     
     func setupNavBarWithUser(user: User) {
         
-        // cleans up all data
-        messages.removeAll()
-        messagesDictionary.removeAll()
-        tableView.reloadData()
-        
         observeUserMessages()
         
         let titleView = UIView()
@@ -217,9 +216,13 @@ class MessagesController: UITableViewController {
         }
         
         
-        let loginController = LoginVC()
-        loginController.messagesController = self
-        self.present(loginController, animated: true, completion: nil)
+//        let loginController = LoginVC()
+//        loginController.messagesController = self
+//        let loginViewController = viewController()
+//        self.present(loginController, animated: true, completion: nil)
+        
+        firebase.removeAllObservers()
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

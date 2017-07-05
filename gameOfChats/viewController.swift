@@ -230,6 +230,10 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 
             } else {
                 
+                self.loginCell?.nameTextField.text = ""
+                self.loginCell?.emailTextField.text = ""
+                self.loginCell?.passwordTextField.text = ""
+                
                 guard let uid = user?.uid else { return }
                 
                 // successfully created user, proceeding to upload selected profile picture
@@ -273,8 +277,10 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             let user = User()
             user.setValuesForKeys(values) // may crash if keys dont match
             
+//            self.messagesController?.setupNavBarWithUser(user: user)
+            self.messagesController = MessagesController()
             self.messagesController?.setupNavBarWithUser(user: user)
-            self.dismiss(animated: true, completion: nil)
+            self.present(UINavigationController(rootViewController: self.messagesController!), animated: true, completion: nil)
         })
     }
     
@@ -285,6 +291,9 @@ class viewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         }
         
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+            
+            self.loginCell?.emailTextField.text = ""
+            self.loginCell?.passwordTextField.text = ""
             
             if error != nil {
                 print("AIDAN: Unable to sign in to firebase: \(error!.localizedDescription)")

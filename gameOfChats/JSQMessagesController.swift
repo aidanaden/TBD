@@ -16,12 +16,13 @@ import AVFoundation
 
 class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    var imageView = UIImageView(image: UIImage(named: "nedstark"))
-    
-    
+//    var imageView = UIImageView(image: UIImage(named: "nedstark"))
     
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+    let taillessIncomingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleRegularTailless(), capInsets: .zero).incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
+    let taillessOutgoingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleRegularTailless(), capInsets: .zero).outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+    
     
     
     var user: User? {
@@ -35,14 +36,17 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
-        let message = messages[indexPath.row]       // receive message object from messages array
+        let message = JSQMessages[indexPath.row]       // receive message object from messages array
         
-        if message.senderId == FIRAuth.auth()?.currentUser?.uid {
-            cell.textView.textColor = UIColor.white
-        } else {
-            cell.textView.textColor = UIColor.black
+        if message.text != nil {
+            
+            if message.senderId == FIRAuth.auth()?.currentUser?.uid {
+                cell.textView.textColor = UIColor.white
+            } else {
+                cell.textView.textColor = UIColor.black
+            }
         }
-        
+    
         return cell
     }
     
@@ -60,8 +64,6 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAt indexPath: IndexPath!) -> JSQMessageBubbleImageDataSource! {
         
-        let taillessIncomingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleCompactTailless(), capInsets: .zero).incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
-        let taillessOutgoingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleCompactTailless(), capInsets: .zero).outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
         
         let data = JSQMessages[indexPath.item] // obtains message from messages array
         var nextData: JSQMessage?
@@ -92,6 +94,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         }
     }
     
+    
+    
     var messages = [Message]()
     var JSQMessages = [JSQMessage]()
     
@@ -103,6 +107,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
+        
         
     }
     
@@ -148,10 +153,15 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                     // scroll to latest image message/index
-                    self.finishSendingMessage(animated: true)
+                    self.finishReceivingMessage(animated: true)
                 }
             })
         })
+    }
+    
+    override func didPressAccessoryButton(_ sender: UIButton!) {
+        
+        handleUploadTap()
     }
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
@@ -161,7 +171,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             let properties = [kTEXT: text] as [String: Any]
             sendMessageWithProperties(properties: properties)
         }
-        
+        self.finishSendingMessage(animated: true)
     }
     
     
@@ -201,7 +211,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         imagePicker.allowsEditing = true // enables editing of photos
         imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String] // sets available media types
         
-        present(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -215,7 +225,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             handleImageSelectedWithInfo(info: info) // selected an image
         }
         
-        dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func handleVideoSelectedForUrl(videoFileURL: URL) {

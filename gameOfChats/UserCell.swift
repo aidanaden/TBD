@@ -34,7 +34,6 @@ class UserCell: UITableViewCell {
     
     private func setupNameAndProfileImage() {
         
-        
         if let id = message?.chatPartnerId() {
             
             firebase.child(kUSERS).child(id).observeSingleEvent(of: .value, with: { (snapshot) in
