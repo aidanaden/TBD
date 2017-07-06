@@ -130,7 +130,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         dismiss(animated: true, completion: nil)
     }
     
-    private func handleVideoSelectedForUrl(videoFileURL: URL) {
+    fileprivate func handleVideoSelectedForUrl(videoFileURL: URL) {
         
         let videoName = NSUUID().uuidString
         let videoFileName = videoName + ".mov"

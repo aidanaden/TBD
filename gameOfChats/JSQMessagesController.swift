@@ -94,6 +94,23 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         }
     }
     
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, didTapMessageBubbleAt indexPath: IndexPath!) {
+        
+        print("clicked!")
+        let message = JSQMessages[indexPath.item]
+        
+        if message.isMediaMessage {
+            
+            print("media detected!")
+            let media = message.media as! VideoMessage
+            let player = AVPlayer(url: media.fileURL!)
+            let playerVC = AVPlayerViewController()
+            playerVC.player = player
+            self.present(playerVC, animated: true, completion: {
+                playerVC.player?.play()
+            })
+        }
+    }
     
     
     var messages = [Message]()
@@ -161,7 +178,27 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     override func didPressAccessoryButton(_ sender: UIButton!) {
         
-        handleUploadTap()
+        let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let sharePhoto = UIAlertAction(title: "Photo Library", style: .default) { (alert: UIAlertAction) in
+            
+            self.handleUploadTap(type: kUTTypeImage)
+        }
+        
+        let shareVideo = UIAlertAction(title: "Video Library", style: .default) { (alert: UIAlertAction) in
+            
+            self.handleUploadTap(type: kUTTypeMovie)
+        }
+        
+        let cancelAction = UIAlertAction(title: "cancel", style: .cancel) { (alert: UIAlertAction) in
+            
+        }
+        
+        optionMenu.addAction(sharePhoto)
+        optionMenu.addAction(shareVideo)
+        optionMenu.addAction(cancelAction)
+        
+        self.present(optionMenu, animated: true, completion: nil)
     }
     
     override func didPressSend(_ button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: Date!) {
@@ -203,13 +240,13 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         }
     }
     
-    func handleUploadTap() {
+    func handleUploadTap(type: CFString) {
         
         let imagePicker = UIImagePickerController()
         
         imagePicker.delegate = self
         imagePicker.allowsEditing = true // enables editing of photos
-        imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String] // sets available media types
+        imagePicker.mediaTypes = [type as String] // sets available media types
         
         self.present(imagePicker, animated: true, completion: nil)
     }
@@ -231,7 +268,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     func handleVideoSelectedForUrl(videoFileURL: URL) {
         
         let videoName = NSUUID().uuidString
-        let videoFileName = videoName + ".mov"
+        let videoFileName = "MessageVideo/" + videoName + ".mov"
         let uploadTask = storage.child(kMESSAGEVIDEOS).child(videoFileName).putFile(videoFileURL, metadata: nil, completion: { (metadata, error) in
             
             if error != nil {

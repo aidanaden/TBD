@@ -93,19 +93,27 @@ extension JSQMessagesViewController {
         
         downloadVideo(videoUrl: videoUrl!) { (readyToPlay, fileName) in
             
-            let url = NSURL(fileURLWithPath: fileInDocumentsDirectory(fileName: fileName))
+            let videoFileUrl = URL(fileURLWithPath: fileInDocumentsDirectory(fileName: fileName))
             
             // download thumbnail
            
             mediaItem.status = kSUCCESS
-            mediaItem.fileURL = url as URL
-            mediaItem.image = thumbnailImageForFileUrl(videoFileURL: thumbnailUrl!)
+            mediaItem.fileURL = videoFileUrl
             
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+            let resource = ImageResource(downloadURL: thumbnailUrl!)
+            
+            KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil, completionHandler: { (img, err, cacheType, url) in
+                
+                mediaItem.image = img
+                
+                DispatchQueue.main.async {
+                    
+                    self.collectionView.reloadData()
+                }
+            })
         }
-        return  JSQMessage(senderId: senderId, senderDisplayName: "", date: actualDate, media: mediaItem)
+        
+        return JSQMessage(senderId: senderId, senderDisplayName: "", date: actualDate, media: mediaItem)
         
     }
     

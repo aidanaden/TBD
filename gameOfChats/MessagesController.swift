@@ -86,7 +86,7 @@ class MessagesController: UITableViewController {
     private func attemptReloadTable() {
         
         self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
     }
     
     var timer: Timer?

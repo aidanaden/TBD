@@ -16,11 +16,12 @@ func downloadVideo(videoUrl: String, result: @escaping (_ isReadyToPlay: Bool, _
     
     let videoURL = URL(string: videoUrl)
     let videoFileName = videoUrl.components(separatedBy: "/").last!
+    let videoRealFileName = videoFileName.components(separatedBy: "?").first!
     
-    if fileExistsAtPath(path: videoFileName) {
+    if fileExistsAtPath(path: videoRealFileName) {
         
         print("AIDAN: video exists in device, no need to download")
-        result(true, videoFileName)
+        result(true, videoRealFileName)
         
     } else {
         
@@ -33,14 +34,14 @@ func downloadVideo(videoUrl: String, result: @escaping (_ isReadyToPlay: Bool, _
             if data != nil {
                 
                 var docUrl = getDocumentsDirectory()
-                docUrl = docUrl.appendingPathComponent(videoFileName, isDirectory: false)
+                docUrl = docUrl.appendingPathComponent(videoRealFileName, isDirectory: false)
                 
                 data!.write(to: docUrl, atomically: true)
                 print("AIDAN: Downloaded video")
                 
                 DispatchQueue.main.async {
                     
-                    result(true, videoFileName)
+                    result(true, videoRealFileName)
                 }
             } else {
                 
@@ -62,16 +63,16 @@ func thumbnailImageForFileUrl(videoFileURL: URL) -> UIImage? {
         
     } catch let err {
         
-        print(err)
+        print("AIDAN: \(err)")
     }
     
     return nil
 }
 
 
-func videoThumbNail(video: NSURL) -> UIImage {
+func videoThumbNail(video: URL) -> UIImage {
     
-    let asset = AVURLAsset(url: video as URL, options: nil)
+    let asset = AVURLAsset(url: video, options: nil)
     let imageGenerator = AVAssetImageGenerator(asset: asset)
     imageGenerator.appliesPreferredTrackTransform = true
     
@@ -83,7 +84,7 @@ func videoThumbNail(video: NSURL) -> UIImage {
         image = try imageGenerator.copyCGImage(at: time, actualTime: &actualTime)
     } catch let error as NSError {
         
-        print(error.localizedDescription)
+        print("AIDAN: \(error.localizedDescription)")
     }
     
     let thumbnail = UIImage(cgImage: image!)
