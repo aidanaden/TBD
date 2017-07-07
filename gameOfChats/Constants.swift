@@ -12,6 +12,7 @@ import Firebase
 let firebase = FIRDatabase.database().reference()
 let storage = FIRStorage.storage().reference()
 
+let kID = "id"
 let kMESSAGES = "messages"
 let kUSERS = "users"
 let kNAME = "name"

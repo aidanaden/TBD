@@ -11,9 +11,7 @@ import Kingfisher
 import Firebase
 
 class NewMessageController: UITableViewController {
-    
-    
-    
+
     var users = [User]()
 
     override func viewDidLoad() {
@@ -24,7 +22,6 @@ class NewMessageController: UITableViewController {
         tableView.register(UserCell.self, forCellReuseIdentifier: userCellId)
         
         fetchUsers()
-        
     }
     
     func fetchUsers() {
@@ -33,7 +30,6 @@ class NewMessageController: UITableViewController {
         
         firebase.child(kUSERS).observe(.childAdded, with: { (snapshot) in
             
-    
             let userDictionary = snapshot.value as! [String : Any]
             let user = User()
             
@@ -54,6 +50,18 @@ class NewMessageController: UITableViewController {
             
             
         }, withCancel: nil)
+        
+        firebase.child(kUSERS).observe(.value, with: { (snapshot) in
+            
+            if snapshot.exists() {
+                
+                for user in (snapshot.value as! NSDictionary).allValues as NSArray {
+                    
+                    print(user)
+                    print(snapshot.key)
+                }
+            }
+        })
     }
 
     func cancel() {
@@ -78,7 +86,6 @@ class NewMessageController: UITableViewController {
             let resource = ImageResource(downloadURL: profileImageURL!)
             
             cell.profileImageView.kf.setImage(with: resource)
-
         }
         
         return cell

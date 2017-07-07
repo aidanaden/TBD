@@ -286,7 +286,7 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
                         // successfully uploaded profile image
                         if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
                             
-                            let values = [kNAME: username, kEMAIL: email, kPROFILEIMAGEURL: profileImageUrl]
+                            let values = [kID: uid, kNAME: username, kEMAIL: email, kPROFILEIMAGEURL: profileImageUrl]
                             
                             // UPDATING USER DB WITH NEWLY CREATED USER
                             self.registerUserIntoDatabaseWithUID(uid: uid, values: values)

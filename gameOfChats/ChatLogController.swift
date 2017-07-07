@@ -28,6 +28,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     }
     
     var messages = [Message]()
+    var messagesDataArray = [Message]()
     
     func observeMessages() {
         
@@ -35,26 +36,24 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
         
-        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+        userMessagesRef.observe(.value, with: { snapshot in
             
-            let messageId = snapshot.key
-            let messagesRef = firebase.child(kMESSAGES).child(messageId)
             
-            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                guard let dictionary = snapshot.value as? [String: Any] else { return }
-                
-                let message = Message(dictionary: dictionary)
-                
-                self.messages.append(message)
-                
-                DispatchQueue.main.async {
-                    self.collectionView?.reloadData()
-                    // scroll to latest image message/index
-                    let indexPath = IndexPath(item: self.messages.count - 1, section: 0)
-                    self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
-                }
-            })
+            let childrenCount = Int(snapshot.childrenCount)
+            
+            for snap in snapshot.children {
+                let messageId = (snap as! FIRDataSnapshot).key
+                let messagesRef = firebase.child("messages").child(messageId)
+                messagesRef.observeSingleEvent(of: .value, with: { snapshot in
+                    guard let dictionary = snapshot.value as? [String : Any] else { return }
+                    if let senderId = dictionary[kSENDERID] as? String, let text = dictionary[kTEXT] as? String {
+                        self.messages.append(Message(dictionary: dictionary))
+                        if childrenCount == self.messages.count {
+                            self.collectionView?.reloadData() // reload data on main q
+                        }
+                    }
+                })
+            }
         })
     }
     
@@ -257,9 +256,9 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     
     func setupKeyboardObservers() {
 
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardDidShow, object: nil)
         //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         //
         //        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: NSNotification.Name.UIKeyboardWillHide, object: nil)

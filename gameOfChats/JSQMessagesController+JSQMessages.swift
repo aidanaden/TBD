@@ -105,12 +105,11 @@ extension JSQMessagesViewController {
             KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil, completionHandler: { (img, err, cacheType, url) in
                 
                 mediaItem.image = img
-                
-                DispatchQueue.main.async {
-                    
-                    self.collectionView.reloadData()
-                }
+            
+                self.collectionView.reloadData()
             })
+            
+//            self.collectionView.reloadData()
         }
         
         return JSQMessage(senderId: senderId, senderDisplayName: "", date: actualDate, media: mediaItem)

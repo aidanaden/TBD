@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/NewMessageController.swift"
-            timestampString = "519835570.906798"
+            timestampString = "521108525.202565"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -182,11 +182,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/NewMessageController.swift"
-            timestampString = "520265787.357717"
+            timestampString = "521109393.71823"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -246,27 +246,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/ChatLogController.swift"
-            timestampString = "520432840.796142"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "observeMessages()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "gameOfChats/ChatLogController.swift"
-            timestampString = "520861951.92373"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "378"
-            endingLineNumber = "378"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
             landmarkName = "estimateFrameForText(text:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -278,7 +262,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/MessagesController.swift"
-            timestampString = "520943400.857953"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
@@ -294,11 +278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/ChatLogController.swift"
-            timestampString = "520861951.92373"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
+            startingLineNumber = "384"
+            endingLineNumber = "384"
             landmarkName = "ChatLogController"
             landmarkType = "3">
          </BreakpointContent>
@@ -310,11 +294,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/ChatLogController.swift"
-            timestampString = "520676230.559061"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "handleUploadTap()"
             landmarkType = "7">
          </BreakpointContent>
@@ -326,11 +310,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/ChatLogController.swift"
-            timestampString = "520676230.559061"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -342,11 +326,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/ChatLogController.swift"
-            timestampString = "520676230.559061"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
             landmarkName = "ChatLogController"
             landmarkType = "3">
          </BreakpointContent>
@@ -358,11 +342,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/ChatLogController.swift"
-            timestampString = "520676230.559061"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "handleImageSelectedWithInfo(info:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -390,11 +374,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/ChatLogController.swift"
-            timestampString = "520432840.796142"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -580,11 +564,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/JSQMessagesController.swift"
-            timestampString = "521105467.762407"
+            timestampString = "521113253.940366"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "handleUploadTap(type:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -596,11 +580,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/JSQMessagesController.swift"
-            timestampString = "521105467.762407"
+            timestampString = "521113253.940366"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
             landmarkName = "didPressSend(_:withMessageText:senderId:senderDisplayName:date:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -612,11 +596,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/JSQMessagesController+JSQMessages.swift"
-            timestampString = "521045544.524422"
+            timestampString = "521112790.259574"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "returnOutgoingOrIncoming(senderId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -628,11 +612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/JSQMessagesController.swift"
-            timestampString = "521105467.762407"
+            timestampString = "521113253.940366"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "296"
-            endingLineNumber = "296"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "sendMessageWithProperties(properties:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -644,7 +628,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/MessagesController.swift"
-            timestampString = "520943400.857953"
+            timestampString = "521112050.621259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "100"
@@ -666,6 +650,22 @@
             startingLineNumber = "81"
             endingLineNumber = "81"
             landmarkName = "collectionView(_:messageBubbleImageDataForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "gameOfChats/ChatLogController.swift"
+            timestampString = "521111834.85917"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "observeMessages()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

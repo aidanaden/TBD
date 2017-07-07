@@ -16,7 +16,7 @@ import AVFoundation
 
 class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-//    var imageView = UIImageView(image: UIImage(named: "nedstark"))
+    //    var imageView = UIImageView(image: UIImage(named: "nedstark"))
     
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
@@ -56,7 +56,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                 cell.textView.textColor = UIColor.black
             }
         }
-    
+        
         return cell
     }
     
@@ -171,7 +171,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
     }
-
+    
     
     func setupNavBarWithUser(user: User) {
         
@@ -228,29 +228,60 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
         
-        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+        //        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+        //
+        //            let messageId = snapshot.key
+        //            let messagesRef = firebase.child(kMESSAGES).child(messageId)
+        //
+        //            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        //
+        //                guard let dictionary = snapshot.value as? [String: Any] else { return }
+        //
+        //                let message = Message(dictionary: dictionary)
+        //
+        //                self.messages.append(message)
+        //
+        //                let jsqMessage = self.createJSQMessage(message: message)
+        //
+        //                self.JSQMessages.append(jsqMessage!)
+        //
+        //                DispatchQueue.main.async {
+        //                    self.collectionView?.reloadData()
+        //                    // scroll to latest image message/index
+        //                    self.finishReceivingMessage(animated: true)
+        //                }
+        //            })
+        //        })
+        
+        userMessagesRef.observe(.value, with: { snapshot in
             
-            let messageId = snapshot.key
-            let messagesRef = firebase.child(kMESSAGES).child(messageId)
             
-            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            let childrenCount = Int(snapshot.childrenCount)
+            
+            for snap in snapshot.children {
                 
-                guard let dictionary = snapshot.value as? [String: Any] else { return }
+                let messageId = (snap as! FIRDataSnapshot).key
+                let messagesRef = firebase.child(kMESSAGES).child(messageId)
                 
-                let message = Message(dictionary: dictionary)
-                
-                self.messages.append(message)
-                
-                let jsqMessage = self.createJSQMessage(message: message)
-                
-                self.JSQMessages.append(jsqMessage!)
-                
-                DispatchQueue.main.async {
-                    self.collectionView?.reloadData()
-                    // scroll to latest image message/index
-                    self.finishReceivingMessage(animated: true)
-                }
-            })
+                messagesRef.observeSingleEvent(of: .value, with: { snapshot in
+                    
+                    guard let dictionary = snapshot.value as? [String : Any] else { return }
+                    
+                    let message = Message(dictionary: dictionary)
+                    self.messages.append(message)
+                    let jsqMessage = self.createJSQMessage(message: message)
+                    self.JSQMessages.append(jsqMessage!)
+                    
+                    if childrenCount == self.messages.count {
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.collectionView?.reloadData() // reload data on main q
+                            self.finishReceivingMessage(animated: true)
+                        }
+                    }
+                })
+            }
         })
     }
     

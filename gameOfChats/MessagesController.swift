@@ -86,7 +86,7 @@ class MessagesController: UITableViewController {
     private func attemptReloadTable() {
         
         self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
     }
     
     var timer: Timer?
@@ -152,55 +152,62 @@ class MessagesController: UITableViewController {
         
         observeUserMessages()
         
-        let titleView = UIView()
-        titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
-        
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        titleView.addSubview(containerView)
-        
-        containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
-        containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
-        
-        let profileImageView = UIImageView()
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        profileImageView.contentMode = .scaleAspectFill
-        profileImageView.layer.cornerRadius = 15
-        profileImageView.layer.masksToBounds = true
-        
-        if let profileImageURL = user.profileImageUrl {
+        DispatchQueue.main.async {
             
-            let profileUrl = URL(string: profileImageURL)
-            let resource = ImageResource(downloadURL: profileUrl!)
-            profileImageView.kf.setImage(with: resource)
+            let titleView = UIView()
+            titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+            
+            let containerView = UIView()
+            containerView.translatesAutoresizingMaskIntoConstraints = false
+            titleView.addSubview(containerView)
+            
+            containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+            containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+            
+            let profileImageView = UIImageView()
+            profileImageView.translatesAutoresizingMaskIntoConstraints = false
+            profileImageView.contentMode = .scaleAspectFill
+            profileImageView.layer.cornerRadius = 15
+            profileImageView.layer.masksToBounds = true
+            
+            if let profileImageURL = user.profileImageUrl {
+                
+                let profileUrl = URL(string: profileImageURL)
+                let resource = ImageResource(downloadURL: profileUrl!)
+                profileImageView.kf.setImage(with: resource)
+            }
+            
+            containerView.addSubview(profileImageView)
+            
+            // constraints for image view
+            profileImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+            profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+            profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            let nameLbl = UILabel()
+            nameLbl.text = user.name
+            nameLbl.translatesAutoresizingMaskIntoConstraints = false
+            
+            containerView.addSubview(nameLbl)
+            
+            nameLbl.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
+            nameLbl.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+            nameLbl.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
+            nameLbl.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
+            
+            
+            self.navigationItem.titleView = titleView
         }
         
-        containerView.addSubview(profileImageView)
-        
-        // constraints for image view
-        profileImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
-        profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        let nameLbl = UILabel()
-        nameLbl.text = user.name
-        nameLbl.translatesAutoresizingMaskIntoConstraints = false
-        
-        containerView.addSubview(nameLbl)
-        
-        nameLbl.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
-        nameLbl.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
-        nameLbl.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-        nameLbl.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
-        
-        
-        self.navigationItem.titleView = titleView
     }
     
     func showChatController(user: User) {
         
 //        let layout = UICollectionViewFlowLayout()
+//        let chatController = ChatLogController(collectionViewLayout: layout)
+//        chatController.user = user
+//        navigationController?.pushViewController(chatController, animated: true)
         let jsqMessagesController = JSQMessagesController()
         
         jsqMessagesController.user = user
