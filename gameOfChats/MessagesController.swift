@@ -147,12 +147,13 @@ class MessagesController: UITableViewController {
         })
     }
     
+    
     func setupNavBarWithUser(user: User) {
         
         observeUserMessages()
         
         let titleView = UIView()
-        titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
         
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -164,7 +165,7 @@ class MessagesController: UITableViewController {
         let profileImageView = UIImageView()
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
         profileImageView.contentMode = .scaleAspectFill
-        profileImageView.layer.cornerRadius = 20
+        profileImageView.layer.cornerRadius = 15
         profileImageView.layer.masksToBounds = true
         
         if let profileImageURL = user.profileImageUrl {
@@ -179,8 +180,8 @@ class MessagesController: UITableViewController {
         // constraints for image view
         profileImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
         profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         let nameLbl = UILabel()
         nameLbl.text = user.name
@@ -203,7 +204,6 @@ class MessagesController: UITableViewController {
         let jsqMessagesController = JSQMessagesController()
         
         jsqMessagesController.user = user
-        
         navigationController?.pushViewController(jsqMessagesController, animated: true)
     }
     

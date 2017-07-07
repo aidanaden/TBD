@@ -30,6 +30,8 @@ let kSENDERID = "senderId"
 let kDATE = "date"
 let kUSERMESSAGES = "user-messages"
 let kSUCCESS = 2
+let kIMAGEMESSAGE = "image message"
+let kVIDEOMESSAGE = "video message"
 
 let userCellId = "UserCell"
 

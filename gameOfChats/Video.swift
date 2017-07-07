@@ -42,7 +42,6 @@ class VideoMessage: JSQMediaItem {
                 print("Success!")
                 
                 let size = self.mediaViewDisplaySize()
-                let outgoing = self.appliesMediaViewMaskAsOutgoing
                 let icon = UIImage.jsq_defaultPlay().jsq_imageMasked(with: UIColor.white)
                 
                 let iconView = UIImageView(image: icon)
@@ -56,7 +55,8 @@ class VideoMessage: JSQMediaItem {
                 imageView.clipsToBounds = true
                 imageView.addSubview(iconView)
                 
-                JSQMessagesMediaViewBubbleImageMasker.applyBubbleImageMask(toMediaView: imageView, isOutgoing: outgoing)
+                let masker = JSQMessagesMediaViewBubbleImageMasker(bubbleImageFactory: JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleRegularTailless(), capInsets: UIEdgeInsets.zero))
+                masker?.applyIncomingBubbleImageMask(toMediaView: imageView)
                 self.videoImageView = imageView
             }
         }

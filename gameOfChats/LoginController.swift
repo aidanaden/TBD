@@ -283,7 +283,6 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
                             return
                         }
                         
-                        
                         // successfully uploaded profile image
                         if let profileImageUrl = metadata?.downloadURL()?.absoluteString {
                             

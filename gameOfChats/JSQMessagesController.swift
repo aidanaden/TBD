@@ -23,11 +23,21 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     let taillessIncomingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleRegularTailless(), capInsets: .zero).incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
     let taillessOutgoingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleRegularTailless(), capInsets: .zero).outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
     
-    
+    var avatarImage: UIImage?
     
     var user: User? {
         didSet {
-            self.title = user?.name
+            
+            setupNavBarWithUser(user: user!)
+            
+            if let url = URL(string: (user?.profileImageUrl)!) {
+                
+                let resource = ImageResource(downloadURL: url)
+                KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil, completionHandler: { (image, err, cacheType, URL) in
+                    
+                    self.avatarImage = image
+                })
+            }
             
             observeMessages()
         }
@@ -68,7 +78,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         let data = JSQMessages[indexPath.item] // obtains message from messages array
         var nextData: JSQMessage?
         
-        if data.senderId == FIRAuth.auth()?.currentUser?.uid as! String { // check if sender of message is current user
+        if data.senderId == FIRAuth.auth()?.currentUser?.uid { // check if sender of message is current user
             
             if indexPath.item < JSQMessages.count - 1 {
                 
@@ -94,12 +104,47 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         }
     }
     
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellTopLabelAt indexPath: IndexPath!) -> NSAttributedString! {
+        
+        let message = JSQMessages[indexPath.item]
+        
+        if indexPath.item % 10 == 0 {
+            return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
+        }
+        return nil
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
+        
+        if indexPath.item % 10 == 0 {
+            return kJSQMessagesCollectionViewCellLabelHeightDefault
+        }
+        
+        return 0.0
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
+        
+        let message = JSQMessages[indexPath.item]
+        var avatar: JSQMessageAvatarImageDataSource
+        
+        if message.senderId != FIRAuth.auth()?.currentUser?.uid {
+            
+            avatar = JSQMessagesAvatarImageFactory.avatarImage(with: avatarImage, diameter: 70)
+        } else {
+            avatar = JSQMessagesAvatarImageFactory.avatarImage(withPlaceholder: #imageLiteral(resourceName: "User"), diameter: 70)
+        }
+        
+        return avatar
+    }
+    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, didTapMessageBubbleAt indexPath: IndexPath!) {
         
         print("clicked!")
         let message = JSQMessages[indexPath.item]
+        let messageObject = messages[indexPath.item]
         
-        if message.isMediaMessage {
+        if message.isMediaMessage, messageObject.videoURL != nil {
             
             print("media detected!")
             let media = message.media as! VideoMessage
@@ -119,28 +164,61 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.senderId = FIRAuth.auth()?.currentUser?.uid as! String
-        self.senderDisplayName = FIRAuth.auth()?.currentUser?.email as! String
+        self.senderId = FIRAuth.auth()?.currentUser?.uid
+        self.senderDisplayName = FIRAuth.auth()?.currentUser?.email!
         
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
-        
     }
+
     
-    func observeDisplayName() {
-        guard let senderId = FIRAuth.auth()?.currentUser?.uid else { return }
+    func setupNavBarWithUser(user: User) {
         
-        let userRef = firebase.child(kUSERS).child(senderId)
-        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+        let titleView = UIView()
+        titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+        
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        titleView.addSubview(containerView)
+        
+        containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+        
+        let profileImageView = UIImageView()
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        profileImageView.contentMode = .scaleAspectFill
+        profileImageView.layer.cornerRadius = 15
+        profileImageView.layer.masksToBounds = true
+        
+        if let profileImageURL = user.profileImageUrl {
             
-            if snapshot.exists() {
-                
-                guard let dictionary = snapshot.value as? [String: Any] else { return }
-                let username = dictionary[kNAME] as? String
-                self.senderDisplayName = username
-            }
-        })
+            let profileUrl = URL(string: profileImageURL)
+            let resource = ImageResource(downloadURL: profileUrl!)
+            profileImageView.kf.setImage(with: resource)
+        }
+        
+        containerView.addSubview(profileImageView)
+        
+        // constraints for image view
+        profileImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+        profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+        let nameLbl = UILabel()
+        nameLbl.text = user.name
+        nameLbl.translatesAutoresizingMaskIntoConstraints = false
+        
+        containerView.addSubview(nameLbl)
+        
+        nameLbl.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
+        nameLbl.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+        nameLbl.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
+        nameLbl.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
+        
+        
+        self.navigationItem.titleView = titleView
     }
     
     
@@ -302,7 +380,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             
             uploadImageToFirebase(image: thumbnailImage, completion: { imageUrl in
                 
-                let properties = [kVIDEOURL: videoUrl, kIMAGEURL: imageUrl, kIMAGEWIDTH : thumbnailImage.size.width, kIMAGEHEIGHT : thumbnailImage.size.height] as [String : Any]
+                let properties = [kTEXT: kVIDEOMESSAGE, kVIDEOURL: videoUrl, kIMAGEURL: imageUrl, kIMAGEWIDTH : thumbnailImage.size.width, kIMAGEHEIGHT : thumbnailImage.size.height] as [String : Any]
                 
                 self.sendMessageWithProperties(properties: properties)
             })
@@ -329,7 +407,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     func sendMessageWithImageUrl(imageUrl: String, image: UIImage) {
         
-        let properties = [kIMAGEURL: imageUrl, kIMAGEWIDTH : image.size.width, kIMAGEHEIGHT : image.size.height] as [String : Any]
+        let properties = [kTEXT: kIMAGEMESSAGE, kIMAGEURL: imageUrl, kIMAGEWIDTH : image.size.width, kIMAGEHEIGHT : image.size.height] as [String : Any]
         
         sendMessageWithProperties(properties: properties)
     }
