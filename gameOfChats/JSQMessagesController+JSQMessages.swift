@@ -90,30 +90,27 @@ extension JSQMessagesViewController {
         let thumbnailUrl = URL(string: message.imageURL!)
 
         let mediaItem = VideoMessage(withFileUrl: url!, maskOutgoing: returnOutgoingOrIncoming(senderId: senderId!))
-        
-        downloadVideo(videoUrl: videoUrl!) { (readyToPlay, fileName) in
+    
+        let resource = ImageResource(downloadURL: thumbnailUrl!)
+        KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil, completionHandler: { (img, err, cacheType, url) in
             
-            let videoFileUrl = URL(fileURLWithPath: fileInDocumentsDirectory(fileName: fileName))
+            mediaItem.image = img
             
-            // download thumbnail
-           
-            mediaItem.status = kSUCCESS
-            mediaItem.fileURL = videoFileUrl
-            
-            let resource = ImageResource(downloadURL: thumbnailUrl!)
-            
-            KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil, completionHandler: { (img, err, cacheType, url) in
+            downloadVideo(videoUrl: videoUrl!) { (readyToPlay, fileName) in
                 
-                mediaItem.image = img
-            
+                let videoFileUrl = URL(fileURLWithPath: fileInDocumentsDirectory(fileName: fileName))
+                
+                // download thumbnail
+                
+                mediaItem.status = kSUCCESS
+                mediaItem.fileURL = videoFileUrl
+                
                 self.collectionView.reloadData()
-            })
-            
-//            self.collectionView.reloadData()
-        }
+            }
+            self.collectionView.reloadData()
+        })
         
         return JSQMessage(senderId: senderId, senderDisplayName: "", date: actualDate, media: mediaItem)
-        
     }
     
     func returnOutgoingOrIncoming(senderId: String) -> Bool {
