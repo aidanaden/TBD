@@ -40,17 +40,41 @@ class MessagesController: UITableViewController {
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid)
         
-        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+//        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+//            
+//            let userId = snapshot.key
+//            let userRef = userMessagesRef.child(userId)
+//            
+//            userRef.observe(.childAdded, with: { (snapshot) in
+//                
+//                let messageId = snapshot.key
+//                
+//                self.fetchMessageAndAttemptReload(messageId: messageId)
+//            })
+//        })
+        
+        userMessagesRef.observe(.value, with: { (snapshot) in
             
-            let userId = snapshot.key
-            let userRef = userMessagesRef.child(userId)
+            let children = Int(snapshot.childrenCount)
             
-            userRef.observe(.childAdded, with: { (snapshot) in
+            if snapshot.exists() {
                 
-                let messageId = snapshot.key
-                
-                self.fetchMessageAndAttemptReload(messageId: messageId)
-            })
+                for snap in snapshot.children {
+                    
+                    let userId = (snap as! FIRDataSnapshot).key
+                    let userRef = userMessagesRef.child(userId)
+                    
+                    userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                        
+                        for snap in snapshot.children {
+                            
+                            let messageId = (snap as! FIRDataSnapshot).key
+                            print(messageId)
+                            self.fetchMessageAndAttemptReload(messageId: messageId)
+                        }
+                    })
+                }
+            }
         })
         
         userMessagesRef.observe(.childRemoved, with: { (snapshot) in
@@ -78,7 +102,8 @@ class MessagesController: UITableViewController {
                     self.messagesDictionary[chatPartnerId] = message
                 }
                 
-                self.attemptReloadTable()
+//                self.attemptReloadTable()
+                self.handleReloadTable()
             }
         })
     }
@@ -199,7 +224,6 @@ class MessagesController: UITableViewController {
             
             self.navigationItem.titleView = titleView
         }
-        
     }
     
     func showChatController(user: User) {

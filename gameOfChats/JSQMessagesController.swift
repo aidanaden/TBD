@@ -255,7 +255,6 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         userMessagesRef.observe(.value, with: { snapshot in
             
-            
             let childrenCount = Int(snapshot.childrenCount)
             
             for snap in snapshot.children {

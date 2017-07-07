@@ -16,7 +16,6 @@ import AVFoundation
 
 extension JSQMessagesViewController {
     
-    
     func createJSQMessage(message: Message) -> JSQMessage? {
         
         let jsqMessage: JSQMessage?
@@ -115,7 +114,7 @@ extension JSQMessagesViewController {
     
     func returnOutgoingOrIncoming(senderId: String) -> Bool {
         
-        if senderId == FIRAuth.auth()?.currentUser!.uid as! String {
+        if senderId == FIRAuth.auth()?.currentUser!.uid {
             // message is outgoing
             return true
         } else {
