@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		300915671F03AC2600266096 /* ChatInputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300915661F03AC2600266096 /* ChatInputContainerView.swift */; };
 		3009156A1F03E9E900266096 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300915691F03E9E900266096 /* LoginController.swift */; };
+		30357B381F12159100FE8215 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30357B371F12159100FE8215 /* MainPageController.swift */; };
+		30357B3A1F121F7A00FE8215 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30357B391F121F7A00FE8215 /* UserProfileController.swift */; };
 		304F678A1F03F08500C353F5 /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304F67891F03F08400C353F5 /* PageCell.swift */; };
 		3058AA391F092BB60058D70E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA381F092BB60058D70E /* Extensions.swift */; };
 		3058AA3B1F09DB700058D70E /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA3A1F09DB700058D70E /* LoginCell.swift */; };
@@ -40,6 +42,8 @@
 		300915661F03AC2600266096 /* ChatInputContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatInputContainerView.swift; sourceTree = "<group>"; };
 		300915681F03BED500266096 /* gameOfChats.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = gameOfChats.entitlements; sourceTree = "<group>"; };
 		300915691F03E9E900266096 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		30357B371F12159100FE8215 /* MainPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
+		30357B391F121F7A00FE8215 /* UserProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
 		304F67891F03F08400C353F5 /* PageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageCell.swift; sourceTree = "<group>"; };
 		3058AA381F092BB60058D70E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3058AA3A1F09DB700058D70E /* LoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
@@ -98,6 +102,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		30357B3B1F12215300FE8215 /* Old Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				30B74E271EFBBCAE00232145 /* LoginVC+handlers.swift */,
+				30B74E181EFA2DB400232145 /* LoginVC.swift */,
+				30B74E291EFBF8A100232145 /* ChatLogController.swift */,
+			);
+			name = "Old Controllers";
+			sourceTree = "<group>";
+		};
 		30B74DF91EFA2B8D00232145 = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +133,7 @@
 		30B74E041EFA2B8D00232145 /* gameOfChats */ = {
 			isa = PBXGroup;
 			children = (
+				30357B3B1F12215300FE8215 /* Old Controllers */,
 				300915681F03BED500266096 /* gameOfChats.entitlements */,
 				30B74E241EFBB60500232145 /* Custom Cells and Views */,
 				30B74E211EFBB32F00232145 /* Model */,
@@ -136,14 +151,13 @@
 		30B74E171EFA2D9A00232145 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				30B74E181EFA2DB400232145 /* LoginVC.swift */,
 				30B74E071EFA2B8D00232145 /* MessagesController.swift */,
-				30B74E271EFBBCAE00232145 /* LoginVC+handlers.swift */,
 				30B74E1F1EFB9E3100232145 /* NewMessageController.swift */,
-				30B74E291EFBF8A100232145 /* ChatLogController.swift */,
 				300915691F03E9E900266096 /* LoginController.swift */,
 				3058AA431F0A86380058D70E /* JSQMessagesController.swift */,
 				3058AA451F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift */,
+				30357B371F12159100FE8215 /* MainPageController.swift */,
+				30357B391F121F7A00FE8215 /* UserProfileController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -313,6 +327,7 @@
 			files = (
 				3058AA441F0A86380058D70E /* JSQMessagesController.swift in Sources */,
 				30B74E2A1EFBF8A100232145 /* ChatLogController.swift in Sources */,
+				30357B3A1F121F7A00FE8215 /* UserProfileController.swift in Sources */,
 				300915671F03AC2600266096 /* ChatInputContainerView.swift in Sources */,
 				3058AA461F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift in Sources */,
 				30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */,
@@ -329,6 +344,7 @@
 				30F5E3281EFC18FF00F34A3F /* Message.swift in Sources */,
 				3058AA3B1F09DB700058D70E /* LoginCell.swift in Sources */,
 				3058AA4C1F0D08060058D70E /* TaillessPhotoMediaItem.swift in Sources */,
+				30357B381F12159100FE8215 /* MainPageController.swift in Sources */,
 				30B74E261EFBB61D00232145 /* UserCell.swift in Sources */,
 				30B74E281EFBBCAE00232145 /* LoginVC+handlers.swift in Sources */,
 				307DE2311F04FF8800D7E4E5 /* Page.swift in Sources */,

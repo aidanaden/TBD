@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 //        window?.rootViewController = UINavigationController(rootViewController: MessagesController())
         window?.rootViewController = LoginController()
+//        window?.rootViewController = MainPageController()
         return true
     }
 

@@ -12,7 +12,8 @@ import Firebase
 class LoginController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var loginCell: LoginCell?
-    var messagesController: MessagesController?
+//    var messagesController: MessagesController?
+    var mainController: MainPageController?
     
     lazy var collectionView: UICollectionView = {
         
@@ -310,10 +311,10 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
             let user = User()
             user.setValuesForKeys(values) // may crash if keys dont match
             
+//            self.messagesController = MessagesController()
 //            self.messagesController?.setupNavBarWithUser(user: user)
-            self.messagesController = MessagesController()
-            self.messagesController?.setupNavBarWithUser(user: user)
-            self.present(UINavigationController(rootViewController: self.messagesController!), animated: true, completion: nil)
+            self.mainController = MainPageController()
+            self.present(self.mainController!, animated: true, completion: nil)
         })
     }
     
@@ -333,9 +334,10 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
                 return
             }
             print("logged in")
-            self.messagesController = MessagesController()
-            self.messagesController?.fetchUserNameAndSetUpNavBarTitle()
-            self.present(UINavigationController(rootViewController: self.messagesController!), animated: true, completion: nil)
+            self.mainController = MainPageController()
+//            self.messagesController = MessagesController()
+//            self.messagesController?.fetchUserNameAndSetUpNavBarTitle()
+            self.present(self.mainController!, animated: true, completion: nil)
         })
     }
     

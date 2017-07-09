@@ -21,6 +21,7 @@ class MessagesController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(createNewMessage))
         
         tableView.register(UserCell.self, forCellReuseIdentifier: userCellId)
+        tableView.separatorColor = UIColor.clear
         
         checkIfUserIsLoggedIn()
         
