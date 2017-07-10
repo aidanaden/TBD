@@ -18,6 +18,22 @@ class UserProfileController: UIViewController {
         
         view.backgroundColor = UIColor.white
         checkIfUserIsLoggedIn()
+        SetUpNavBar()
+    }
+    
+    var mainPageController: MainPageController?
+    
+    func SetUpNavBar() {
+        
+        let navigationItem = UINavigationItem()
+        navigationItem.leftBarButtonItem = nil
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: mainPageController, action: #selector(mainPageController?.rightButtonAction))
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGray
+        
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 64))
+        navBar.pushItem(navigationItem, animated: false)
+        navBar.backgroundColor = UIColor.init(colorLiteralRed: 240, green: 240, blue: 240, alpha: 1)
+        view.addSubview(navBar)
     }
     
     func checkIfUserIsLoggedIn() {
@@ -51,7 +67,6 @@ class UserProfileController: UIViewController {
     
     func SetUpUIWithUser(user: User) {
         
-        print("setupUSER")
         let containerView = UIView(frame: CGRect(x: view.bounds.width / 2 - 100, y: view.bounds.height / 2 - 150, width: 200, height: 300))
         containerView.backgroundColor = UIColor.clear
         
@@ -78,6 +93,7 @@ class UserProfileController: UIViewController {
 
         let nameTextView = UITextView()
         nameTextView.translatesAutoresizingMaskIntoConstraints = false
+        nameTextView.isEditable = false
         nameTextView.text = user.name!
         
         let color = UIColor(white: 0.2, alpha: 1)
@@ -96,6 +112,33 @@ class UserProfileController: UIViewController {
         _ = nameTextView.anchor(profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: containerView.bounds.width, heightConstant: 44)
         nameTextView.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
         
+        let logOutButton = UIButton()
+        logOutButton.translatesAutoresizingMaskIntoConstraints = false
+        logOutButton.setTitle("Log Out", for: .normal)
+        logOutButton.setTitleColor(UIColor.white, for: .normal)
+        logOutButton.backgroundColor = UIColor.darkGray
+        logOutButton.layer.cornerRadius = 25
+        logOutButton.clipsToBounds = true
+        logOutButton.dropShadow()
+        logOutButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
+        
+        view.addSubview(logOutButton)
+        
+        _ = logOutButton.anchor(containerView.bottomAnchor, left: nil, bottom: nil, right: nil, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 200, heightConstant: 50)
+        
+        logOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+    }
+    
+    func logOut() {
+        
+        do {
+            try FIRAuth.auth()?.signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+        
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

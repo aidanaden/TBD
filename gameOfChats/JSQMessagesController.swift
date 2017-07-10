@@ -170,6 +170,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
     }
     
     
@@ -494,6 +495,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
+    
+    
 }
 
 

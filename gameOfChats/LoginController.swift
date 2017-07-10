@@ -337,6 +337,7 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
             self.mainController = MainPageController()
 //            self.messagesController = MessagesController()
 //            self.messagesController?.fetchUserNameAndSetUpNavBarTitle()
+            
             self.present(self.mainController!, animated: true, completion: nil)
         })
     }

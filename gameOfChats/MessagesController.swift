@@ -12,13 +12,18 @@ import Kingfisher
 
 class MessagesController: UITableViewController {
     
+    var mainPageController: MainPageController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.white
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logOut))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: mainPageController, action: #selector(mainPageController?.leftButtonAction))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(createNewMessage))
+        
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGray
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGray
         
         tableView.register(UserCell.self, forCellReuseIdentifier: userCellId)
         tableView.separatorColor = UIColor.clear
@@ -236,7 +241,11 @@ class MessagesController: UITableViewController {
         let jsqMessagesController = JSQMessagesController()
         
         jsqMessagesController.user = user
+//        jsqMessagesController.navigationController?.navigationBar.isHidden = false
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.pushViewController(jsqMessagesController, animated: true)
+        navigationController?.navigationBar.isHidden = false
+        
     }
     
     func logOut() {
