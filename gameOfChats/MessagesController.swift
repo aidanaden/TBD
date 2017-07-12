@@ -233,18 +233,14 @@ class MessagesController: UITableViewController {
     }
     
     func showChatController(user: User) {
-        
-//        let layout = UICollectionViewFlowLayout()
-//        let chatController = ChatLogController(collectionViewLayout: layout)
-//        chatController.user = user
-//        navigationController?.pushViewController(chatController, animated: true)
+
         let jsqMessagesController = JSQMessagesController()
         
         jsqMessagesController.user = user
-//        jsqMessagesController.navigationController?.navigationBar.isHidden = false
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.tintColor = .darkGray
         navigationController?.pushViewController(jsqMessagesController, animated: true)
-        navigationController?.navigationBar.isHidden = false
+//        navigationController?.navigationBar.isHidden = false
         
     }
     

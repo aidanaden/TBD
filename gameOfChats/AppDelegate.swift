@@ -23,8 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
 //        window?.rootViewController = UINavigationController(rootViewController: MessagesController())
-        window?.rootViewController = LoginController()
+//        window?.rootViewController = LoginController()
 //        window?.rootViewController = MainPageController()
+        window?.rootViewController = MainNavigationController()
+//        window?.rootViewController = SwipeController()
+//        window?.rootViewController = testVC()
         return true
     }
 

@@ -17,11 +17,15 @@ class UserProfileController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.white
-        checkIfUserIsLoggedIn()
-        SetUpNavBar()
+        
     }
     
-    var mainPageController: MainPageController?
+    var mainPageController: MainPageController? {
+        didSet {
+            checkIfUserIsLoggedIn()
+            SetUpNavBar()
+        }
+    }
     
     func SetUpNavBar() {
         
@@ -138,7 +142,12 @@ class UserProfileController: UIViewController {
             print(logoutError)
         }
         
-        self.dismiss(animated: true, completion: nil)
+        UserDefaults.standard.set(false, forKey: kLOGGEDIN)
+        UserDefaults.standard.synchronize()
+        
+        let loginController = LoginController()
+        
+        self.present(loginController, animated: true, completion: nil)
     }
 }
 

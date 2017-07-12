@@ -8,9 +8,10 @@
 
 import UIKit
 import EZSwipeController
-
+import Firebase
 
 class MainPageController: EZSwipeController {
+    
     
     override func setupView() {
         super.setupView()
@@ -25,14 +26,15 @@ class MainPageController: EZSwipeController {
     }
 }
 
+
+
 extension MainPageController: EZSwipeControllerDataSource {
     
     func viewControllerData() -> [UIViewController] {
         let profileVC = UserProfileController()
         profileVC.mainPageController = self
         
-        let blueVC = UIViewController()
-        blueVC.view.backgroundColor = UIColor.blue
+        let swipeVC = SwipeController()
         
         let messagesController = MessagesController()
         messagesController.mainPageController = self
@@ -40,7 +42,7 @@ extension MainPageController: EZSwipeControllerDataSource {
 //        let messagesVC = MessagesController()
 //        messagesVC.navigationBar.isHidden = true
         
-        return [profileVC, blueVC, messagesVC]
+        return [profileVC, swipeVC, messagesVC]
     }
     
     func indexOfStartingPage() -> Int {

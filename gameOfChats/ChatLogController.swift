@@ -494,7 +494,6 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         if let keyWindow = UIApplication.shared.keyWindow {
             
-            
             blackBackgroundView = UIView(frame: keyWindow.frame)
             blackBackgroundView?.backgroundColor = UIColor.black
             blackBackgroundView?.alpha = 0

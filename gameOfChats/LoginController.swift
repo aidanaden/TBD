@@ -292,7 +292,6 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
                             // UPDATING USER DB WITH NEWLY CREATED USER
                             self.registerUserIntoDatabaseWithUID(uid: uid, values: values)
                         }
-                        
                     })
                 }
             }
@@ -313,6 +312,10 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
             
 //            self.messagesController = MessagesController()
 //            self.messagesController?.setupNavBarWithUser(user: user)
+            
+            UserDefaults.standard.set(true, forKey: kLOGGEDIN)
+            UserDefaults.standard.synchronize()
+            
             self.mainController = MainPageController()
             self.present(self.mainController!, animated: true, completion: nil)
         })
@@ -337,6 +340,9 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
             self.mainController = MainPageController()
 //            self.messagesController = MessagesController()
 //            self.messagesController?.fetchUserNameAndSetUpNavBarTitle()
+            
+            UserDefaults.standard.set(true, forKey: kLOGGEDIN)
+            UserDefaults.standard.synchronize()
             
             self.present(self.mainController!, animated: true, completion: nil)
         })

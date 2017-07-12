@@ -11,6 +11,9 @@
 		3009156A1F03E9E900266096 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300915691F03E9E900266096 /* LoginController.swift */; };
 		30357B381F12159100FE8215 /* MainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30357B371F12159100FE8215 /* MainPageController.swift */; };
 		30357B3A1F121F7A00FE8215 /* UserProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30357B391F121F7A00FE8215 /* UserProfileController.swift */; };
+		30357B3D1F160A2600FE8215 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30357B3C1F160A2600FE8215 /* MainNavigationController.swift */; };
+		30357B3F1F1618C200FE8215 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30357B3E1F1618C200FE8215 /* SettingsController.swift */; };
+		30357B411F16196600FE8215 /* SwipeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30357B401F16196600FE8215 /* SwipeController.swift */; };
 		304F678A1F03F08500C353F5 /* PageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304F67891F03F08400C353F5 /* PageCell.swift */; };
 		3058AA391F092BB60058D70E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA381F092BB60058D70E /* Extensions.swift */; };
 		3058AA3B1F09DB700058D70E /* LoginCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA3A1F09DB700058D70E /* LoginCell.swift */; };
@@ -44,6 +47,9 @@
 		300915691F03E9E900266096 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		30357B371F12159100FE8215 /* MainPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageController.swift; sourceTree = "<group>"; };
 		30357B391F121F7A00FE8215 /* UserProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileController.swift; sourceTree = "<group>"; };
+		30357B3C1F160A2600FE8215 /* MainNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
+		30357B3E1F1618C200FE8215 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		30357B401F16196600FE8215 /* SwipeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwipeController.swift; sourceTree = "<group>"; };
 		304F67891F03F08400C353F5 /* PageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageCell.swift; sourceTree = "<group>"; };
 		3058AA381F092BB60058D70E /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		3058AA3A1F09DB700058D70E /* LoginCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCell.swift; sourceTree = "<group>"; };
@@ -158,6 +164,9 @@
 				3058AA451F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift */,
 				30357B371F12159100FE8215 /* MainPageController.swift */,
 				30357B391F121F7A00FE8215 /* UserProfileController.swift */,
+				30357B3C1F160A2600FE8215 /* MainNavigationController.swift */,
+				30357B3E1F1618C200FE8215 /* SettingsController.swift */,
+				30357B401F16196600FE8215 /* SwipeController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -332,6 +341,7 @@
 				3058AA461F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift in Sources */,
 				30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */,
 				30B74E201EFB9E3100232145 /* NewMessageController.swift in Sources */,
+				30357B411F16196600FE8215 /* SwipeController.swift in Sources */,
 				30B74E231EFBB33A00232145 /* User.swift in Sources */,
 				3058AA481F0BAF9D0058D70E /* Video.swift in Sources */,
 				30B74E061EFA2B8D00232145 /* AppDelegate.swift in Sources */,
@@ -339,12 +349,14 @@
 				30B74E191EFA2DB400232145 /* LoginVC.swift in Sources */,
 				30B74E1E1EFA84C200232145 /* Constants.swift in Sources */,
 				3009156A1F03E9E900266096 /* LoginController.swift in Sources */,
+				30357B3F1F1618C200FE8215 /* SettingsController.swift in Sources */,
 				30F5E32A1EFD05DB00F34A3F /* ChatMessageCell.swift in Sources */,
 				3058AA391F092BB60058D70E /* Extensions.swift in Sources */,
 				30F5E3281EFC18FF00F34A3F /* Message.swift in Sources */,
 				3058AA3B1F09DB700058D70E /* LoginCell.swift in Sources */,
 				3058AA4C1F0D08060058D70E /* TaillessPhotoMediaItem.swift in Sources */,
 				30357B381F12159100FE8215 /* MainPageController.swift in Sources */,
+				30357B3D1F160A2600FE8215 /* MainNavigationController.swift in Sources */,
 				30B74E261EFBB61D00232145 /* UserCell.swift in Sources */,
 				30B74E281EFBBCAE00232145 /* LoginVC+handlers.swift in Sources */,
 				307DE2311F04FF8800D7E4E5 /* Page.swift in Sources */,

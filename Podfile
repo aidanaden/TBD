@@ -13,4 +13,5 @@ target 'gameOfChats' do
   pod 'PHFComposeBarView'
   pod 'JSQMessagesViewController'
   pod 'EZSwipeController'
+  pod 'IDMPhotoBrowser'
 end

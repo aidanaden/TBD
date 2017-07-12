@@ -13,15 +13,16 @@ import JSQMessagesViewController
 import MobileCoreServices
 import AVKit
 import AVFoundation
+import IDMPhotoBrowser
 
 class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     //    var imageView = UIImageView(image: UIImage(named: "nedstark"))
     
-    let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+    let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImage(with: UIColor.darkGray)
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
     let taillessIncomingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleRegularTailless(), capInsets: .zero).incomingMessagesBubbleImage(with: UIColor.jsq_messageBubbleLightGray())
-    let taillessOutgoingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleRegularTailless(), capInsets: .zero).outgoingMessagesBubbleImage(with: UIColor.jsq_messageBubbleBlue())
+    let taillessOutgoingBubble = JSQMessagesBubbleImageFactory(bubble: UIImage.jsq_bubbleRegularTailless(), capInsets: .zero).outgoingMessagesBubbleImage(with: UIColor.darkGray)
     
     var avatarImage: UIImage?
     
@@ -154,6 +155,19 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             self.present(playerVC, animated: true, completion: {
                 playerVC.player?.play()
             })
+            
+        } else if message.isMediaMessage, messageObject.imageURL != nil {
+            
+            let media = message.media as! JSQPhotoMediaItem
+            let photos = IDMPhoto.photos(withImages: [media.image])
+            
+            guard let browser = IDMPhotoBrowser(photos: photos) else { return }
+            
+            browser.displayDoneButton = false
+            browser.animationDuration = 0.1
+            browser.usePopAnimation = true
+            
+            self.present(browser, animated: true, completion: nil)
         }
     }
     
@@ -229,32 +243,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
         
-        //        userMessagesRef.observe(.childAdded, with: { (snapshot) in
-        //
-        //            let messageId = snapshot.key
-        //            let messagesRef = firebase.child(kMESSAGES).child(messageId)
-        //
-        //            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
-        //
-        //                guard let dictionary = snapshot.value as? [String: Any] else { return }
-        //
-        //                let message = Message(dictionary: dictionary)
-        //
-        //                self.messages.append(message)
-        //
-        //                let jsqMessage = self.createJSQMessage(message: message)
-        //
-        //                self.JSQMessages.append(jsqMessage!)
-        //
-        //                DispatchQueue.main.async {
-        //                    self.collectionView?.reloadData()
-        //                    // scroll to latest image message/index
-        //                    self.finishReceivingMessage(animated: true)
-        //                }
-        //            })
-        //        })
-        
-        userMessagesRef.observe(.value, with: { snapshot in
+        userMessagesRef.observeSingleEvent(of: .value, with: { snapshot in
             
             let childrenCount = Int(snapshot.childrenCount)
             
@@ -268,6 +257,11 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                     guard let dictionary = snapshot.value as? [String : Any] else { return }
                     
                     let message = Message(dictionary: dictionary)
+                    
+                    if self.messages.contains(message) {
+                        print("YES contains")
+                    }
+                    
                     self.messages.append(message)
                     let jsqMessage = self.createJSQMessage(message: message)
                     self.JSQMessages.append(jsqMessage!)
@@ -283,6 +277,32 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                 })
             }
         })
+        
+        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+            
+            let messageId = snapshot.key
+            let messagesRef = firebase.child(kMESSAGES).child(messageId)
+            
+            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                guard let dictionary = snapshot.value as? [String: Any] else { return }
+                
+                let message = Message(dictionary: dictionary)
+                
+                self.messages.append(message)
+                
+                let jsqMessage = self.createJSQMessage(message: message)
+                
+                self.JSQMessages.append(jsqMessage!)
+                
+                DispatchQueue.main.async {
+                    self.collectionView?.reloadData()
+                    // scroll to latest image message/index
+                    self.finishReceivingMessage(animated: true)
+                }
+            })
+        })
+
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {
@@ -301,6 +321,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         let cancelAction = UIAlertAction(title: "cancel", style: .cancel) { (alert: UIAlertAction) in
             
+            self.scrollToBottom(animated: true)
         }
         
         optionMenu.addAction(sharePhoto)
@@ -317,6 +338,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             let properties = [kTEXT: text] as [String: Any]
             sendMessageWithProperties(properties: properties)
         }
+        
         self.finishSendingMessage(animated: true)
     }
     
