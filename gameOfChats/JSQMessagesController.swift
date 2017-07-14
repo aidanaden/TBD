@@ -195,7 +195,12 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
     
-        collectionView.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 45, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 45, right: 0)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        firebase.removeAllObservers()
     }
 
     func dismissWithTransition() {
@@ -267,11 +272,11 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                     }
                 })
                 
-                print("attempt load first messages!")
-                self.attemptLoadFirstMessages()
+                DispatchQueue.main.async {
+                    self.attemptLoadFirstMessages()
+                }
             }
         })
-        
     }
     
     func loadFirstMessages() {
@@ -314,21 +319,17 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         max = loaded.count - loadCount
         min = max - kNUMBEROFMESSAGES
         
-        print(min)
         
         if min < 0 { // prevent min from becoming negative value
             
             min = 0
-            return
-            
-        } else {
-            
-            for i in min ..< max {
+        }
+    
+        for i in min ..< max {
                 
-                let message = loaded[i]
-                _ = insertMessage(message: message)
-                loadCount += 1
-            }
+            let message = loaded[i]
+            _ = insertMessage(message: message)
+            loadCount += 1
         }
         
         self.showLoadEarlierMessagesHeader = (loadCount != loaded.count)
