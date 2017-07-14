@@ -26,6 +26,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     var avatarImage: UIImage?
     
+    var initialLoadComplete = false
+    
     var user: User? {
         didSet {
             
@@ -40,7 +42,9 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                 })
             }
             
-            observeMessages()
+//            observeMessages()
+//            observeSubsequentMessages()
+            loadMessages()
         }
     }
     
@@ -171,9 +175,16 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         }
     }
     
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, header headerView: JSQMessagesLoadEarlierHeaderView!, didTapLoadEarlierMessagesButton sender: UIButton!) {
+        
+        loadMore(maxNumber: max, minNumber: min)
+        self.collectionView.reloadData()
+    }
+    
     
     var messages = [Message]()
     var JSQMessages = [JSQMessage]()
+    var loaded = [Message]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -183,10 +194,189 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
+    
+        collectionView.contentInset = UIEdgeInsets(top: 60, left: 0, bottom: 45, right: 0)
+    }
+
+    func dismissWithTransition() {
         
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+        let transition = CATransition()
+        transition.duration = 0.2
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromLeft
+        view.window!.layer.add(transition, forKey: kCATransition)
+        self.dismiss(animated: false, completion: nil)
+    }
+
+    
+    func observeSubsequentMessages() {
+        
+        guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else { return }
+        
+        let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
+        
+        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+            
+            let messageId = snapshot.key
+            let messagesRef = firebase.child(kMESSAGES).child(messageId)
+            
+            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                guard let dictionary = snapshot.value as? [String: Any] else { return }
+                
+                let message = Message(dictionary: dictionary)
+                _ = self.insertMessage(message: message)
+                
+                self.attemptReloadTable()
+            })
+        })
     }
     
+    func loadMessages() { // access firebase and load messages belonging to current user id
+        
+        guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else { return }
+        
+        let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
+        
+        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+            
+            if snapshot.exists() {
+                
+                let messageId = snapshot.key
+                let messagesRef = firebase.child(kMESSAGES).child(messageId)
+                
+                messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    guard let dictionary = snapshot.value as? [String: Any] else { return }
+                    let message = Message(dictionary: dictionary)
+                    
+                    if self.initialLoadComplete {
+                        
+                        guard let incoming = self.insertMessage(message: message) else { return }
+                        
+                        if incoming {
+                            JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
+                        }
+                        
+                        self.finishSendingMessage(animated: true)
+                        
+                    } else {  // if initialLoad not completed
+                        
+                        self.loaded.append(message)
+                        print("appending to loaded")
+                    }
+                })
+                
+                print("attempt load first messages!")
+                self.attemptLoadFirstMessages()
+            }
+        })
+        
+    }
+    
+    func loadFirstMessages() {
+        
+        insertMessages()
+        finishReceivingMessage(animated: true)
+        initialLoadComplete = true
+    }
+    
+    func insertMessage(message: Message) -> Bool? {
+        
+        messages.append(message) // append nsdictionary of message to the objects array
+        
+        if let jsqMessage = createJSQMessage(message: message) {
+            
+            JSQMessages.append(jsqMessage) // append JSQMessge object to the messages array
+        }
+        
+        self.collectionView.reloadData()
+        
+        return message.senderId != FIRAuth.auth()?.currentUser?.uid
+    }
+    
+    func insertNewMessage(message: Message) {
+        
+        guard let jsqMessage = createJSQMessage(message: message) else { return }
+        
+        messages.insert(message, at: 0)
+        JSQMessages.insert(jsqMessage, at: 0)
+        
+        self.collectionView.reloadData()
+    }
+    
+    var max = 0
+    var min = 0
+    var loadCount = 0
+    
+    func insertMessages() {
+        
+        max = loaded.count - loadCount
+        min = max - kNUMBEROFMESSAGES
+        
+        print(min)
+        
+        if min < 0 { // prevent min from becoming negative value
+            
+            min = 0
+            return
+            
+        } else {
+            
+            for i in min ..< max {
+                
+                let message = loaded[i]
+                _ = insertMessage(message: message)
+                loadCount += 1
+            }
+        }
+        
+        self.showLoadEarlierMessagesHeader = (loadCount != loaded.count)
+    }
+    
+    func loadMore(maxNumber: Int, minNumber: Int) {
+        
+        max = minNumber - 1
+        min = max - kNUMBEROFMESSAGES
+        
+        if min < 0 {
+            min = 0
+        }
+        
+        for i in (min ... max).reversed() {
+            
+            let message = loaded[i]
+            self.insertNewMessage(message: message)
+            loadCount += 1
+        }
+        
+        let indexPath = IndexPath(item: 0, section: 0)
+        scroll(to: indexPath, animated: true)
+        
+        self.showLoadEarlierMessagesHeader = (loadCount != loaded.count)
+    }
+    
+    var timer2: Timer?
+    
+    private func attemptLoadFirstMessages() {
+        
+        self.timer2?.invalidate()
+        self.timer2 = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.loadFirstMessages), userInfo: nil, repeats: false)
+    }
+    
+    private func attemptReloadTable() {
+        
+        self.timer?.invalidate()
+        self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.handleReload), userInfo: nil, repeats: false)
+    }
+    
+    func handleReload() {
+        print("reloaded!")
+        self.collectionView.reloadData()
+        self.finishReceivingMessage(animated: true)
+    }
+    
+    var timer: Timer?
     
     func setupNavBarWithUser(user: User) {
         
@@ -232,8 +422,18 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         nameLbl.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
         nameLbl.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
         
+        let navigationItem = UINavigationItem()
+        navigationItem.rightBarButtonItem = nil
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(dismissWithTransition))
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGray
+        navigationItem.titleView = titleView
+
         
-        self.navigationItem.titleView = titleView
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 64))
+        navBar.pushItem(navigationItem, animated: false)
+        navBar.backgroundColor = UIColor.init(colorLiteralRed: 240, green: 240, blue: 240, alpha: 1)
+        view.addSubview(navBar)
+
     }
     
     
@@ -278,31 +478,6 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             }
         })
         
-        userMessagesRef.observe(.childAdded, with: { (snapshot) in
-            
-            let messageId = snapshot.key
-            let messagesRef = firebase.child(kMESSAGES).child(messageId)
-            
-            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                guard let dictionary = snapshot.value as? [String: Any] else { return }
-                
-                let message = Message(dictionary: dictionary)
-                
-                self.messages.append(message)
-                
-                let jsqMessage = self.createJSQMessage(message: message)
-                
-                self.JSQMessages.append(jsqMessage!)
-                
-                DispatchQueue.main.async {
-                    self.collectionView?.reloadData()
-                    // scroll to latest image message/index
-                    self.finishReceivingMessage(animated: true)
-                }
-            })
-        })
-
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {

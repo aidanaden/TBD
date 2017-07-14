@@ -23,27 +23,35 @@ class MainPageController: EZSwipeController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.white
+        
     }
+    
 }
-
 
 
 extension MainPageController: EZSwipeControllerDataSource {
     
     func viewControllerData() -> [UIViewController] {
+        
         let profileVC = UserProfileController()
         profileVC.mainPageController = self
         
         let swipeVC = SwipeController()
+        swipeVC.mainPageController = self
         
         let messagesController = MessagesController()
         messagesController.mainPageController = self
         let messagesVC = UINavigationController(rootViewController: messagesController)
-//        let messagesVC = MessagesController()
-//        messagesVC.navigationBar.isHidden = true
         
+        //        let messagesVC = MessagesController()
+        //        messagesVC.navigationBar.isHidden = true
+        
+       
+            
         return [profileVC, swipeVC, messagesVC]
+        
     }
+    
     
     func indexOfStartingPage() -> Int {
         return 1

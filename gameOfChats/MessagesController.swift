@@ -235,13 +235,20 @@ class MessagesController: UITableViewController {
     func showChatController(user: User) {
 
         let jsqMessagesController = JSQMessagesController()
-        
+    
         jsqMessagesController.user = user
+        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .darkGray
-        navigationController?.pushViewController(jsqMessagesController, animated: true)
-//        navigationController?.navigationBar.isHidden = false
         
+        let transition = CATransition()
+        transition.duration = 0.2
+        transition.type = kCATransitionPush
+        transition.subtype = kCATransitionFromRight
+        view.window!.layer.add(transition, forKey: kCATransition)
+        present(jsqMessagesController, animated: false, completion: nil)
+        
+        //        navigationController?.navigationBar.isHidden = false
     }
     
     func logOut() {

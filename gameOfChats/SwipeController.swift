@@ -34,10 +34,26 @@ class SwipeController: UIViewController {
         profileImageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
+    var mainPageController: MainPageController? {
+        didSet {
+            setupNavBar()
+        }
+    }
+    
     func setupNavBar() {
         
         let navBar = UINavigationBar()
+        
         navBar.barStyle = .default
+        navBar.tintColor = .darkGray
+        
+        let navigationItem = UINavigationItem()
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: mainPageController, action: #selector(mainPageController?.leftButtonAction))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Messages", style: .plain, target: mainPageController, action: #selector(mainPageController?.rightButtonAction))
+        navigationItem.title = "Search"
+        
+        navBar.pushItem(navigationItem, animated: false)
         
         view.addSubview(navBar)
         
@@ -51,7 +67,6 @@ class SwipeController: UIViewController {
         
         
         setupViews()
-        setupNavBar()
         
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.wasDragged(gestureRecognizer:)))
         profileImageView.addGestureRecognizer(gesture)
