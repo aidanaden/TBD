@@ -14,6 +14,7 @@ import MobileCoreServices
 import AVKit
 import AVFoundation
 import IDMPhotoBrowser
+import ICSPullToRefresh
 
 class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
@@ -206,11 +207,12 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     func dismissWithTransition() {
         
         let transition = CATransition()
-        transition.duration = 0.2
+        transition.duration = 0
         transition.type = kCATransitionPush
         transition.subtype = kCATransitionFromLeft
-        view.window!.layer.add(transition, forKey: kCATransition)
-        self.dismiss(animated: false, completion: nil)
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        self.view.window?.layer.add(transition, forKey: kCATransition)
+        dismiss(animated: false, completion: nil)
     }
 
     

@@ -68,6 +68,21 @@ extension UIView {
         self.layer.rasterizationScale = UIScreen.main.scale
         
     }
+    
+    func applyPlainShadow() {
+        
+        
+        self.layer.shadowColor = UIColor.black.cgColor
+//        self.layer.shadowOffset = CGSize(width: 0, height: 10)
+        self.layer.shadowOffset = CGSize.zero
+        self.layer.shadowOpacity = 0.4
+        self.layer.shadowRadius = 5
+        
+        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+        self.layer.shouldRasterize = true
+        
+        self.layer.rasterizationScale = UIScreen.main.scale
+    }
 }
 
 

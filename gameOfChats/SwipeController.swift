@@ -9,8 +9,29 @@
 import UIKit
 import Firebase
 import Kingfisher
+import Koloda
+import pop
 
 class SwipeController: UIViewController {
+    
+    let numberOfCards: Int = 5
+    let frameAnimationSpringBounciness: CGFloat = 9
+    let frameAnimationSpringSpeed: CGFloat = 16
+    let kolodaCountOfVisibleCards = 2
+    let kolodaAlphaValueSemiTransparent: CGFloat = 0.1
+    
+//    let myKolodaView: CustomKolodaView = {
+//        let kolodaView = CustomKolodaView()
+//        kolodaView.translatesAutoresizingMaskIntoConstraints = false
+//        return kolodaView
+//    }()
+    
+    let myKolodaView: KolodaView = {
+        let kolodaView = KolodaView()
+        kolodaView.translatesAutoresizingMaskIntoConstraints = false
+        return kolodaView
+    }()
+    
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -24,23 +45,22 @@ class SwipeController: UIViewController {
         return imageView
     }()
     
+    lazy var likeButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
+        button.setImage(#imageLiteral(resourceName: "btn_like_normal"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "btn_like_pressed"), for: .selected)
+        return button
+    }()
+
+    
+    var userProfileImages: [UIImage] = [#imageLiteral(resourceName: "nedstark")]
+    
     func setupViews() {
-        
-        view.addSubview(profileImageView)
-        
-        profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profileImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-    }
-    
-    var mainPageController: MainPageController? {
-        didSet {
-            setupNavBar()
-        }
-    }
-    
-    func setupNavBar() {
+       
+//        userProfileImages.append(#imageLiteral(resourceName: "nedstark"))
         
         let navBar = UINavigationBar()
         
@@ -59,19 +79,61 @@ class SwipeController: UIViewController {
         
         _ = navBar.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: view.bounds.width, heightConstant: 64)
         
+        likeButton.addTarget(self, action: #selector(handleRightSwiped), for: .touchUpInside)
+        
+        view.addSubview(myKolodaView)
+        
+        myKolodaView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        myKolodaView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        myKolodaView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 25).isActive = true
+        myKolodaView.widthAnchor.constraint(equalToConstant: view.bounds.width - 50).isActive = true
+        
+        view.addSubview(likeButton)
+        
+        _ = likeButton.anchor(nil, left: nil, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 25, rightConstant: 80, widthConstant: 38, heightConstant: 34)
+        
     }
     
+    func handleRightSwiped() {
+        myKolodaView.swipe(.right)
+    }
+    
+    var mainPageController: MainPageController? {
+        didSet {
+            setupViews()
+        }
+    }
+    
+    var dataSource: [UIImage] = {
+        
+        var array = [UIImage]()
+        for index in 0 ..< 5 {
+            array.append(UIImage(named: "Card_like_\(index + 1)")!)
+        }
+//        for index in 0 ..< 5 {
+//            array.append(UIImage(named: "Card_like_\(index + 1)")!)
+//        }
+        
+        return array
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        
-        setupViews()
-        
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.wasDragged(gestureRecognizer:)))
-        profileImageView.addGestureRecognizer(gesture)
-        
         downloadProfiles()
+//        setupViews()
+//
+//        let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.wasDragged(gestureRecognizer:)))
+//        profileImageView.addGestureRecognizer(gesture)
+        
+//        myKolodaView.alphaValueSemiTransparent = kolodaAlphaValueSemiTransparent
+//        myKolodaView.countOfVisibleCards = kolodaCountOfVisibleCards
+        myKolodaView.delegate = self
+        myKolodaView.dataSource = self
+//        myKolodaView.animator = BackgroundKolodaAnimator(koloda: myKolodaView)
+        
+        self.modalTransitionStyle = .flipHorizontal
+        
     }
     
     var Users = [User]()
@@ -97,7 +159,6 @@ class SwipeController: UIViewController {
                     print("appended user")
                     self.Users.append(user)
                     self.downloadProfileImages(user: user)
-                    
                 }
             }
         })
@@ -107,7 +168,12 @@ class SwipeController: UIViewController {
         
         guard let strUrl = user.profileImageUrl, let Url = URL(string: strUrl) else { return }
         let resource = ImageResource(downloadURL: Url)
-        profileImageView.kf.setImage(with: resource)
+//        profileImageView.kf.setImage(with: resource)
+        KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { (image, err, cacheType, url) in
+            
+            self.userProfileImages.append(image!)
+            print("DOWNLOADED PROFILE IMAGE!")
+        }
     }
     
     var index = 1
@@ -157,7 +223,6 @@ class SwipeController: UIViewController {
         }
     }
 }
-
 
 
 

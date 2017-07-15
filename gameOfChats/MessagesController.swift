@@ -17,7 +17,7 @@ class MessagesController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor.white
+         self.view.backgroundColor = UIColor.white
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: mainPageController, action: #selector(mainPageController?.leftButtonAction))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(createNewMessage))
@@ -242,10 +242,13 @@ class MessagesController: UITableViewController {
         navigationController?.navigationBar.tintColor = .darkGray
         
         let transition = CATransition()
-        transition.duration = 0.2
+        transition.duration = 0
         transition.type = kCATransitionPush
         transition.subtype = kCATransitionFromRight
-        view.window!.layer.add(transition, forKey: kCATransition)
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        self.view.window?.layer.add(transition, forKey: kCATransition)
+//        self.view.layer.add(transition, forKey: "SwitchToView")
+        
         present(jsqMessagesController, animated: false, completion: nil)
         
         //        navigationController?.navigationBar.isHidden = false

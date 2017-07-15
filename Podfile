@@ -14,4 +14,6 @@ target 'gameOfChats' do
   pod 'JSQMessagesViewController'
   pod 'EZSwipeController'
   pod 'IDMPhotoBrowser'
+  pod 'ICSPullToRefresh'
+  pod 'Koloda'
 end

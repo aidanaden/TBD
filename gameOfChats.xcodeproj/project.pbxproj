@@ -22,6 +22,11 @@
 		3058AA481F0BAF9D0058D70E /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA471F0BAF9D0058D70E /* Video.swift */; };
 		3058AA4A1F0BB19D0058D70E /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA491F0BB19D0058D70E /* Download.swift */; };
 		3058AA4C1F0D08060058D70E /* TaillessPhotoMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA4B1F0D08050058D70E /* TaillessPhotoMediaItem.swift */; };
+		306670821F19DDF20049CA43 /* CustomSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306670811F19DDF20049CA43 /* CustomSegue.swift */; };
+		306670841F1A08530049CA43 /* CustomKolodaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306670831F1A08530049CA43 /* CustomKolodaView.swift */; };
+		306670871F1A09280049CA43 /* CustomKolodaOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306670861F1A09280049CA43 /* CustomKolodaOverlay.swift */; };
+		306670891F1A0A390049CA43 /* BackgroundKolodaAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306670881F1A0A390049CA43 /* BackgroundKolodaAnimator.swift */; };
+		3066708E1F1A158E0049CA43 /* SwipeController+Koloda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3066708D1F1A158E0049CA43 /* SwipeController+Koloda.swift */; };
 		307DE2311F04FF8800D7E4E5 /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307DE2301F04FF8800D7E4E5 /* Page.swift */; };
 		30B74E061EFA2B8D00232145 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B74E051EFA2B8D00232145 /* AppDelegate.swift */; };
 		30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B74E071EFA2B8D00232145 /* MessagesController.swift */; };
@@ -58,6 +63,11 @@
 		3058AA471F0BAF9D0058D70E /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		3058AA491F0BB19D0058D70E /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		3058AA4B1F0D08050058D70E /* TaillessPhotoMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaillessPhotoMediaItem.swift; sourceTree = "<group>"; };
+		306670811F19DDF20049CA43 /* CustomSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegue.swift; sourceTree = "<group>"; };
+		306670831F1A08530049CA43 /* CustomKolodaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomKolodaView.swift; sourceTree = "<group>"; };
+		306670861F1A09280049CA43 /* CustomKolodaOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomKolodaOverlay.swift; sourceTree = "<group>"; };
+		306670881F1A0A390049CA43 /* BackgroundKolodaAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundKolodaAnimator.swift; sourceTree = "<group>"; };
+		3066708D1F1A158E0049CA43 /* SwipeController+Koloda.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SwipeController+Koloda.swift"; sourceTree = "<group>"; };
 		307DE2301F04FF8800D7E4E5 /* Page.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		309111BE508A479434D444AD /* Pods-gameOfChats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gameOfChats.release.xcconfig"; path = "Pods/Target Support Files/Pods-gameOfChats/Pods-gameOfChats.release.xcconfig"; sourceTree = "<group>"; };
 		30B74E021EFA2B8D00232145 /* gameOfChats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gameOfChats.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,6 +128,16 @@
 			name = "Old Controllers";
 			sourceTree = "<group>";
 		};
+		306670851F1A09150049CA43 /* Koloda */ = {
+			isa = PBXGroup;
+			children = (
+				306670831F1A08530049CA43 /* CustomKolodaView.swift */,
+				306670861F1A09280049CA43 /* CustomKolodaOverlay.swift */,
+				306670881F1A0A390049CA43 /* BackgroundKolodaAnimator.swift */,
+			);
+			name = Koloda;
+			sourceTree = "<group>";
+		};
 		30B74DF91EFA2B8D00232145 = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +159,7 @@
 		30B74E041EFA2B8D00232145 /* gameOfChats */ = {
 			isa = PBXGroup;
 			children = (
+				306670851F1A09150049CA43 /* Koloda */,
 				30357B3B1F12215300FE8215 /* Old Controllers */,
 				300915681F03BED500266096 /* gameOfChats.entitlements */,
 				30B74E241EFBB60500232145 /* Custom Cells and Views */,
@@ -167,6 +188,7 @@
 				30357B3C1F160A2600FE8215 /* MainNavigationController.swift */,
 				30357B3E1F1618C200FE8215 /* SettingsController.swift */,
 				30357B401F16196600FE8215 /* SwipeController.swift */,
+				3066708D1F1A158E0049CA43 /* SwipeController+Koloda.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -189,6 +211,7 @@
 				307DE2301F04FF8800D7E4E5 /* Page.swift */,
 				3058AA471F0BAF9D0058D70E /* Video.swift */,
 				3058AA4B1F0D08050058D70E /* TaillessPhotoMediaItem.swift */,
+				306670811F19DDF20049CA43 /* CustomSegue.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -338,8 +361,11 @@
 				30B74E2A1EFBF8A100232145 /* ChatLogController.swift in Sources */,
 				30357B3A1F121F7A00FE8215 /* UserProfileController.swift in Sources */,
 				300915671F03AC2600266096 /* ChatInputContainerView.swift in Sources */,
+				306670821F19DDF20049CA43 /* CustomSegue.swift in Sources */,
 				3058AA461F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift in Sources */,
+				306670891F1A0A390049CA43 /* BackgroundKolodaAnimator.swift in Sources */,
 				30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */,
+				3066708E1F1A158E0049CA43 /* SwipeController+Koloda.swift in Sources */,
 				30B74E201EFB9E3100232145 /* NewMessageController.swift in Sources */,
 				30357B411F16196600FE8215 /* SwipeController.swift in Sources */,
 				30B74E231EFBB33A00232145 /* User.swift in Sources */,
@@ -352,12 +378,14 @@
 				30357B3F1F1618C200FE8215 /* SettingsController.swift in Sources */,
 				30F5E32A1EFD05DB00F34A3F /* ChatMessageCell.swift in Sources */,
 				3058AA391F092BB60058D70E /* Extensions.swift in Sources */,
+				306670871F1A09280049CA43 /* CustomKolodaOverlay.swift in Sources */,
 				30F5E3281EFC18FF00F34A3F /* Message.swift in Sources */,
 				3058AA3B1F09DB700058D70E /* LoginCell.swift in Sources */,
 				3058AA4C1F0D08060058D70E /* TaillessPhotoMediaItem.swift in Sources */,
 				30357B381F12159100FE8215 /* MainPageController.swift in Sources */,
 				30357B3D1F160A2600FE8215 /* MainNavigationController.swift in Sources */,
 				30B74E261EFBB61D00232145 /* UserCell.swift in Sources */,
+				306670841F1A08530049CA43 /* CustomKolodaView.swift in Sources */,
 				30B74E281EFBBCAE00232145 /* LoginVC+handlers.swift in Sources */,
 				307DE2311F04FF8800D7E4E5 /* Page.swift in Sources */,
 				3058AA4A1F0BB19D0058D70E /* Download.swift in Sources */,

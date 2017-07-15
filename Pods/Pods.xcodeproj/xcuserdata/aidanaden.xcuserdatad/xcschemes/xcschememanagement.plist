@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ICSPullToRefresh.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>IDMPhotoBrowser.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -40,6 +45,11 @@
 			<false/>
 		</dict>
 		<key>Kingfisher.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Koloda.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -82,6 +92,16 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>1E531103DBE4BCD6D0838FEF2402FFB1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>20151774CE2F5FA6B8126D4F5ED1C5FE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>247433E0CB5E592BB6A16A268EF9398A</key>
 		<dict>
 			<key>primary</key>
@@ -102,7 +122,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A17AE4D47D22ADADBCE19A28DCD627BD</key>
+		<key>88BC1A73F0CA1E9AD85C7646752A7A82</key>
 		<dict>
 			<key>primary</key>
 			<true/>
