@@ -325,7 +325,6 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         max = loaded.count - loadCount
         min = max - kNUMBEROFMESSAGES
         
-        
         if min < 0 { // prevent min from becoming negative value
             
             min = 0
@@ -368,7 +367,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     private func attemptLoadFirstMessages() {
         
         self.timer2?.invalidate()
-        self.timer2 = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(self.loadFirstMessages), userInfo: nil, repeats: false)
+        self.timer2 = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.loadFirstMessages), userInfo: nil, repeats: false)
     }
     
     private func attemptReloadTable() {

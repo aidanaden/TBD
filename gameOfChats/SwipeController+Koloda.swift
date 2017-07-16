@@ -57,6 +57,7 @@ extension SwipeController: KolodaViewDataSource {
         return .fast
     }
     
+    
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
         
 //        let containerView = UIView(frame: koloda.frame)

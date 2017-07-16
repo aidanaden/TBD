@@ -15,7 +15,7 @@ class MainPageController: EZSwipeController {
     
     override func setupView() {
         super.setupView()
-        navigationBarShouldNotExist = true
+        navigationBarShouldNotExist = false
         datasource = self
     }
     
@@ -48,6 +48,7 @@ extension MainPageController: EZSwipeControllerDataSource {
         let messagesController = MessagesController()
         messagesController.mainPageController = self
         let messagesVC = UINavigationController(rootViewController: messagesController)
+        messagesVC.isNavigationBarHidden = true
         
         //        let messagesVC = MessagesController()
         //        messagesVC.navigationBar.isHidden = true
@@ -55,7 +56,6 @@ extension MainPageController: EZSwipeControllerDataSource {
        
             
         return [profileVC, swipeVC, messagesVC]
-        
     }
     
     
@@ -87,6 +87,8 @@ extension MainPageController: EZSwipeControllerDataSource {
             
             navigationItem.leftBarButtonItem = nil
             
+            navigationItem.rightBarButtonItem?.tintColor = .darkGray
+            
         } else if index == 1 {
             
             let leftButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: self, action: nil)
@@ -95,13 +97,18 @@ extension MainPageController: EZSwipeControllerDataSource {
             let rightButtonItem = UIBarButtonItem(title: "Messages", style: .plain, target: self, action: nil)
             navigationItem.rightBarButtonItem = rightButtonItem
             
+            navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGray
+            navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGray
             
         } else if index == 2 {
             
             let leftButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: nil)
             
             navigationItem.leftBarButtonItem = leftButtonItem
-            navigationItem.rightBarButtonItem = nil
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: nil)
+            
+            navigationItem.rightBarButtonItem?.tintColor = .darkGray
+            navigationItem.leftBarButtonItem?.tintColor = .darkGray
         }
         
         navigationBar.pushItem(navigationItem, animated: false)

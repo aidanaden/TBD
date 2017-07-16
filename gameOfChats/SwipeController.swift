@@ -14,11 +14,11 @@ import pop
 
 class SwipeController: UIViewController {
     
-    let numberOfCards: Int = 5
-    let frameAnimationSpringBounciness: CGFloat = 9
-    let frameAnimationSpringSpeed: CGFloat = 16
-    let kolodaCountOfVisibleCards = 2
-    let kolodaAlphaValueSemiTransparent: CGFloat = 0.1
+//    let numberOfCards: Int = 5
+//    let frameAnimationSpringBounciness: CGFloat = 9
+//    let frameAnimationSpringSpeed: CGFloat = 16
+//    let kolodaCountOfVisibleCards = 2
+//    let kolodaAlphaValueSemiTransparent: CGFloat = 0.1
     
 //    let myKolodaView: CustomKolodaView = {
 //        let kolodaView = CustomKolodaView()
@@ -26,6 +26,14 @@ class SwipeController: UIViewController {
 //        return kolodaView
 //    }()
     
+    
+    let containerView: UIView = {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
+    }()
+    
+
     let myKolodaView: KolodaView = {
         let kolodaView = KolodaView()
         kolodaView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,6 +62,16 @@ class SwipeController: UIViewController {
         button.setImage(#imageLiteral(resourceName: "btn_like_pressed"), for: .selected)
         return button
     }()
+    
+    lazy var dislikeButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentMode = .scaleAspectFill
+        button.clipsToBounds = true
+        button.setImage(#imageLiteral(resourceName: "btn_skip_normal"), for: .normal)
+        button.setImage(#imageLiteral(resourceName: "btn_skip_pressed"), for: .selected)
+        return button
+    }()
 
     
     var userProfileImages: [UIImage] = [#imageLiteral(resourceName: "nedstark")]
@@ -62,36 +80,53 @@ class SwipeController: UIViewController {
        
 //        userProfileImages.append(#imageLiteral(resourceName: "nedstark"))
         
-        let navBar = UINavigationBar()
+//        let navBar = UINavigationBar()
+//        
+//        navBar.barStyle = .default
+//        navBar.tintColor = .darkGray
+//        
+//        let navigationItem = UINavigationItem()
+//        
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: mainPageController, action: #selector(mainPageController?.leftButtonAction))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Messages", style: .plain, target: mainPageController, action: #selector(mainPageController?.rightButtonAction))
+//        navigationItem.title = "Search"
+//        
+//        navBar.pushItem(navigationItem, animated: false)
+//        
+//        view.addSubview(navBar)
+//        
+//        _ = navBar.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: view.bounds.width, heightConstant: 64)
         
-        navBar.barStyle = .default
-        navBar.tintColor = .darkGray
+        myKolodaView.countOfVisibleCards = 2
         
-        let navigationItem = UINavigationItem()
+        view.addSubview(containerView)
+        containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -65).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 600).isActive = true
+        containerView.widthAnchor.constraint(equalToConstant: view.bounds.width - 75).isActive = true
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Profile", style: .plain, target: mainPageController, action: #selector(mainPageController?.leftButtonAction))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Messages", style: .plain, target: mainPageController, action: #selector(mainPageController?.rightButtonAction))
-        navigationItem.title = "Search"
         
-        navBar.pushItem(navigationItem, animated: false)
-        
-        view.addSubview(navBar)
-        
-        _ = navBar.anchor(view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: view.bounds.width, heightConstant: 64)
-        
-        likeButton.addTarget(self, action: #selector(handleRightSwiped), for: .touchUpInside)
-        
-        view.addSubview(myKolodaView)
+        containerView.addSubview(myKolodaView)
         
         myKolodaView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        myKolodaView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        myKolodaView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 50).isActive = true
-        myKolodaView.widthAnchor.constraint(equalToConstant: view.bounds.width - 50).isActive = true
+        myKolodaView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -65).isActive = true
+        myKolodaView.heightAnchor.constraint(equalToConstant: 450).isActive = true
+        myKolodaView.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: 0).isActive = true
         
-        view.addSubview(likeButton)
+        likeButton.addTarget(self, action: #selector(handleRightSwiped), for: .touchUpInside)
+        dislikeButton.addTarget(self, action: #selector(handleLeftSwiped), for: .touchUpInside)
         
-        _ = likeButton.anchor(nil, left: nil, bottom: view.bottomAnchor, right: view.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 25, rightConstant: 80, widthConstant: 38, heightConstant: 34)
+        containerView.addSubview(likeButton)
+        containerView.addSubview(dislikeButton)
         
+        _ = likeButton.anchor(nil, left: nil, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 50, widthConstant: 34, heightConstant: 38)
+        
+        _ = dislikeButton.anchor(nil, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: nil, topConstant: 0, leftConstant: 50, bottomConstant: 0, rightConstant: 0, widthConstant: 34, heightConstant: 38)
+        
+    }
+    
+    func handleLeftSwiped() {
+        myKolodaView.swipe(.left)
     }
     
     func handleRightSwiped() {
@@ -103,37 +138,35 @@ class SwipeController: UIViewController {
             setupViews()
         }
     }
-    
-    var dataSource: [UIImage] = {
-        
-        var array = [UIImage]()
-        for index in 0 ..< 5 {
-            array.append(UIImage(named: "Card_like_\(index + 1)")!)
-        }
-//        for index in 0 ..< 5 {
-//            array.append(UIImage(named: "Card_like_\(index + 1)")!)
-//        }
-        
-        return array
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         downloadProfiles()
 //        setupViews()
-//
-//        let gesture = UIPanGestureRecognizer(target: self, action: #selector(self.wasDragged(gestureRecognizer:)))
-//        profileImageView.addGestureRecognizer(gesture)
+
         
 //        myKolodaView.alphaValueSemiTransparent = kolodaAlphaValueSemiTransparent
 //        myKolodaView.countOfVisibleCards = kolodaCountOfVisibleCards
+        
         myKolodaView.delegate = self
         myKolodaView.dataSource = self
+        
 //        myKolodaView.animator = BackgroundKolodaAnimator(koloda: myKolodaView)
         
         self.modalTransitionStyle = .flipHorizontal
         
+        
+//        view.addSubview(likeButton)
+//        view.addSubview(dislikeButton)
+//        
+//        likeButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 25).isActive = true
+//        likeButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 50).isActive = true
+//        likeButton.heightAnchor.constraint(equalToConstant: 38).isActive = true
+//        likeButton.widthAnchor.constraint(equalToConstant: 34).isActive = true
+        
+//        dislikeButton.topAnchor.constraint(equalTo: myKolodaView.bottomAnchor, constant: -25).isActive = true
+    
     }
     
     var Users = [User]()
@@ -176,52 +209,6 @@ class SwipeController: UIViewController {
         }
     }
     
-    var index = 1
-    
-    func wasDragged(gestureRecognizer: UIPanGestureRecognizer) {
-        
-        let translation = gestureRecognizer.translation(in: view)
-        let imageView = gestureRecognizer.view as! UIImageView
-        
-        imageView.center = CGPoint(x: self.view.bounds.width / 2 + translation.x, y: self.view.bounds.height / 2 + translation.y)
-        
-        let xFromCenter = imageView.center.x - self.view.bounds.width / 2
-        let scale = min(abs(100 / xFromCenter), 1)
-        var rotation = CGAffineTransform(rotationAngle: xFromCenter / 200)
-        var rotationAndStretch = rotation.scaledBy(x: scale, y: scale)
-        
-        imageView.transform = rotationAndStretch
-        
-        if gestureRecognizer.state == UIGestureRecognizerState.ended {
-            
-            if imageView.center.x < 100 {
-                
-                imageView.transform = CGAffineTransform(rotationAngle: 0)
-                
-            } else if imageView.center.x > self.view.bounds.width - 100 {
-                
-                imageView.transform = CGAffineTransform(rotationAngle: 0)
-            }
-            
-            rotation = CGAffineTransform(rotationAngle: 0)
-            rotationAndStretch = rotation.scaledBy(x: 1, y: 1)
-            imageView.transform = rotationAndStretch
-            imageView.center = CGPoint(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2)
-            
-            if index < Users.count {
-                
-                let user = Users[index]
-    
-                downloadProfileImages(user: user)
-                index += 1
-            }
-            
-            if index >= Users.count {
-                index = 0
-            }
-            
-        }
-    }
 }
 
 

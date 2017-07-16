@@ -19,11 +19,13 @@ class MessagesController: UITableViewController {
         
          self.view.backgroundColor = UIColor.white
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: mainPageController, action: #selector(mainPageController?.leftButtonAction))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(createNewMessage))
-        
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGray
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGray
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: mainPageController, action: #selector(mainPageController?.leftButtonAction))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(createNewMessage))
+//
+//        navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGray
+//        navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGray
+//        
+//        navigationItem.title = "Messages"
         
         tableView.register(UserCell.self, forCellReuseIdentifier: userCellId)
         tableView.separatorColor = UIColor.clear
@@ -184,51 +186,51 @@ class MessagesController: UITableViewController {
         observeUserMessages()
         
         DispatchQueue.main.async {
-            
-            let titleView = UIView()
-            titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
-            
-            let containerView = UIView()
-            containerView.translatesAutoresizingMaskIntoConstraints = false
-            titleView.addSubview(containerView)
-            
-            containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
-            containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
-            
-            let profileImageView = UIImageView()
-            profileImageView.translatesAutoresizingMaskIntoConstraints = false
-            profileImageView.contentMode = .scaleAspectFill
-            profileImageView.layer.cornerRadius = 15
-            profileImageView.layer.masksToBounds = true
-            
-            if let profileImageURL = user.profileImageUrl {
-                
-                let profileUrl = URL(string: profileImageURL)
-                let resource = ImageResource(downloadURL: profileUrl!)
-                profileImageView.kf.setImage(with: resource)
-            }
-            
-            containerView.addSubview(profileImageView)
-            
-            // constraints for image view
-            profileImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
-            profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-            profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-            profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            
-            let nameLbl = UILabel()
-            nameLbl.text = user.name
-            nameLbl.translatesAutoresizingMaskIntoConstraints = false
-            
-            containerView.addSubview(nameLbl)
-            
-            nameLbl.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
-            nameLbl.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
-            nameLbl.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-            nameLbl.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
-            
-            
-            self.navigationItem.titleView = titleView
+//            
+//            let titleView = UIView()
+//            titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
+//            
+//            let containerView = UIView()
+//            containerView.translatesAutoresizingMaskIntoConstraints = false
+//            titleView.addSubview(containerView)
+//            
+//            containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+//            containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+//            
+//            let profileImageView = UIImageView()
+//            profileImageView.translatesAutoresizingMaskIntoConstraints = false
+//            profileImageView.contentMode = .scaleAspectFill
+//            profileImageView.layer.cornerRadius = 15
+//            profileImageView.layer.masksToBounds = true
+//            
+//            if let profileImageURL = user.profileImageUrl {
+//                
+//                let profileUrl = URL(string: profileImageURL)
+//                let resource = ImageResource(downloadURL: profileUrl!)
+//                profileImageView.kf.setImage(with: resource)
+//            }
+//            
+//            containerView.addSubview(profileImageView)
+//            
+//            // constraints for image view
+//            profileImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+//            profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+//            profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//            profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//            
+//            let nameLbl = UILabel()
+//            nameLbl.text = user.name
+//            nameLbl.translatesAutoresizingMaskIntoConstraints = false
+//            
+//            containerView.addSubview(nameLbl)
+//            
+//            nameLbl.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
+//            nameLbl.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+//            nameLbl.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
+//            nameLbl.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
+//            
+//            
+//            self.navigationItem.titleView = titleView
         }
     }
     
@@ -252,7 +254,7 @@ class MessagesController: UITableViewController {
 //        present(jsqMessagesController, animated: false, completion: nil)
         
         self.parent?.parent?.navigationController?.pushViewController(jsqMessagesController, animated: true)
-        
+//        navigationController?.pushViewController(jsqMessagesController, animated: true)
         //        navigationController?.navigationBar.isHidden = false
     }
     

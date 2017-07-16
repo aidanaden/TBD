@@ -23,7 +23,7 @@ class UserProfileController: UIViewController {
     var mainPageController: MainPageController? {
         didSet {
             checkIfUserIsLoggedIn()
-            SetUpNavBar()
+//            SetUpNavBar()
         }
     }
     
@@ -33,6 +33,7 @@ class UserProfileController: UIViewController {
         navigationItem.leftBarButtonItem = nil
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: mainPageController, action: #selector(mainPageController?.rightButtonAction))
         navigationItem.rightBarButtonItem?.tintColor = UIColor.darkGray
+        navigationItem.title = "Profile"
         
         let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 64))
         navBar.pushItem(navigationItem, animated: false)
@@ -71,7 +72,7 @@ class UserProfileController: UIViewController {
     
     func SetUpUIWithUser(user: User) {
         
-        let containerView = UIView(frame: CGRect(x: view.bounds.width / 2 - 100, y: view.bounds.height / 2 - 150, width: 200, height: 300))
+        let containerView = UIView(frame: CGRect(x: view.bounds.width / 2 - 100, y: view.bounds.height / 2 - 250, width: 200, height: 400))
         containerView.backgroundColor = UIColor.clear
         
         view.addSubview(containerView)
@@ -92,7 +93,7 @@ class UserProfileController: UIViewController {
         
         containerView.addSubview(profileImageView)
         
-        _ = profileImageView.anchor(containerView.topAnchor, left: nil, bottom: nil, right: nil, topConstant: 10, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 150, heightConstant: 150)
+        _ = profileImageView.anchor(containerView.topAnchor, left: nil, bottom: nil, right: nil, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: 150, heightConstant: 150)
         profileImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
 
         let nameTextView = UITextView()
