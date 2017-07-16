@@ -198,7 +198,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 45, right: 0)
         
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.tintColor = .darkGray
         navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
@@ -429,6 +429,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         nameLbl.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
         nameLbl.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
         
+        navigationItem.titleView = titleView
 //        let navigationItem = UINavigationItem()
 //        navigationItem.rightBarButtonItem = nil
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(dismissWithTransition))

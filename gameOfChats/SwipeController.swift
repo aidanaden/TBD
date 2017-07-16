@@ -85,7 +85,7 @@ class SwipeController: UIViewController {
         
         myKolodaView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         myKolodaView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        myKolodaView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 25).isActive = true
+        myKolodaView.topAnchor.constraint(equalTo: navBar.bottomAnchor, constant: 50).isActive = true
         myKolodaView.widthAnchor.constraint(equalToConstant: view.bounds.width - 50).isActive = true
         
         view.addSubview(likeButton)

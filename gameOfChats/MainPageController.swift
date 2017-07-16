@@ -29,7 +29,7 @@ class MainPageController: EZSwipeController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
 }
