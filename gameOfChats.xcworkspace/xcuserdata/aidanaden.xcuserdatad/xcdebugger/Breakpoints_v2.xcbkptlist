@@ -564,11 +564,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/JSQMessagesController.swift"
-            timestampString = "521797907.258138"
+            timestampString = "521876530.801848"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "558"
-            endingLineNumber = "558"
+            startingLineNumber = "562"
+            endingLineNumber = "562"
             landmarkName = "handleUploadTap(type:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -580,11 +580,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/JSQMessagesController.swift"
-            timestampString = "521797907.258138"
+            timestampString = "521876530.801848"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "517"
-            endingLineNumber = "517"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
             landmarkName = "didPressSend(_:withMessageText:senderId:senderDisplayName:date:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -612,11 +612,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/JSQMessagesController.swift"
-            timestampString = "521797907.258138"
+            timestampString = "521876530.801848"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
             landmarkName = "sendMessageWithProperties(properties:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -786,11 +786,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/JSQMessagesController.swift"
-            timestampString = "521797907.258138"
+            timestampString = "521876530.801848"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "372"
-            endingLineNumber = "372"
+            startingLineNumber = "376"
+            endingLineNumber = "376"
             landmarkName = "attemptReloadTable()"
             landmarkType = "7">
          </BreakpointContent>

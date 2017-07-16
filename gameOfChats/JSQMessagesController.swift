@@ -196,7 +196,11 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
     
-        collectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 45, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 45, right: 0)
+        
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.tintColor = .darkGray
+        navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -353,8 +357,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             loadCount += 1
         }
         
-        let indexPath = IndexPath(item: 0, section: 0)
-        scroll(to: indexPath, animated: true)
+//        let indexPath = IndexPath(item: 0, section: 0)
+//        scroll(to: indexPath, animated: true)
         
         self.showLoadEarlierMessagesHeader = (loadCount != loaded.count)
     }
@@ -425,17 +429,17 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         nameLbl.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
         nameLbl.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
         
-        let navigationItem = UINavigationItem()
-        navigationItem.rightBarButtonItem = nil
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(dismissWithTransition))
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGray
-        navigationItem.titleView = titleView
-
-        
-        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 64))
-        navBar.pushItem(navigationItem, animated: false)
-        navBar.backgroundColor = UIColor.init(colorLiteralRed: 240, green: 240, blue: 240, alpha: 1)
-        view.addSubview(navBar)
+//        let navigationItem = UINavigationItem()
+//        navigationItem.rightBarButtonItem = nil
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(dismissWithTransition))
+//        navigationItem.leftBarButtonItem?.tintColor = UIColor.darkGray
+//        navigationItem.titleView = titleView
+//
+//        
+//        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 64))
+//        navBar.pushItem(navigationItem, animated: false)
+//        navBar.backgroundColor = UIColor.init(colorLiteralRed: 240, green: 240, blue: 240, alpha: 1)
+//        view.addSubview(navBar)
 
     }
     

@@ -23,7 +23,13 @@ class MainPageController: EZSwipeController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.white
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        navigationController?.navigationBar.isHidden = true
     }
     
 }

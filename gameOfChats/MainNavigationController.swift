@@ -39,7 +39,10 @@ class MainNavigationController: UINavigationController {
     
     func showMainPageController() {
         let mainPageController = MainPageController()
-        self.present(mainPageController, animated: true, completion: nil)
+        let mainPageNavController = UINavigationController(rootViewController: mainPageController)
+        mainPageNavController.navigationBar.isHidden = true
+        mainPageNavController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.present(mainPageNavController, animated: true, completion: nil)
     }
 }
 

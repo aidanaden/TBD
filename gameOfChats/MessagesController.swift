@@ -241,15 +241,17 @@ class MessagesController: UITableViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .darkGray
         
-        let transition = CATransition()
-        transition.duration = 0
-        transition.type = kCATransitionPush
-        transition.subtype = kCATransitionFromRight
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        self.view.window?.layer.add(transition, forKey: kCATransition)
-//        self.view.layer.add(transition, forKey: "SwitchToView")
+//        let transition = CATransition()
+//        transition.duration = 0
+//        transition.type = kCATransitionPush
+//        transition.subtype = kCATransitionFromRight
+//        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+//        self.view.window?.layer.add(transition, forKey: kCATransition)
+////        self.view.layer.add(transition, forKey: "SwitchToView")
+//        
+//        present(jsqMessagesController, animated: false, completion: nil)
         
-        present(jsqMessagesController, animated: false, completion: nil)
+        self.parent?.parent?.navigationController?.pushViewController(jsqMessagesController, animated: true)
         
         //        navigationController?.navigationBar.isHidden = false
     }
