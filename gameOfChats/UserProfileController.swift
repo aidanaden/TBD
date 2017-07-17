@@ -99,10 +99,13 @@ class UserProfileController: UIViewController {
         let nameTextView = UITextView()
         nameTextView.translatesAutoresizingMaskIntoConstraints = false
         nameTextView.isEditable = false
-        nameTextView.text = user.name!
+        nameTextView.text = "\(user.name!) \(user.email!)"
+        nameTextView.isSelectable = false
         
         let color = UIColor(white: 0.2, alpha: 1)
         let attributedText = NSMutableAttributedString(string: user.name!, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 24, weight: UIFontWeightBold), NSForegroundColorAttributeName: color])
+        
+        attributedText.append(NSMutableAttributedString(string: "\n\n\(user.email!)", attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightRegular), NSForegroundColorAttributeName: color]))
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
@@ -114,7 +117,7 @@ class UserProfileController: UIViewController {
         
         containerView.addSubview(nameTextView)
         
-        _ = nameTextView.anchor(profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: containerView.bounds.width, heightConstant: 44)
+        _ = nameTextView.anchor(profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: containerView.bounds.width, heightConstant: 84)
         nameTextView.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
         
         let logOutButton = UIButton()

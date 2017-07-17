@@ -56,20 +56,14 @@ class SwipeController: UIViewController {
     lazy var likeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.contentMode = .scaleAspectFill
-        button.clipsToBounds = true
-        button.setImage(#imageLiteral(resourceName: "btn_like_normal"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "btn_like_pressed"), for: .selected)
+        button.contentMode = .scaleAspectFit
         return button
     }()
     
     lazy var dislikeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.contentMode = .scaleAspectFill
-        button.clipsToBounds = true
-        button.setImage(#imageLiteral(resourceName: "btn_skip_normal"), for: .normal)
-        button.setImage(#imageLiteral(resourceName: "btn_skip_pressed"), for: .selected)
+        button.contentMode = .scaleAspectFit
         return button
     }()
 
@@ -109,7 +103,7 @@ class SwipeController: UIViewController {
         containerView.addSubview(myKolodaView)
         
         myKolodaView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        myKolodaView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -65).isActive = true
+        myKolodaView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -55).isActive = true
         myKolodaView.heightAnchor.constraint(equalToConstant: 450).isActive = true
         myKolodaView.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: 0).isActive = true
         
@@ -143,6 +137,12 @@ class SwipeController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         downloadProfiles()
+        
+        dislikeButton.setImage(#imageLiteral(resourceName: "btn_skip_normal"), for: .normal)
+        dislikeButton.setImage(#imageLiteral(resourceName: "btn_skip_pressed"), for: .highlighted)
+        
+        likeButton.setImage(#imageLiteral(resourceName: "btn_like_normal"), for: .normal)
+        likeButton.setImage(#imageLiteral(resourceName: "btn_like_pressed"), for: .highlighted)
 //        setupViews()
 
         

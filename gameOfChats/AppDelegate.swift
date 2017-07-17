@@ -23,8 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
        
-        window?.backgroundColor = .white
         
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.darkGray, NSFontAttributeName: UIFont.systemFont(ofSize: 18, weight: UIFontWeightBold)]
+        
+        window?.backgroundColor = .white
+                
 //        window?.rootViewController = UINavigationController(rootViewController: MessagesController())
 //        window?.rootViewController = LoginController()
 //        window?.rootViewController = MainPageController()

@@ -15,7 +15,7 @@ class MainPageController: EZSwipeController {
     
     override func setupView() {
         super.setupView()
-        navigationBarShouldNotExist = false
+//        navigationBarShouldNotExist = false
         datasource = self
     }
     
@@ -76,6 +76,10 @@ extension MainPageController: EZSwipeControllerDataSource {
         
         let navigationBar = UINavigationBar()
         navigationBar.barStyle = .default
+        navigationBar.shadowImage = UIImage()
+        navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationBar.barTintColor = .white
+        navigationBar.tintColor = .darkGray
         
         let navigationItem = UINavigationItem(title: title)
         navigationItem.hidesBackButton = true
@@ -105,9 +109,9 @@ extension MainPageController: EZSwipeControllerDataSource {
             let leftButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: nil)
             
             navigationItem.leftBarButtonItem = leftButtonItem
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: nil)
-            
-            navigationItem.rightBarButtonItem?.tintColor = .darkGray
+//            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: nil)
+//            
+//            navigationItem.rightBarButtonItem?.tintColor = .darkGray
             navigationItem.leftBarButtonItem?.tintColor = .darkGray
         }
         
@@ -115,6 +119,7 @@ extension MainPageController: EZSwipeControllerDataSource {
         
         return navigationBar
     }
+    
 }
 
 

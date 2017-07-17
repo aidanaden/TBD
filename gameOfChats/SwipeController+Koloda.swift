@@ -82,4 +82,8 @@ extension SwipeController: KolodaViewDataSource {
         let normalOverlay = OverlayView()
         return normalOverlay
     }
+    
+    func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) -> CGFloat? {
+        return 0.3
+    }
 }
