@@ -277,12 +277,14 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                         print("appending to loaded")
                     }
                 })
-                
-                DispatchQueue.main.async {
-                    self.attemptLoadFirstMessages()
-                }
+//                
+//                DispatchQueue.main.async {
+//                    self.attemptLoadFirstMessages()
+//                }
             }
         })
+        
+        loadFirstMessages()
     }
     
     func loadFirstMessages() {
