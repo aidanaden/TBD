@@ -286,10 +286,10 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         userMessagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             
-            self.perform(#selector(self.loadFirstMessages), with: nil, afterDelay: 0.1)
+            self.perform(#selector(self.loadFirstMessages), with: nil, afterDelay: 0.15)
         })
         
-//        perform(#selector(loadFirstMessages), with: nil, afterDelay: 0.1)
+//        perform(#selector(loadFirstMessages), with: nil, afterDelay: 0.15)
     }
     
     func loadFirstMessages() {
