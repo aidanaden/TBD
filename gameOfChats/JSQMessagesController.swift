@@ -284,7 +284,12 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             }
         })
         
-        loadFirstMessages()
+        userMessagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            
+            self.perform(#selector(self.loadFirstMessages), with: nil, afterDelay: 0.1)
+        })
+        
+//        perform(#selector(loadFirstMessages), with: nil, afterDelay: 0.1)
     }
     
     func loadFirstMessages() {
@@ -326,6 +331,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         max = loaded.count - loadCount
         min = max - kNUMBEROFMESSAGES
+        
+        print(min)
         
         if min < 0 { // prevent min from becoming negative value
             
