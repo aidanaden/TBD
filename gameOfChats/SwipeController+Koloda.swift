@@ -60,9 +60,35 @@ extension SwipeController: KolodaViewDataSource {
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
         
+        print(index)
+        
         let containerView = UIView(frame: koloda.frame)
         containerView.clipsToBounds = false
         containerView.applyPlainShadow()
+        
+        let textView = UITextView()
+        textView.isEditable = false
+        textView.isSelectable = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.text = Users[index].name!
+        textView.backgroundColor = .clear
+        
+        let attributedText = NSMutableAttributedString(string: textView.text, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 20, weight: UIFontWeightMedium), NSForegroundColorAttributeName: UIColor.white])
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        
+        let length = textView.text.characters.count
+        attributedText.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSRange(location: 0, length: length))
+        
+        let shadow = NSShadow()
+        shadow.shadowOffset = CGSize.zero
+        shadow.shadowBlurRadius = 5
+        shadow.shadowColor = UIColor.black
+        
+        attributedText.addAttribute(NSShadowAttributeName, value: shadow, range: NSRange(location: 0, length: length))
+        
+        textView.attributedText = attributedText
         
         let imageView = UIImageView(image: userProfileImages[Int(index)])
 //        imageView.image =
@@ -71,6 +97,10 @@ extension SwipeController: KolodaViewDataSource {
         imageView.layer.cornerRadius = 12
 //        imageView.applyPlainShadow()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        imageView.addSubview(textView)
+        
+        _ = textView.anchor(nil, left: imageView.leftAnchor, bottom: imageView.bottomAnchor, right: imageView.rightAnchor, topConstant: 0, leftConstant: 10, bottomConstant: 0, rightConstant: 0, widthConstant: 0, heightConstant: 80)
         
         containerView.addSubview(imageView)
         

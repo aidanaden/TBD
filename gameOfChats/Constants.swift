@@ -34,7 +34,7 @@ let kSUCCESS = 2
 let kIMAGEMESSAGE = "image message"
 let kVIDEOMESSAGE = "video message"
 let kLOGGEDIN = "LoggedIn"
-let kNUMBEROFMESSAGES = 8
+let kNUMBEROFMESSAGES = 11
 
 let userCellId = "UserCell"
 

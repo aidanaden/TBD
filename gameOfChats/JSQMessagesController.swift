@@ -269,7 +269,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                             JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
                         }
                         
-                        self.finishSendingMessage(animated: true)
+                        self.finishReceivingMessage(animated: true)
                         
                     } else {  // if initialLoad not completed
                         

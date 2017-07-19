@@ -692,11 +692,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gameOfChats/SwipeController.swift"
-            timestampString = "521995417.712024"
+            timestampString = "522160166.943461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "187"
-            endingLineNumber = "187"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
             landmarkName = "downloadProfiles()"
             landmarkType = "7">
          </BreakpointContent>

@@ -68,7 +68,8 @@ class SwipeController: UIViewController {
     }()
 
     
-    var userProfileImages: [UIImage] = [#imageLiteral(resourceName: "nedstark")]
+//    var userProfileImages: [UIImage] = [#imageLiteral(resourceName: "nedstark")]
+    var userProfileImages = [UIImage]()
     
     func setupViews() {
        
@@ -135,6 +136,7 @@ class SwipeController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         downloadProfiles()
         
