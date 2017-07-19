@@ -60,30 +60,53 @@ extension SwipeController: KolodaViewDataSource {
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
         
-//        let containerView = UIView(frame: koloda.frame)
-//        containerView.clipsToBounds = false
-//        containerView.applyPlainShadow()
+        let containerView = UIView(frame: koloda.frame)
+        containerView.clipsToBounds = false
+        containerView.applyPlainShadow()
         
         let imageView = UIImageView(image: userProfileImages[Int(index)])
 //        imageView.image =
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 12
-        imageView.applyPlainShadow()
+//        imageView.applyPlainShadow()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
-//        containerView.addSubview(imageView)
+        containerView.addSubview(imageView)
         
-        return imageView
+        imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        imageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+        imageView.widthAnchor.constraint(equalTo: containerView.widthAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
+        
+//        return imageView
+        return containerView
     }
     
     func koloda(_ koloda: KolodaView, viewForCardOverlayAt index: Int) -> OverlayView? {
         
-//        let customOverLayView = CustomOverlayView()
-        let normalOverlay = OverlayView()
-        return normalOverlay
+        let customOverLayView = CustomOverlayView()
+//        let normalOverlay = OverlayView()
+        return customOverLayView
     }
     
     func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) -> CGFloat? {
         return 0.3
     }
+    
+    func kolodaShouldTransparentizeNextCard(_ koloda: KolodaView) -> Bool {
+        return true
+    }
+    
+    func kolodaShouldApplyAppearAnimation(_ koloda: KolodaView) -> Bool {
+        return false
+    }
+    
+    
 }
+
+
+
+
+
+

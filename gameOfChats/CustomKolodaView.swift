@@ -19,21 +19,25 @@ class CustomKolodaView: KolodaView {
     
     override func frameForCard(at index: Int) -> CGRect {
         if index == 0 {
-            let topOffset: CGFloat = defaultTopOffset
-            let xOffset: CGFloat = defaultHorizontalOffset
-            let width = (self.frame).width - 2 * defaultHorizontalOffset
-            let height = width * defaultHeightRatio
-            let yOffset: CGFloat = topOffset
-            let frame = CGRect(x: xOffset, y: yOffset, width: width, height: height)
+//            let topOffset: CGFloat = defaultTopOffset
+//            let xOffset: CGFloat = defaultHorizontalOffset
+//            let width = (self.frame).width - 2 * defaultHorizontalOffset
+//            let height = width * defaultHeightRatio
+//            let yOffset: CGFloat = topOffset
+//            let frame = CGRect(x: xOffset, y: yOffset, width: width, height: height)
             
-            return frame
+            return CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+//            return frame
         } else if index == 1 {
-            let horizontalMargin = -self.bounds.width * backgroundCardHorizontalMarginMultiplier
-            let width = self.bounds.width * backgroundCardScalePercent
-            let height = width * defaultHeightRatio
-            return CGRect(x: horizontalMargin, y: 0, width: width, height: height)
+//            let horizontalMargin = -self.bounds.width * backgroundCardHorizontalMarginMultiplier
+            let width = self.bounds.width * 1 //backgroundCardScalePercent
+//            let height = width * defaultHeightRatio
+            let height = self.bounds.height
+            //            return CGRect(x: horizontalMargin, y: 0, width: width, height: height)
+            return CGRect(x: 0, y: 0, width: width, height: height)
         }
         return CGRect.zero
     }
     
 }
+

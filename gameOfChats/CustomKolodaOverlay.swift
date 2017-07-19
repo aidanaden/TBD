@@ -27,9 +27,9 @@ class CustomOverlayView: OverlayView {
         didSet {
             switch overlayState {
             case .left? :
-                overlayImageView.image = UIImage(named: overlayLeftImageName)
+                overlayImageView.image = #imageLiteral(resourceName: "overlay_skip")
             case .right? :
-                overlayImageView.image = UIImage(named: overlayRightImageName)
+                overlayImageView.image = #imageLiteral(resourceName: "overlay_like")
             default:
                 overlayImageView.image = nil
             }

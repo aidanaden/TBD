@@ -41,6 +41,7 @@ class MainNavigationController: UINavigationController {
         let mainPageController = MainPageController()
         let mainPageNavController = UINavigationController(rootViewController: mainPageController)
         mainPageNavController.navigationBar.isHidden = true
+        mainPageNavController.navigationBar.barTintColor = .white
         mainPageNavController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.present(mainPageNavController, animated: true, completion: nil)
     }

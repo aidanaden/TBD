@@ -22,7 +22,6 @@
 		3058AA481F0BAF9D0058D70E /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA471F0BAF9D0058D70E /* Video.swift */; };
 		3058AA4A1F0BB19D0058D70E /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA491F0BB19D0058D70E /* Download.swift */; };
 		3058AA4C1F0D08060058D70E /* TaillessPhotoMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3058AA4B1F0D08050058D70E /* TaillessPhotoMediaItem.swift */; };
-		306670821F19DDF20049CA43 /* CustomSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306670811F19DDF20049CA43 /* CustomSegue.swift */; };
 		306670841F1A08530049CA43 /* CustomKolodaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306670831F1A08530049CA43 /* CustomKolodaView.swift */; };
 		306670871F1A09280049CA43 /* CustomKolodaOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306670861F1A09280049CA43 /* CustomKolodaOverlay.swift */; };
 		306670891F1A0A390049CA43 /* BackgroundKolodaAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306670881F1A0A390049CA43 /* BackgroundKolodaAnimator.swift */; };
@@ -63,7 +62,6 @@
 		3058AA471F0BAF9D0058D70E /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		3058AA491F0BB19D0058D70E /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		3058AA4B1F0D08050058D70E /* TaillessPhotoMediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaillessPhotoMediaItem.swift; sourceTree = "<group>"; };
-		306670811F19DDF20049CA43 /* CustomSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegue.swift; sourceTree = "<group>"; };
 		306670831F1A08530049CA43 /* CustomKolodaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomKolodaView.swift; sourceTree = "<group>"; };
 		306670861F1A09280049CA43 /* CustomKolodaOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomKolodaOverlay.swift; sourceTree = "<group>"; };
 		306670881F1A0A390049CA43 /* BackgroundKolodaAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundKolodaAnimator.swift; sourceTree = "<group>"; };
@@ -211,7 +209,6 @@
 				307DE2301F04FF8800D7E4E5 /* Page.swift */,
 				3058AA471F0BAF9D0058D70E /* Video.swift */,
 				3058AA4B1F0D08050058D70E /* TaillessPhotoMediaItem.swift */,
-				306670811F19DDF20049CA43 /* CustomSegue.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -361,7 +358,6 @@
 				30B74E2A1EFBF8A100232145 /* ChatLogController.swift in Sources */,
 				30357B3A1F121F7A00FE8215 /* UserProfileController.swift in Sources */,
 				300915671F03AC2600266096 /* ChatInputContainerView.swift in Sources */,
-				306670821F19DDF20049CA43 /* CustomSegue.swift in Sources */,
 				3058AA461F0A97DC0058D70E /* JSQMessagesController+JSQMessages.swift in Sources */,
 				306670891F1A0A390049CA43 /* BackgroundKolodaAnimator.swift in Sources */,
 				30B74E081EFA2B8D00232145 /* MessagesController.swift in Sources */,

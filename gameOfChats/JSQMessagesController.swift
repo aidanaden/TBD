@@ -45,7 +45,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             
 //            observeMessages()
 //            observeSubsequentMessages()
-            loadMessages()
+//            loadMessages()
         }
     }
     
@@ -201,13 +201,13 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.tintColor = .darkGray
         navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        firebase.removeAllObservers()
+    override func viewWillAppear(_ animated: Bool) {
+        loadMessages()
     }
-
+    
     func dismissWithTransition() {
         
         let transition = CATransition()
@@ -286,7 +286,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         userMessagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             
-            self.perform(#selector(self.loadFirstMessages), with: nil, afterDelay: 0.15)
+            self.perform(#selector(self.loadFirstMessages), with: nil, afterDelay: 0.1)
         })
         
 //        perform(#selector(loadFirstMessages), with: nil, afterDelay: 0.15)

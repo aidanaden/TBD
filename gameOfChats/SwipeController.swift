@@ -34,8 +34,8 @@ class SwipeController: UIViewController {
     }()
     
 
-    let myKolodaView: KolodaView = {
-        let kolodaView = KolodaView()
+    let myKolodaView: CustomKolodaView = {
+        let kolodaView = CustomKolodaView()
         kolodaView.translatesAutoresizingMaskIntoConstraints = false
         return kolodaView
     }()
@@ -97,7 +97,7 @@ class SwipeController: UIViewController {
         containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -65).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 600).isActive = true
-        containerView.widthAnchor.constraint(equalToConstant: view.bounds.width - 75).isActive = true
+        containerView.widthAnchor.constraint(equalToConstant: view.bounds.width - 50).isActive = true
         
         
         containerView.addSubview(myKolodaView)
@@ -206,6 +206,7 @@ class SwipeController: UIViewController {
             
             self.userProfileImages.append(image!)
             print("DOWNLOADED PROFILE IMAGE!")
+            self.myKolodaView.reloadData()
         }
     }
     
