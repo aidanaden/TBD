@@ -252,8 +252,9 @@ class MessagesController: UITableViewController {
 ////        self.view.layer.add(transition, forKey: "SwitchToView")
 //        
 //        present(jsqMessagesController, animated: false, completion: nil)
+        print("\(self.parent!.navigationController!)")
         
-        self.parent?.parent?.navigationController?.pushViewController(jsqMessagesController, animated: true)
+        self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
 //        navigationController?.pushViewController(jsqMessagesController, animated: true)
         //        navigationController?.navigationBar.isHidden = false
     }
@@ -309,6 +310,7 @@ class MessagesController: UITableViewController {
                 let user = User()
                 user.id = chatPartnerId
                 user.setValuesForKeys(dictionary)
+                print(self.messages)
                 
                 self.showChatController(user: user)
             }

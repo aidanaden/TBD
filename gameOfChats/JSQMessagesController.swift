@@ -205,7 +205,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadMessages()
+//        loadMessages()
+        observeMessages()
     }
     
     func dismissWithTransition() {
@@ -236,7 +237,15 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                 guard let dictionary = snapshot.value as? [String: Any] else { return }
                 
                 let message = Message(dictionary: dictionary)
-                _ = self.insertMessage(message: message)
+                
+                if self.messages.contains(message) {
+                    
+                    
+                } else {
+                    
+                    _ = self.insertMessage(message: message)
+                }
+                
                 
                 self.attemptReloadTable()
             })
@@ -459,7 +468,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
         
-        userMessagesRef.observeSingleEvent(of: .value, with: { snapshot in
+        userMessagesRef.observe(.value, with: { snapshot in
             
             let childrenCount = Int(snapshot.childrenCount)
             
@@ -470,24 +479,39 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                 
                 messagesRef.observeSingleEvent(of: .value, with: { snapshot in
                     
-                    guard let dictionary = snapshot.value as? [String : Any] else { return }
-                    
+                    guard let dictionary = snapshot.value as? [String: Any] else { return }
                     let message = Message(dictionary: dictionary)
                     
-                    if self.messages.contains(message) {
-                        print("YES contains")
-                    }
-                    
-                    self.messages.append(message)
-                    let jsqMessage = self.createJSQMessage(message: message)
-                    self.JSQMessages.append(jsqMessage!)
-                    
-                    if childrenCount == self.messages.count {
+                    if self.initialLoadComplete {
                         
-                        DispatchQueue.main.async {
+                        if self.loaded.contains(message) {
                             
-                            self.collectionView?.reloadData() // reload data on main q
+                            print("Already contains this message!")
+                            
+                        } else {
+                            
+                            self.loaded.append(message)
+                            
+                            guard let incoming = self.insertMessage(message: message) else { return }
+                            
+                            if incoming {
+                                JSQSystemSoundPlayer.jsq_playMessageReceivedSound()
+                            }
+                            
                             self.finishReceivingMessage(animated: true)
+                        }
+                        
+                    } else {  // if initialLoad not completed
+                        
+                        self.loaded.append(message)
+                        print("appending to loaded")
+                        
+                        if childrenCount == self.loaded.count {
+                            
+                            self.initialLoadComplete = true
+//                            self.collectionView?.reloadData() // reload data on main q
+//                            self.finishReceivingMessage(animated: true)
+                            self.insertMessages()
                         }
                     }
                 })

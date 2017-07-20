@@ -83,7 +83,7 @@ extension SwipeController: KolodaViewDataSource {
         
         let shadow = NSShadow()
         shadow.shadowOffset = CGSize.zero
-        shadow.shadowBlurRadius = 5
+        shadow.shadowBlurRadius = 3
         shadow.shadowColor = UIColor.black
         
         attributedText.addAttribute(NSShadowAttributeName, value: shadow, range: NSRange(location: 0, length: length))

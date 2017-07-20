@@ -317,7 +317,9 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
             UserDefaults.standard.synchronize()
             
             self.mainController = MainPageController()
-            self.present(self.mainController!, animated: true, completion: nil)
+            let mainNavController = UINavigationController(rootViewController: self.mainController!)
+            
+            self.present(mainNavController, animated: true, completion: nil)
         })
     }
     
@@ -337,14 +339,17 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
                 return
             }
             print("logged in")
+            
             self.mainController = MainPageController()
+            
+            let mainNavController = UINavigationController(rootViewController: self.mainController!)
 //            self.messagesController = MessagesController()
 //            self.messagesController?.fetchUserNameAndSetUpNavBarTitle()
             
             UserDefaults.standard.set(true, forKey: kLOGGEDIN)
             UserDefaults.standard.synchronize()
             
-            self.present(self.mainController!, animated: true, completion: nil)
+            self.present(mainNavController, animated: true, completion: nil)
         })
     }
     

@@ -45,7 +45,14 @@ class Message: NSObject {
         videoURL = dictionary[kVIDEOURL] as? String
     }
     
-    
+    override func isEqual(_ object: Any?) -> Bool {
+        
+        if let otherMessage = object as? Message {
+            return date == otherMessage.date
+        } else {
+            return false
+        }
+    }
     
 }
 
