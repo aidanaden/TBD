@@ -77,7 +77,6 @@ class MessagesController: UITableViewController {
                         for snap in snapshot.children {
                             
                             let messageId = (snap as! FIRDataSnapshot).key
-                            print(messageId)
                             self.fetchMessageAndAttemptReload(messageId: messageId)
                         }
                     })
@@ -237,26 +236,25 @@ class MessagesController: UITableViewController {
     func showChatController(user: User) {
 
         let jsqMessagesController = JSQMessagesController()
-    
         jsqMessagesController.user = user
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .darkGray
         
-//        let transition = CATransition()
-//        transition.duration = 0
-//        transition.type = kCATransitionPush
-//        transition.subtype = kCATransitionFromRight
-//        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-//        self.view.window?.layer.add(transition, forKey: kCATransition)
-////        self.view.layer.add(transition, forKey: "SwitchToView")
-//        
-//        present(jsqMessagesController, animated: false, completion: nil)
-        print("\(self.parent!.navigationController!)")
+//        self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
         
-        self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12, execute: {
+            self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
+
+        })
+        
+//        perform(#selector(handlePush(viewController: jsqMessagesController)), with: nil, afterDelay: 0.1)
 //        navigationController?.pushViewController(jsqMessagesController, animated: true)
         //        navigationController?.navigationBar.isHidden = false
+    }
+    
+    func handlePush(viewController: JSQMessagesController) {
+        self.parent!.navigationController!.pushViewController(viewController, animated: true)
     }
     
     func logOut() {
@@ -310,7 +308,6 @@ class MessagesController: UITableViewController {
                 let user = User()
                 user.id = chatPartnerId
                 user.setValuesForKeys(dictionary)
-                print(self.messages)
                 
                 self.showChatController(user: user)
             }

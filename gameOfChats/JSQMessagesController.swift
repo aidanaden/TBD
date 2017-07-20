@@ -34,6 +34,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             
             setupNavBarWithUser(user: user!)
             
+            observeMessages()
+            
             if let url = URL(string: (user?.profileImageUrl)!) {
                 
                 let resource = ImageResource(downloadURL: url)
@@ -43,7 +45,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                 })
             }
             
-//            observeMessages()
+            
 //            observeSubsequentMessages()
 //            loadMessages()
         }
@@ -193,6 +195,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         self.senderId = FIRAuth.auth()?.currentUser?.uid
         self.senderDisplayName = FIRAuth.auth()?.currentUser?.email!
         
+        insertMessages()
+        
         collectionView.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
     
@@ -206,7 +210,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     override func viewWillAppear(_ animated: Bool) {
 //        loadMessages()
-        observeMessages()
+//        observeMessages()
     }
     
     func dismissWithTransition() {
@@ -511,13 +515,12 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
                             self.initialLoadComplete = true
 //                            self.collectionView?.reloadData() // reload data on main q
 //                            self.finishReceivingMessage(animated: true)
-                            self.insertMessages()
+//                            self.insertMessages()
                         }
                     }
                 })
             }
         })
-        
     }
     
     override func didPressAccessoryButton(_ sender: UIButton!) {
