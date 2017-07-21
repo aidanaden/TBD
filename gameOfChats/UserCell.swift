@@ -58,16 +58,17 @@ class UserCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        textLabel?.frame = CGRect(x: 64, y: textLabel!.frame.origin.y - 2, width: textLabel!.frame.width, height: textLabel!.frame.height)
+        textLabel?.frame = CGRect(x: 80, y: textLabel!.frame.origin.y - 6, width: textLabel!.frame.width, height: textLabel!.frame.height)
+        textLabel?.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightRegular)
         
-        detailTextLabel?.frame = CGRect(x: 64, y: detailTextLabel!.frame.origin.y + 2, width: self.frame.width * 0.5, height: detailTextLabel!.frame.height)
+        detailTextLabel?.frame = CGRect(x: 80, y: detailTextLabel!.frame.origin.y + 2, width: self.frame.width * 0.5, height: detailTextLabel!.frame.height)
     }
     
     let profileImageView: UIImageView = {
         
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 24
+        imageView.layer.cornerRadius = 32
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
         
@@ -94,8 +95,8 @@ class UserCell: UITableViewCell {
         
         profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        profileImageView.widthAnchor.constraint(equalToConstant: 48).isActive = true
-        profileImageView.heightAnchor.constraint(equalToConstant: 48).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 64).isActive = true
         
         addSubview(timeLbl)
         
@@ -110,7 +111,13 @@ class UserCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        let view = UIView()
+        view.backgroundColor = UIColor.init(white: 0.9, alpha: 1)
+        selectedBackgroundView = view
+    }
 }
 
 

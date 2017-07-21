@@ -17,7 +17,8 @@ class MessagesController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         self.view.backgroundColor = UIColor.white
+        
+        self.view.backgroundColor = UIColor.white
         
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: mainPageController, action: #selector(mainPageController?.leftButtonAction))
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "new_message_icon"), style: .plain, target: self, action: #selector(createNewMessage))
@@ -28,7 +29,8 @@ class MessagesController: UITableViewController {
 //        navigationItem.title = "Messages"
         
         tableView.register(UserCell.self, forCellReuseIdentifier: userCellId)
-        tableView.separatorColor = UIColor.clear
+        tableView.separatorColor = UIColor.init(white: 0.9, alpha: 1)
+        tableView.tableFooterView = UIView()
         
         checkIfUserIsLoggedIn()
         
@@ -38,6 +40,13 @@ class MessagesController: UITableViewController {
         messages.removeAll()
         messagesDictionary.removeAll()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        guard let selectedRow = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRow(at: selectedRow, animated: false)
+    }
+
     
     var messages = [Message]()
     var messagesDictionary = [String: Message]()
@@ -287,7 +296,7 @@ class MessagesController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 84
+        return 96
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -302,7 +311,7 @@ class MessagesController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
         
         let message = messages[indexPath.row]
         

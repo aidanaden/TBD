@@ -149,9 +149,10 @@ class UserProfileController: UIViewController {
         UserDefaults.standard.set(false, forKey: kLOGGEDIN)
         UserDefaults.standard.synchronize()
         
-        let loginController = LoginController()
+//        let loginController = LoginController()
+//        self.present(loginController, animated: true, completion: nil)
         
-        self.present(loginController, animated: true, completion: nil)
+        mainPageController?.dismissToLogin()
     }
 }
 

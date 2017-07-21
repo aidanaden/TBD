@@ -25,13 +25,24 @@ class MainPageController: EZSwipeController {
         view.backgroundColor = UIColor.white
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
+        
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
+    var mainNavController: MainNavigationController?
+    
+    func dismissToLogin() {
+        
+        self.dismiss(animated: true, completion: nil)
+        mainNavController?.showLoginController()
+    }
+    
+
 }
 
 
@@ -50,6 +61,8 @@ extension MainPageController: EZSwipeControllerDataSource {
         let messagesVC = UINavigationController(rootViewController: messagesController)
         messagesVC.isNavigationBarHidden = true
         
+        
+        
         //        let messagesVC = MessagesController()
         //        messagesVC.navigationBar.isHidden = true
         
@@ -57,6 +70,7 @@ extension MainPageController: EZSwipeControllerDataSource {
             
         return [profileVC, swipeVC, messagesVC]
     }
+
     
     
     func indexOfStartingPage() -> Int {
