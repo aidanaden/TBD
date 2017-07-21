@@ -243,10 +243,17 @@ class MessagesController: UITableViewController {
         
 //        self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12, execute: {
-            self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
-
-        })
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+//            self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
+//
+//        })
+        
+        jsqMessagesController.observeMessages { (completed) in
+            
+            if completed {
+                self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
+            }
+        }
         
 //        perform(#selector(handlePush(viewController: jsqMessagesController)), with: nil, afterDelay: 0.1)
 //        navigationController?.pushViewController(jsqMessagesController, animated: true)

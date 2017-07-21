@@ -34,7 +34,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             
             setupNavBarWithUser(user: user!)
             
-            observeMessages()
+//            observeMessages()
             
             if let url = URL(string: (user?.profileImageUrl)!) {
                 
@@ -211,6 +211,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     override func viewWillAppear(_ animated: Bool) {
 //        loadMessages()
 //        observeMessages()
+//        collectionView.scrollToBottom(animated: false)
+        scrollToBottom(animated: false)
     }
     
     func dismissWithTransition() {
@@ -224,7 +226,6 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         dismiss(animated: false, completion: nil)
     }
 
-    
     func observeSubsequentMessages() {
         
         guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else { return }
@@ -322,6 +323,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         }
         
         self.collectionView.reloadData()
+        finishReceivingMessage()
         
         return message.senderId != FIRAuth.auth()?.currentUser?.uid
     }
@@ -466,7 +468,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     }
     
     
-    func observeMessages() {
+    func observeMessages(completion: @escaping (_ completed: Bool) -> Void) {
         
         guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else { return }
         
@@ -516,6 +518,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
 //                            self.collectionView?.reloadData() // reload data on main q
 //                            self.finishReceivingMessage(animated: true)
 //                            self.insertMessages()
+                            completion(self.initialLoadComplete)
                         }
                     }
                 })

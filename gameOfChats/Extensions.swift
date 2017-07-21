@@ -76,7 +76,7 @@ extension UIView {
 //        self.layer.shadowOffset = CGSize(width: 0, height: 10)
         self.layer.shadowOffset = CGSize.zero
         self.layer.shadowOpacity = 0.4
-        self.layer.shadowRadius = 5
+        self.layer.shadowRadius = 4
         
         self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
         self.layer.shouldRasterize = true
@@ -124,4 +124,15 @@ private extension UIImageView {
     
 }
 
+extension UIScrollView {
+    func scrollToTop(animated: Bool) {
+        setContentOffset(CGPoint(x: 0, y: -contentInset.top),
+                         animated: animated)
+    }
+    
+    func scrollToBottom(animated: Bool) {
+        setContentOffset(CGPoint(x: 0, y: CGFloat.greatestFiniteMagnitude),
+                         animated: animated)
+    }
+}
 
