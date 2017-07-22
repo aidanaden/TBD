@@ -50,7 +50,7 @@ extension LoginVC: UIImagePickerControllerDelegate, UINavigationControllerDelega
             return
         }
         
-        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
+        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             
             if error != nil {
                 
@@ -66,7 +66,7 @@ extension LoginVC: UIImagePickerControllerDelegate, UINavigationControllerDelega
                 
                 if let profileImage = self.profileImageView.image, let uploadData = UIImageJPEGRepresentation(profileImage, 0.1) {
 
-                    storage.child(kPROFILEIMAGES).child("\(imageName).jpg").put(uploadData, metadata: nil, completion: { (metadata, error) in
+                    storage.child(kPROFILEIMAGES).child("\(imageName).jpg").putData(uploadData, metadata: nil, completion: { (metadata, error) in
                         
                         if error != nil {
                             
@@ -113,7 +113,7 @@ extension LoginVC: UIImagePickerControllerDelegate, UINavigationControllerDelega
             return
         }
         
-        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             
             if error != nil {
                 print("AIDAN: Unable to sign in to firebase: \(error!.localizedDescription)")

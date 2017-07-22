@@ -38,7 +38,7 @@ class NewMessageController: UITableViewController {
             
             user.setValuesForKeys(userDictionary)
             
-            if user.id! != FIRAuth.auth()!.currentUser!.uid {
+            if user.id! != Auth.auth().currentUser!.uid {
                 
                 self.users.append(user)
             }

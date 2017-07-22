@@ -53,7 +53,7 @@ class MessagesController: UITableViewController {
     
     func observeUserMessages() {
         
-        guard let uid = FIRAuth.auth()?.currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid)
         
@@ -78,14 +78,14 @@ class MessagesController: UITableViewController {
                 
                 for snap in snapshot.children {
                     
-                    let userId = (snap as! FIRDataSnapshot).key
+                    let userId = (snap as! DataSnapshot).key
                     let userRef = userMessagesRef.child(userId)
                     
                     userRef.observeSingleEvent(of: .value, with: { (snapshot) in
                         
                         for snap in snapshot.children {
                             
-                            let messageId = (snap as! FIRDataSnapshot).key
+                            let messageId = (snap as! DataSnapshot).key
                             self.fetchMessageAndAttemptReload(messageId: messageId)
                         }
                     })
@@ -161,7 +161,7 @@ class MessagesController: UITableViewController {
     
     func checkIfUserIsLoggedIn() {
         
-        if FIRAuth.auth()?.currentUser?.uid == nil {
+        if Auth.auth().currentUser?.uid == nil {
             
             perform(#selector(logOut), with: nil, afterDelay: 0)
             
@@ -173,7 +173,7 @@ class MessagesController: UITableViewController {
     
     func fetchUserNameAndSetUpNavBarTitle() {
         
-        guard let uid = FIRAuth.auth()?.currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         firebase.child(kUSERS).child(uid).observe(.value, with: { (snapshot) in
             
@@ -276,7 +276,7 @@ class MessagesController: UITableViewController {
     func logOut() {
         
         do {
-            try FIRAuth.auth()?.signOut()
+            try Auth.auth().signOut()
         } catch let logoutError {
             print(logoutError)
         }
@@ -336,7 +336,7 @@ class MessagesController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
-        guard let currentId = FIRAuth.auth()?.currentUser?.uid else { return }
+        guard let currentId = Auth.auth().currentUser?.uid else { return }
         
         let message = messages[indexPath.row]
         

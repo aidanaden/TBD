@@ -43,7 +43,7 @@ class UserProfileController: UIViewController {
     
     func checkIfUserIsLoggedIn() {
         
-        if FIRAuth.auth()?.currentUser?.uid == nil {
+        if Auth.auth().currentUser?.uid == nil {
             
             return
 
@@ -55,7 +55,7 @@ class UserProfileController: UIViewController {
     
     func fetchUserNameAndSetUpProfile() {
         
-        guard let uid = FIRAuth.auth()?.currentUser?.uid else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         firebase.child(kUSERS).child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
@@ -118,7 +118,7 @@ class UserProfileController: UIViewController {
         
         containerView.addSubview(nameTextView)
         
-        _ = nameTextView.anchor(profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: containerView.bounds.width, heightConstant: 84)
+        _ = nameTextView.anchor(profileImageView.bottomAnchor, left: nil, bottom: nil, right: nil, topConstant: 20, leftConstant: 0, bottomConstant: 0, rightConstant: 0, widthConstant: containerView.bounds.width, heightConstant: 96)
         nameTextView.centerXAnchor.constraint(equalTo: profileImageView.centerXAnchor).isActive = true
         
         let logOutButton = UIButton()
@@ -142,7 +142,7 @@ class UserProfileController: UIViewController {
     func logOut() {
         
         do {
-            try FIRAuth.auth()?.signOut()
+            try Auth.auth().signOut()
         } catch let logoutError {
             print(logoutError)
         }

@@ -9,8 +9,8 @@
 import Foundation
 import Firebase
 
-let firebase = FIRDatabase.database().reference()
-let storage = FIRStorage.storage().reference()
+let firebase = Database.database().reference()
+let storage = Storage.storage().reference()
 
 let kID = "id"
 let kMESSAGES = "messages"

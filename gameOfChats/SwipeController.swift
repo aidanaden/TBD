@@ -183,10 +183,10 @@ class SwipeController: UIViewController {
                 
                 for snap in snapshot.children {
                     
-                    let userDictionary = (snap as! FIRDataSnapshot).value as! [String: Any]
+                    let userDictionary = (snap as! DataSnapshot).value as! [String: Any]
                     
                     let user = User()
-                    user.id = (snap as! FIRDataSnapshot).key
+                    user.id = (snap as! DataSnapshot).key
                     
                     user.setValuesForKeys(userDictionary)
                     

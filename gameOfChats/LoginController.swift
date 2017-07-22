@@ -256,7 +256,7 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
             return
         }
         
-        FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
+        Auth.auth().createUser(withEmail: email, password: password, completion: { (user, error) in
             
             if error != nil {
                 
@@ -276,7 +276,7 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
                 
                 if let profileImage = self.loginCell?.profileImageView.image, let uploadData = UIImageJPEGRepresentation(profileImage, 0.1) {
                     
-                    storage.child(kPROFILEIMAGES).child("\(imageName).jpg").put(uploadData, metadata: nil, completion: { (metadata, error) in
+                    storage.child(kPROFILEIMAGES).child("\(imageName).jpg").putData(uploadData, metadata: nil, completion: { (metadata, error) in
                         
                         if error != nil {
                             
@@ -329,7 +329,7 @@ class LoginController: UIViewController, UICollectionViewDelegate, UICollectionV
             return
         }
         
-        FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
+        Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             
             self.loginCell?.emailTextField.text = ""
             self.loginCell?.passwordTextField.text = ""

@@ -113,7 +113,7 @@ extension JSQMessagesViewController {
     
     func returnOutgoingOrIncoming(senderId: String) -> Bool {
         
-        if senderId == FIRAuth.auth()?.currentUser!.uid {
+        if senderId == Auth.auth().currentUser!.uid {
             // message is outgoing
             return true
         } else {

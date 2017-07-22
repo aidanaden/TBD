@@ -27,7 +27,7 @@ class Message: NSObject {
     
     func chatPartnerId() -> String? {
         
-        return senderId == FIRAuth.auth()?.currentUser?.uid ? toUserId : senderId
+        return senderId == Auth.auth().currentUser?.uid ? toUserId : senderId
     }
     
     init(dictionary: [String: Any]) {

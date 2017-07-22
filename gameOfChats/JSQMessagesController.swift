@@ -58,7 +58,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         if message.text != nil {
             
-            if message.senderId == FIRAuth.auth()?.currentUser?.uid {
+            if message.senderId == Auth.auth().currentUser?.uid {
                 cell.textView.textColor = UIColor.white
             } else {
                 cell.textView.textColor = UIColor.black
@@ -86,7 +86,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         let data = JSQMessages[indexPath.item] // obtains message from messages array
         var nextData: JSQMessage?
         
-        if data.senderId == FIRAuth.auth()?.currentUser?.uid { // check if sender of message is current user
+        if data.senderId == Auth.auth().currentUser?.uid { // check if sender of message is current user
             
             if indexPath.item < JSQMessages.count - 1 {
                 
@@ -136,7 +136,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         let message = JSQMessages[indexPath.item]
         var avatar: JSQMessageAvatarImageDataSource
         
-        if message.senderId != FIRAuth.auth()?.currentUser?.uid {
+        if message.senderId != Auth.auth().currentUser?.uid {
             
             avatar = JSQMessagesAvatarImageFactory.avatarImage(with: avatarImage, diameter: 70)
         } else {
@@ -192,8 +192,8 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.senderId = FIRAuth.auth()?.currentUser?.uid
-        self.senderDisplayName = FIRAuth.auth()?.currentUser?.email!
+        self.senderId = Auth.auth().currentUser?.uid
+        self.senderDisplayName = Auth.auth().currentUser?.email!
         
         insertMessages()
         
@@ -228,7 +228,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
 
     func observeSubsequentMessages() {
         
-        guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else { return }
+        guard let uid = Auth.auth().currentUser?.uid, let toId = user?.id else { return }
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
         
@@ -259,7 +259,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     func loadMessages() { // access firebase and load messages belonging to current user id
         
-        guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else { return }
+        guard let uid = Auth.auth().currentUser?.uid, let toId = user?.id else { return }
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
         
@@ -325,7 +325,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         self.collectionView.reloadData()
         finishReceivingMessage()
         
-        return message.senderId != FIRAuth.auth()?.currentUser?.uid
+        return message.senderId != Auth.auth().currentUser?.uid
     }
     
     func insertNewMessage(message: Message) {
@@ -470,7 +470,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
     
     func observeMessages(completion: @escaping (_ completed: Bool) -> Void) {
         
-        guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else { return }
+        guard let uid = Auth.auth().currentUser?.uid, let toId = user?.id else { return }
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
         
@@ -480,7 +480,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             
             for snap in snapshot.children {
                 
-                let messageId = (snap as! FIRDataSnapshot).key
+                let messageId = (snap as! DataSnapshot).key
                 let messagesRef = firebase.child(kMESSAGES).child(messageId)
                 
                 messagesRef.observeSingleEvent(of: .value, with: { snapshot in
@@ -569,7 +569,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         let messageRef = firebase.child(kMESSAGES).childByAutoId()
         let timeStamp: Int = Int(NSDate().timeIntervalSince1970)
         let toId = user!.id!
-        let senderId = FIRAuth.auth()!.currentUser!.uid
+        let senderId = Auth.auth().currentUser!.uid
         var values = [kTOUSERID: toId, kSENDERID: senderId, kDATE: timeStamp] as [String : Any]
         
         // append properties dictionary to values
@@ -621,7 +621,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         let videoName = NSUUID().uuidString
         let videoFileName = "MessageVideo/" + videoName + ".mov"
-        let uploadTask = storage.child(kMESSAGEVIDEOS).child(videoFileName).putFile(videoFileURL, metadata: nil, completion: { (metadata, error) in
+        let uploadTask = storage.child(kMESSAGEVIDEOS).child(videoFileName).putFile(from: videoFileURL, metadata: nil, completion: { (metadata, error) in
             
             if error != nil {
                 print("Failed to upload video to firebase: \(error!.localizedDescription)")
@@ -719,7 +719,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         if let upload = uploadData {
             
-            storageRef.put(upload, metadata: nil, completion: { (metadata, error) in
+            storageRef.putData(upload, metadata: nil, completion: { (metadata, error) in
                 
                 if error != nil {
                     

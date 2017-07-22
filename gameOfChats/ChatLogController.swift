@@ -32,7 +32,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
     
     func observeMessages() {
         
-        guard let uid = FIRAuth.auth()?.currentUser?.uid, let toId = user?.id else { return }
+        guard let uid = Auth.auth().currentUser?.uid, let toId = user?.id else { return }
         
         let userMessagesRef = firebase.child(kUSERMESSAGES).child(uid).child(toId)
         
@@ -42,7 +42,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
             let childrenCount = Int(snapshot.childrenCount)
             
             for snap in snapshot.children {
-                let messageId = (snap as! FIRDataSnapshot).key
+                let messageId = (snap as! DataSnapshot).key
                 let messagesRef = firebase.child("messages").child(messageId)
                 messagesRef.observeSingleEvent(of: .value, with: { snapshot in
                     guard let dictionary = snapshot.value as? [String : Any] else { return }
@@ -133,7 +133,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         let videoName = NSUUID().uuidString
         let videoFileName = videoName + ".mov"
-        let uploadTask = storage.child(kMESSAGEVIDEOS).child(videoFileName).putFile(videoFileURL, metadata: nil, completion: { (metadata, error) in
+        let uploadTask = storage.child(kMESSAGEVIDEOS).child(videoFileName).putFile(from: videoFileURL, metadata: nil, completion: { (metadata, error) in
             
             if error != nil {
                 print("Failed to upload video to firebase: \(error!.localizedDescription)")
@@ -224,7 +224,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         
         if let upload = uploadData {
             
-            storageRef.put(upload, metadata: nil, completion: { (metadata, error) in
+            storageRef.putData(upload, metadata: nil, completion: { (metadata, error) in
                 
                 if error != nil {
                     
@@ -316,7 +316,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
         let messageRef = firebase.child(kMESSAGES).childByAutoId()
         let timeStamp = NSDate().timeIntervalSince1970
         let toId = user!.id!
-        let senderId = FIRAuth.auth()!.currentUser!.uid
+        let senderId = Auth.auth().currentUser!.uid
         var values = [kTOUSERID: toId, kSENDERID: senderId, kDATE: timeStamp] as [String : Any]
         
         // append properties dictionary to values
@@ -434,7 +434,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate, UIColl
             cell.messageImageVew.isHidden = true
         }
         
-        if message.senderId == FIRAuth.auth()?.currentUser?.uid {
+        if message.senderId == Auth.auth().currentUser?.uid {
             // outgoing blue
             if message.imageURL != nil {
                 
