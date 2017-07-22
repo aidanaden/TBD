@@ -97,6 +97,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/PHFComposeBarView/PHFComposeBarView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PHFDelegateChain/PHFDelegateChain.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SLPagingViewSwift-Swift3/SLPagingViewSwift_Swift3.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/nanopb/nanopb.framework"
   install_framework "$BUILT_PRODUCTS_DIR/pop/pop.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -113,5 +115,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/PHFComposeBarView/PHFComposeBarView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PHFDelegateChain/PHFDelegateChain.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SLPagingViewSwift-Swift3/SLPagingViewSwift_Swift3.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/nanopb/nanopb.framework"
   install_framework "$BUILT_PRODUCTS_DIR/pop/pop.framework"
 fi

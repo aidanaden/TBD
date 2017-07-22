@@ -88,6 +88,7 @@ class UserCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+
         
         addSubview(profileImageView)
         
@@ -105,6 +106,7 @@ class UserCell: UITableViewCell {
         timeLbl.topAnchor.constraint(equalTo: self.topAnchor, constant: 23).isActive = true
         timeLbl.widthAnchor.constraint(equalToConstant: 100).isActive = true
         timeLbl.heightAnchor.constraint(equalTo: (textLabel?.heightAnchor)!).isActive = true
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -115,9 +117,11 @@ class UserCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
         let view = UIView()
-        view.backgroundColor = UIColor.init(white: 0.9, alpha: 1)
+        view.backgroundColor = UIColor.init(white: 0.95, alpha: 1)
         selectedBackgroundView = view
     }
+    
+
 }
 
 

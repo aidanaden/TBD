@@ -205,6 +205,7 @@ open class EZSwipeController: UIViewController {
 
     override open func viewDidLoad() {
         super.viewDidLoad()
+
     }
 
     override open func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {

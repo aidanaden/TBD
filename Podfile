@@ -16,4 +16,5 @@ target 'gameOfChats' do
   pod 'IDMPhotoBrowser'
   pod 'ICSPullToRefresh'
   pod 'Koloda'
+  pod 'SLPagingViewSwift-Swift3', :git => 'https://github.com/davidseek/SLPagingViewSwift-Swift-3-Tinder-Twitter.git'
 end

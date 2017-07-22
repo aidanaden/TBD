@@ -101,6 +101,7 @@ class UserProfileController: UIViewController {
         nameTextView.isEditable = false
         nameTextView.text = "\(user.name!) \(user.email!)"
         nameTextView.isSelectable = false
+        nameTextView.isScrollEnabled = false
         
         let color = UIColor(white: 0.2, alpha: 1)
         let attributedText = NSMutableAttributedString(string: user.name!, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 24, weight: UIFontWeightBold), NSForegroundColorAttributeName: color])

@@ -74,6 +74,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SLPagingViewSwift-Swift3.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>nanopb.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>pop.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -92,11 +102,6 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1E531103DBE4BCD6D0838FEF2402FFB1</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>20151774CE2F5FA6B8126D4F5ED1C5FE</key>
 		<dict>
 			<key>primary</key>
@@ -107,7 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>2F0C0F810568D3E82219429D9D870F04</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>3DA30DE183B4A4EDA2181B7EBD959C54</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>48EE5518C59C7634DA64C94B444CE8B4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -127,17 +142,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>A4428E805B640A71C2DDCF663FDDA370</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C052BEBFBD0AB5218CC64BA3450F6547</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>C4862B96577F57D0819ECCBCA837BD96</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C4944FEC314D1A66588651D006273ADE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -153,6 +168,11 @@
 			<true/>
 		</dict>
 		<key>D0581AF7BF4A6DA140D280B19ECC7BFF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E4DD95323C54A78F879DAB0F1508B8E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
