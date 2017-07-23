@@ -120,7 +120,7 @@ extension LoginVC: UIImagePickerControllerDelegate, UINavigationControllerDelega
                 return
             }
             
-            self.messagesController?.fetchUserNameAndSetUpNavBarTitle()
+            self.messagesController?.observeMessagesAndMatches()
             self.dismiss(animated: true, completion: nil)
         })
     }

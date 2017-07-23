@@ -42,6 +42,8 @@ class MainNavigationController: UINavigationController {
         let mainPageNavController = UINavigationController(rootViewController: mainPageController)
         mainPageController.mainNavController = self
         mainPageNavController.navigationBar.isHidden = true
+        mainPageNavController.navigationBar.setBackgroundImage(UIImage.imageWithColor(color: .white), for: .default) // set nav bar background color for shadow to appear
+        mainPageNavController.navigationBar.shadowImage = UIImage.imageWithColor(color: UIColor.init(white: 0.9, alpha: 0.5))
         mainPageNavController.navigationBar.barTintColor = .white
         mainPageNavController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.present(mainPageNavController, animated: true, completion: nil)

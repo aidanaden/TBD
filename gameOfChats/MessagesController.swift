@@ -167,23 +167,80 @@ class MessagesController: UITableViewController {
             
         } else {
             
-            fetchUserNameAndSetUpNavBarTitle()
+            observeMessagesAndMatches()
         }
     }
     
-    func fetchUserNameAndSetUpNavBarTitle() {
+    var likedUsersId = [String]()
+    var likedByUsersId = [String]()
+    var matchedUsersId = [String]()
+    
+    func observeMessagesAndMatches() {
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        firebase.child(kUSERS).child(uid).observe(.value, with: { (snapshot) in
+        observeUserMessages()
+        
+//        firebase.child(kUSERS).child(uid).observe(.value, with: { (snapshot) in
+//            
+//            if snapshot.exists() {
+//                
+//                let dictionary = snapshot.value as! [String: Any]
+//                let user = User()
+//                user.setValuesForKeys(dictionary)
+//                
+//                self.setupNavBarWithUser(user: user)
+//            }
+//        })
+        
+        firebase.child(kMATCHES).child(uid).child(kLIKES).observe(.value, with: { (snapshot) in
             
             if snapshot.exists() {
+               
+                let likesChildrenCount = Int(snapshot.childrenCount)
                 
-                let dictionary = snapshot.value as! [String: Any]
-                let user = User()
-                user.setValuesForKeys(dictionary)
+                for snap in snapshot.children {
+                    
+                    let userId = (snap as! DataSnapshot).key
+                    self.likedUsersId.append(userId)
+                }
                 
-                self.setupNavBarWithUser(user: user)
+                firebase.child(kMATCHES).child(uid).child(kLIKEDBY).observe(.value, with: { (snapshot) in
+                    
+                    if snapshot.exists() {
+                        
+                        let likedChildrenCount = Int(snapshot.childrenCount)
+                        
+                        for snap in snapshot.children {
+                            
+                            let userId = (snap as! DataSnapshot).key
+                            self.likedByUsersId.append(userId)
+                        }
+                        
+                        if self.likedUsersId.count > self.likedByUsersId.count {
+                           
+                            for likedByUserId in self.likedByUsersId {
+                                
+                                if self.likedUsersId.contains(likedByUserId) {
+                                    
+                                    self.matchedUsersId.append(likedByUserId)
+                                }
+                            }
+                            
+                        } else {
+                            
+                            for likedUserId in self.likedUsersId {
+                                
+                                if self.likedByUsersId.contains(likedUserId) {
+                                    
+                                    self.matchedUsersId.append(likedUserId)
+                                }
+                            }
+                        }
+                        
+                        print("we matched with \(self.matchedUsersId)")
+                    }
+                })
             }
         })
     }
@@ -191,10 +248,8 @@ class MessagesController: UITableViewController {
     
     func setupNavBarWithUser(user: User) {
         
-        observeUserMessages()
-        
-        DispatchQueue.main.async {
-//            
+//        DispatchQueue.main.async {
+//
 //            let titleView = UIView()
 //            titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 50)
 //            
@@ -239,7 +294,7 @@ class MessagesController: UITableViewController {
 //            
 //            
 //            self.navigationItem.titleView = titleView
-        }
+//        }
     }
     
     func showChatController(user: User) {

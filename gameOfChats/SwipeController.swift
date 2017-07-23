@@ -104,8 +104,8 @@ class SwipeController: UIViewController {
         containerView.addSubview(myKolodaView)
         
         myKolodaView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        myKolodaView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -55).isActive = true
-        myKolodaView.heightAnchor.constraint(equalToConstant: 450).isActive = true
+        myKolodaView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -70).isActive = true
+        myKolodaView.heightAnchor.constraint(equalToConstant: 500).isActive = true
         myKolodaView.widthAnchor.constraint(equalTo: containerView.widthAnchor, constant: 0).isActive = true
         
         likeButton.addTarget(self, action: #selector(handleRightSwiped), for: .touchUpInside)
@@ -210,6 +210,22 @@ class SwipeController: UIViewController {
             print("DOWNLOADED PROFILE IMAGE!")
             self.myKolodaView.reloadData()
         }
+    }
+    
+    func SwipedRight(user: User) {
+        
+        guard let selfId = Auth.auth().currentUser?.uid, let otherUserId = user.id else { return }
+        
+        let myValues = [otherUserId: 1]
+        let mylikesRef = firebase.child(kMATCHES).child(selfId).child(kLIKES)
+        
+        mylikesRef.updateChildValues(myValues)
+        
+        let otherValues = [selfId: 1]
+        let otherLikesRef = firebase.child(kMATCHES).child(otherUserId).child(kLIKEDBY)
+        
+        otherLikesRef.updateChildValues(otherValues)
+        
     }
     
 }

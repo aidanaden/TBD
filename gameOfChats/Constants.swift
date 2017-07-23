@@ -35,6 +35,9 @@ let kIMAGEMESSAGE = "image message"
 let kVIDEOMESSAGE = "video message"
 let kLOGGEDIN = "LoggedIn"
 let kNUMBEROFMESSAGES = 11
+let kMATCHES = "user-matches"
+let kLIKES = "my-likes"
+let kLIKEDBY = "liked-by"
 
 let userCellId = "UserCell"
 

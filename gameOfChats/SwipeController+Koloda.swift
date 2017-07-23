@@ -9,6 +9,7 @@
 import UIKit
 import pop
 import Koloda
+import Firebase
 
 
 extension SwipeController: KolodaViewDelegate {
@@ -26,6 +27,20 @@ extension SwipeController: KolodaViewDelegate {
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
         //        UIApplication.shared.openURL(URL(string: "https://yalantis.com/")!)
         print("selected a card!")
+    }
+    
+    func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {
+        
+        let user = Users[index]
+        
+        if direction == SwipeResultDirection.right {
+            
+            print("YA SWIPED RIGHT FOR \(user.name!)")
+            SwipedRight(user: user)
+            
+        } else {
+            print("YA SWIPED LEFT FOR \(user.name!)")
+        }
     }
     
 //    func kolodaShouldApplyAppearAnimation(_ koloda: KolodaView) -> Bool {
@@ -62,9 +77,11 @@ extension SwipeController: KolodaViewDataSource {
         
         print(index)
         
+        let superView = UIView(frame: koloda.frame)
+        
         let containerView = UIView(frame: koloda.frame)
         containerView.clipsToBounds = false
-        containerView.applyPlainShadow()
+        containerView.dropShadow()
         
         let textView = UITextView()
         textView.isEditable = false
@@ -104,6 +121,8 @@ extension SwipeController: KolodaViewDataSource {
         
         containerView.addSubview(imageView)
         
+        superView.addSubview(containerView)
+        
         imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
         imageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
         imageView.widthAnchor.constraint(equalTo: containerView.widthAnchor).isActive = true
@@ -121,7 +140,7 @@ extension SwipeController: KolodaViewDataSource {
     }
     
     func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) -> CGFloat? {
-        return 0.3
+        return 0.5
     }
     
     func kolodaShouldTransparentizeNextCard(_ koloda: KolodaView) -> Bool {
