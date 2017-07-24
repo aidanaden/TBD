@@ -315,7 +315,14 @@ class MessagesController: UITableViewController {
         jsqMessagesController.observeMessages { (completed) in
             
             if completed {
-                self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
+//                self.parent!.navigationController!.pushViewController(jsqMessagesController, animated: true)
+//                self.navigationController!.pushViewController(jsqMessagesController, animated: true)
+                let transition = CATransition()
+                transition.duration = 0.5
+                transition.type = kCATransitionPush
+                transition.subtype = kCATransitionFromRight
+                self.view.window!.layer.add(transition, forKey: kCATransition)
+                self.present(jsqMessagesController, animated: false, completion: nil)
             }
         }
         

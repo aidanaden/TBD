@@ -17,12 +17,12 @@ class UserProfileController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.white
-        
+        checkIfUserIsLoggedIn()
     }
     
     var mainPageController: MainPageController? {
         didSet {
-            checkIfUserIsLoggedIn()
+//            checkIfUserIsLoggedIn()
 //            SetUpNavBar()
         }
     }

@@ -120,6 +120,10 @@ open class SLPagingViewSwift: UIViewController, UIScrollViewDelegate {
         var views = [UIView]()
         var items = [UILabel]()
         for ctr in controllers {
+            if ctr is UINavigationController {
+                let rootView = (ctr as! UINavigationController).viewControllers.first as! UITableViewController
+                views.append(rootView.view)
+            }
             let item  = UILabel()
             item.text = ctr.title
             views.append(ctr.view)
@@ -164,7 +168,7 @@ open class SLPagingViewSwift: UIViewController, UIScrollViewDelegate {
     
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.navigationBarView.frame = CGRect(x: 0, y: 0, width: self.SCREENSIZE.width, height: 44)
+        self.navigationBarView.frame = CGRect(x: 0, y: 0, width: self.SCREENSIZE.width, height: 64)
     }
     
     // MARK: - Public methods

@@ -139,6 +139,7 @@ class SwipeController: UIViewController {
         
         view.backgroundColor = .white
         downloadProfiles()
+        setupViews()
         
         dislikeButton.setImage(#imageLiteral(resourceName: "btn_skip_normal"), for: .normal)
         dislikeButton.setImage(#imageLiteral(resourceName: "btn_skip_pressed"), for: .highlighted)

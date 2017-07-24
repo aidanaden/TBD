@@ -143,6 +143,12 @@ extension MainPageController: EZSwipeControllerDataSource {
         
     }
     
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        
+    }
+    
+    
+    
 }
 
 extension MainPageController: UIScrollViewDelegate {

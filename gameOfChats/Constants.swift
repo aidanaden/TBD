@@ -39,6 +39,9 @@ let kMATCHES = "user-matches"
 let kLIKES = "my-likes"
 let kLIKEDBY = "liked-by"
 
+let orange = UIColor(red: 255/255, green: 69.0/255, blue: 0.0/255, alpha: 1.0)
+let gray = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.0)
+
 let userCellId = "UserCell"
 
 func customPlaceholder(placeholder: String) -> NSAttributedString {
