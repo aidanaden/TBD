@@ -60,6 +60,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
             
             if message.senderId == Auth.auth().currentUser?.uid {
                 cell.textView.textColor = UIColor.white
+
             } else {
                 cell.textView.textColor = UIColor.black
             }
@@ -116,16 +117,39 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         let message = JSQMessages[indexPath.item]
         
-        if indexPath.item % 10 == 0 {
-            return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
+        if indexPath.item != 0 {
+            
+            let previousMessage = JSQMessages[indexPath.item - 1]
+            
+            let startOfDay = Calendar.current.startOfDay(for: previousMessage.date)
+            let endDay = Calendar.current.startOfDay(for: message.date)
+            
+            let components = Calendar.current.dateComponents([.day], from: startOfDay, to: endDay)
+            
+            if components.day! >= 1 {
+                return JSQMessagesTimestampFormatter.shared().attributedTimestamp(for: message.date)
+            }
         }
+    
         return nil
     }
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
         
-        if indexPath.item % 10 == 0 {
-            return kJSQMessagesCollectionViewCellLabelHeightDefault
+        let message = JSQMessages[indexPath.item]
+        
+        if indexPath.item != 0 {
+            
+            let previousMessage = JSQMessages[indexPath.item - 1]
+            
+            let startOfDay = Calendar.current.startOfDay(for: previousMessage.date)
+            let endDay = Calendar.current.startOfDay(for: message.date)
+            
+            let components = Calendar.current.dateComponents([.day], from: startOfDay, to: endDay)
+            
+            if components.day! >= 1 {
+                return kJSQMessagesCollectionViewCellLabelHeightDefault
+            }
         }
         
         return 0.0
@@ -205,6 +229,9 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.tintColor = .darkGray
         navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+//        print(collectionView.collectionViewLayout.messageBubbleFont)
+        collectionView.collectionViewLayout.messageBubbleFont = UIFont.init(name: ".SFUIText", size: 15)
         
     }
     

@@ -141,6 +141,7 @@ extension MainPageController: EZSwipeControllerDataSource {
     
     override func transition(from fromViewController: UIViewController, to toViewController: UIViewController, duration: TimeInterval, options: UIViewAnimationOptions = [], animations: (() -> Void)?, completion: ((Bool) -> Void)? = nil) {
         
+        
     }
     
 }

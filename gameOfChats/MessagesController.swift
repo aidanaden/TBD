@@ -361,6 +361,9 @@ class MessagesController: UITableViewController {
         let message = messages[indexPath.row]
         cell.message = message
         
+        cell.preservesSuperviewLayoutMargins = false
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 72, bottom: 0, right: 10)
+        
         return cell
     }
     
