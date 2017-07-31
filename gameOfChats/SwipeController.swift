@@ -175,6 +175,8 @@ class SwipeController: UIViewController {
     
     func downloadProfiles() {
         
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
         firebase.child(kUSERS).observe(.value, with: { (snapshot) in
             
             if snapshot.exists() {
@@ -182,11 +184,14 @@ class SwipeController: UIViewController {
                 let childrenCount = Int(snapshot.childrenCount)
                 
                 for snap in snapshot.children {
+                
                     
                     let userDictionary = (snap as! DataSnapshot).value as! [String: Any]
                     
                     let user = User()
                     user.id = (snap as! DataSnapshot).key
+                    
+                    guard uid != user.id else { return }
                     
                     user.setValuesForKeys(userDictionary)
                     

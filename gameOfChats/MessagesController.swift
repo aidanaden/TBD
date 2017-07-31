@@ -171,6 +171,7 @@ class MessagesController: UITableViewController {
         }
     }
     
+    var matchedUsers = [User]()
     var likedUsersId = [String]()
     var likedByUsersId = [String]()
     var matchedUsersId = [String]()
@@ -239,6 +240,18 @@ class MessagesController: UITableViewController {
                         }
                         
                         print("we matched with \(self.matchedUsersId)")
+                        
+                        for matchedUserId in self.matchedUsersId {
+                            
+                            if self.messagesDictionary[matchedUserId] == nil {
+                                
+                                print("does not contain message: create chat controller")
+                                self.getUserFromFirebase(userId: matchedUserId, completion: { (user) in
+                                    
+                                    self.showChatControllerForMatchedUser(user: user)
+                                })
+                            }
+                        }
                     }
                 })
             }
@@ -295,6 +308,17 @@ class MessagesController: UITableViewController {
 //            
 //            self.navigationItem.titleView = titleView
 //        }
+    }
+    
+    func showChatControllerForMatchedUser(user: User) {
+        
+        let jsqMessagesController = JSQMessagesController()
+        jsqMessagesController.user = user
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.tintColor = .darkGray
+        
+        self.parent!.navigationController?.pushViewController(jsqMessagesController, animated: true)
     }
     
     func showChatController(user: User) {
@@ -375,15 +399,34 @@ class MessagesController: UITableViewController {
         
         guard let chatPartnerId = message.chatPartnerId() else { return }
         
-        firebase.child(kUSERS).child(chatPartnerId).observeSingleEvent(of: .value, with: { (snapshot) in
+//        firebase.child(kUSERS).child(chatPartnerId).observeSingleEvent(of: .value, with: { (snapshot) in
+//            
+//            if let dictionary = snapshot.value as? [String: Any] {
+//                
+//                let user = User()
+//                user.id = chatPartnerId
+//                user.setValuesForKeys(dictionary)
+//                
+//                self.showChatController(user: user)
+//            }
+//        })
+        getUserFromFirebase(userId: chatPartnerId) { (user) in
+            
+            self.showChatController(user: user)
+        }
+    }
+    
+    func getUserFromFirebase(userId: String, completion: @escaping (_ user: User) -> Void) {
+        
+        firebase.child(kUSERS).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let dictionary = snapshot.value as? [String: Any] {
                 
                 let user = User()
-                user.id = chatPartnerId
+                user.id = userId
                 user.setValuesForKeys(dictionary)
                 
-                self.showChatController(user: user)
+                completion(user)
             }
         })
     }
