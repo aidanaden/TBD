@@ -208,7 +208,7 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         self.collectionView.reloadData()
     }
     
-    
+    var matched = false
     var messages = [Message]()
     var JSQMessages = [JSQMessage]()
     var loaded = [Message]()
@@ -218,6 +218,10 @@ class JSQMessagesController: JSQMessagesViewController, UINavigationControllerDe
         
         self.senderId = Auth.auth().currentUser?.uid
         self.senderDisplayName = Auth.auth().currentUser?.email!
+        
+        if matched {
+            observeSubsequentMessages()
+        }
         
         insertMessages()
         

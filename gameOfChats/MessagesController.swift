@@ -318,6 +318,8 @@ class MessagesController: UITableViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.tintColor = .darkGray
         
+        jsqMessagesController.matched = true
+        
         self.parent!.navigationController?.pushViewController(jsqMessagesController, animated: true)
     }
     

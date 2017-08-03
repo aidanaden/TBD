@@ -98,7 +98,7 @@ class SwipeController: UIViewController {
         containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -65).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 600).isActive = true
-        containerView.widthAnchor.constraint(equalToConstant: view.bounds.width - 50).isActive = true
+        containerView.widthAnchor.constraint(equalToConstant: view.bounds.width - 40).isActive = true
         
         
         containerView.addSubview(myKolodaView)
